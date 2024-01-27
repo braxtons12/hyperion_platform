@@ -1,0 +1,64 @@
+name: CMake
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build-gcc:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: Install GCC 12
+        if: runner.os == "Linux"
+        run: sudo apt-get -y install gcc-12
+      
+      - name: Install Clang 16
+        if: runner.os == "Linux"
+        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16
+
+      - name: Configure Linux
+        if: runner.os == "Linux"
+        run: cmake --preset gcc-release
+
+      - name: Build Linux
+        run: cmake --build --preset gcc-release
+
+      - name: Configure Linux Clang
+        if: runner.os == "Linux"
+        env:
+          CC: clang-16
+          CXX: clang-16
+        run: cmake --preset env-cc-release
+
+      - name: Build Linux Clang
+        env:
+          CC: clang-16
+          CXX: clang-16
+        run: cmake --build --preset env-cc-release
+
+      - name: Configure Windows
+        if: runner.os == "Windows"
+        run: cmake --preset msvc-release
+          
+      - name: Build Windows
+        run: cmake --build --preset msvc-release
+
+      - name: Configure MacOS
+        if: runner.os == "MacOS"
+        env:
+          CC: clang-16
+          CXX: clang-16
+        run: cmake --preset env-cc-release
+
+      - name: Build MacOS
+        env:
+          CC: clang-16
+          CXX: clang-16
+        run: cmake --build --preset env-cc-release
+
