@@ -8,54 +8,52 @@ on:
 
 jobs:
   build:
-    runs-on: "ubuntu-latest"
     strategy:
       fail-fast: false
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
 
-  steps:
-    - uses: actions/checkout@v4
+      - name: Install Doxygen
+        run: sudo apt-get -y install doxygen
 
-    - name: Install Doxygen
-      run: sudo apt-get -y install doxygen
+      - name: Install GCC 12
+        run: sudo apt-get -y install gcc-12
 
-    - name: Install GCC 12
-      run: sudo apt-get -y install gcc-12
+      - name: Install xmake
+        run: |
+          sudo add-apt-repository ppa:xmake-io/xmake
+          sudo apt-get -y update
+          sudo apt-get -y install xmake
+        shell: bash
 
-    - name: Install xmake
-      run: |
-        sudo add-apt-repository ppa:xmake-io/xmake
-        sudo apt-get -y update
-        sudo apt-get -y install xmake
-      shell: bash
+      - name: Install Sphinx Tools
+        run: |
+          pip install sphinx breathe exhale myst-parser docutils pydata-sphinx-theme sphinx-sitemap
+        shell: bash
 
-    - name: Install Sphinx Tools
-      run: |
-        pip install sphinx breathe exhale myst-parser docutils pydata-sphinx-theme sphinx-sitemap
-      shell: bash
+      - name: Configure Linux
+        env:
+          CC: gcc-12
+          CXX: gcc-12
+        working-directory: ${{github.workspace}}
+        run: xmake f -c
 
-    - name: Configure Linux
-      env:
-        CC: gcc-12
-        CXX: gcc-12
-      working-directory: ${{github.workspace}}
-      run: xmake f -c
+      - name: Build Linux
+        env:
+          CC: gcc-12
+          CXX: gcc-12
+        working-directory: ${{github.workspace}}
+        run: xmake b hyperion_platform_docs
 
-    - name: Build Linux
-      env:
-        CC: gcc-12
-        CXX: gcc-12
-      working-directory: ${{github.workspace}}
-      run: xmake b hyperion_platform_docs
-
-    - name: Push Docs
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      uses: s0/git-publish-subdir-action@develop
-      working-directory: ${{github.workspace}}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REPO: self
-        BRANCH: gh-pages
-        FOLDER: docs/_build/html
-
+      - name: Push Docs
+        # Execute tests defined by the CMake configuration.  
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        uses: s0/git-publish-subdir-action@develop
+        working-directory: ${{github.workspace}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: self
+          BRANCH: gh-pages
+          FOLDER: docs/_build/html
 
