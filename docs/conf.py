@@ -111,7 +111,7 @@ rst_prolog = """
 """
 
 breathe_projects = {
-        "hyperion::utils": "_build/xml"
+        "hyperion::platform": "_build/xml"
 }
-breathe_default_project = "hyperion::utils"
+breathe_default_project = "hyperion::platform"
 breathe_default_members = ("members")
