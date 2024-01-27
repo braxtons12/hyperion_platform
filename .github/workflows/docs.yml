@@ -25,12 +25,10 @@ jobs:
           sudo add-apt-repository ppa:xmake-io/xmake
           sudo apt-get -y update
           sudo apt-get -y install xmake
-        shell: bash
 
       - name: Install Sphinx Tools
         run: |
           pip install sphinx breathe exhale myst-parser docutils pydata-sphinx-theme sphinx-sitemap
-        shell: bash
 
       - name: Configure Linux
         env:
