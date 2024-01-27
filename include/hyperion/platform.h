@@ -103,7 +103,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
 #else
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_UNIX false
-#endif // defined(__unix__) || defined(__unix) || defined(unix) \
+#endif // defined(__unix__) || defined(__unix) || defined(unix)
        // || (HYPERION_PLATFORM_IS_APPLE && defined(__MACH__))
 
 /// @def HYPERION_PLATFORM_IS_LINUX
@@ -117,7 +117,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
 #else
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_LINUX false
-#endif // defined(linux) || defined(__linux__) || defined(__linux) \
+#endif // defined(linux) || defined(__linux__) || defined(__linux)
        // || (defined(__unix__) && !HYPERION_PLATFORM_IS_APPLE && !defined(BSD))
 
 /// @def HYPERION_PLATFORM_IS_BSD
@@ -384,7 +384,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
 #else
     /// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_CACHE_LINE_SIZE 128
-#endif // HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86_64) \
+#endif // HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86_64)
        // || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V8)
 
 HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP

@@ -95,7 +95,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
         #endif // __has_builtin(__builtin_source_location)
     #else      // MSVC
         #define HYPERION_HAS_SOURCE_LOCATION true
-    #endif // HYPERION_PLATFORM_COMPILER_IS_GCC \
+    #endif // HYPERION_PLATFORM_COMPILER_IS_GCC
            // || (HYPERION_PLATFORM_COMPILER_IS_CLANG && !HYPERION_PLATFORM_IS_WINDOWS)
 #else
     #define HYPERION_HAS_SOURCE_LOCATION false
