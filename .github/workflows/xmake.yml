@@ -1,4 +1,4 @@
-name: CMake
+name: XMake
 
 on:
   push:
@@ -17,6 +17,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
+      - name: Setup MSVC
+        if: runner.os == 'Windows'
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+
+      - name: Install XMake
+        if: runner.os == 'Linux'
+        run: |
+          sudo add-apt-repository ppa:xmake-io/xmake
+          sudo apt-get -y update
+          sudo apt-get -y install xmake
+
+      - name: Install XMake
+        if: runner.os == 'Windows'
+        run: winget install xmake
+
+      - name: Install XMake
+        if: runner.os == 'MacOS'
+        run: brew install xmake
+
       - name: Install LLVM and Clang
         if: runner.os == 'Linux'
         run: |
@@ -24,12 +45,6 @@ jobs:
           chmod +x llvm.sh
           sudo ./llvm.sh 16
           sudo apt-get -y install clang-tidy-16
-
-      - name: Install xmake
-        run: |
-          sudo add-apt-repository ppa:xmake-io/xmake
-          sudo apt-get -y update
-          sudo apt-get -y install xmake
 
       - name: Replace clang-tidy
         if: runner.os == 'Linux'
@@ -40,12 +55,6 @@ jobs:
         uses: KyleMayes/install-llvm-action@v1
         with:
           version: "13.0"
-
-      - name: Setup MSVC
-        if: runner.os == 'Windows'
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          arch: x64
 
       - name: Install GCC 12
         if: runner.os == 'Linux'
