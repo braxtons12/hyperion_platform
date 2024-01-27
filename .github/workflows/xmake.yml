@@ -36,7 +36,7 @@ jobs:
 
       - name: Install XMake
         if: runner.os == 'Windows'
-        run: winget install xmake
+        run: winget install xmake --disable-interactivity --accept-source-agreements
 
       - name: Install XMake
         if: runner.os == 'MacOS'
