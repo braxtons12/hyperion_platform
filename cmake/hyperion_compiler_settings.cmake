@@ -1,4 +1,7 @@
-SET(CMAKE_CXX_CLANG_TIDY clang-tidy)
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMILER_ID STREQUAL "clang")
+    SET(CMAKE_CXX_CLANG_TIDY clang-tidy)
+endif()
+
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 function(hyperion_compile_settings TARGET)
@@ -45,6 +48,9 @@ function(hyperion_compile_settings TARGET)
         target_compile_options(${TARGET} ${PUBLIC_VISIBILITY} -fsized-deallocation)
     endif()
 
-    set_target_properties(${TARGET} PROPERTIES CXX_CLANG_TIDY ${CMAKE_CXX_CLANG_TIDY})
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMILER_ID STREQUAL "clang")
+        set_target_properties(${TARGET} PROPERTIES CXX_CLANG_TIDY ${CMAKE_CXX_CLANG_TIDY})
+    endif()
+
     target_compile_features(${TARGET} ${PUBLIC_VISIBILITY} cxx_std_20)
 endfunction()
