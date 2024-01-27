@@ -74,12 +74,12 @@ jobs:
       - name: Configure Windows
         if: runner.os == 'Windows'
         working-directory: ${{github.workspace}}
-        run: cmake --preset env-cc-release
+        run: cmake --preset msvc-release
           
       - name: Build Windows
         if: runner.os == 'Windows'
         working-directory: ${{github.workspace}}
-        run: cmake --build --preset env-cc-release
+        run: cmake --build --preset msvc-release
 
       - name: Configure MacOS
         if: runner.os == 'MacOS'
