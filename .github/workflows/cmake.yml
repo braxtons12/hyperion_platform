@@ -7,7 +7,7 @@ on:
     branches: ["*"]
 
 jobs:
-  build-gcc:
+  build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
@@ -24,10 +24,12 @@ jobs:
 
       - name: Configure Linux
         if: runner.os == 'Linux'
+        working-directory: ${{github.workspace}}
         run: cmake --preset gcc-release
 
       - name: Build Linux
         if: runner.os == 'Linux'
+        working-directory: ${{github.workspace}}
         run: cmake --build --preset gcc-release
 
       - name: Configure Linux Clang
@@ -35,6 +37,7 @@ jobs:
         env:
           CC: clang-16
           CXX: clang-16
+        working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
       - name: Build Linux Clang
@@ -42,27 +45,26 @@ jobs:
         env:
           CC: clang-16
           CXX: clang-16
+        working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
       - name: Configure Windows
         if: runner.os == 'Windows'
+        working-directory: ${{github.workspace}}
         run: cmake --preset msvc-release
           
       - name: Build Windows
         if: runner.os == 'Windows'
+        working-directory: ${{github.workspace}}
         run: cmake --build --preset msvc-release
 
       - name: Configure MacOS
         if: runner.os == 'MacOS'
-        env:
-          CC: clang-16
-          CXX: clang-16
+        working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
       - name: Build MacOS
         if: runner.os == 'MacOS'
-        env:
-          CC: clang-16
-          CXX: clang-16
+        working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
