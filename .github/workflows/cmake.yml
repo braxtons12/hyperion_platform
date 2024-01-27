@@ -18,10 +18,7 @@ jobs:
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Install LLVM and Clang
-        if: runner.os == 'Linux'
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "16.0"
+        run: wget https://apt.llvm.org/llvm.sh && chmod +x llvm.sh && sudo ./llvm.sh 16
 
       - name: Replace clang-tidy
         if: runner.os == 'Linux'
