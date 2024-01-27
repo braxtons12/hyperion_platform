@@ -51,6 +51,7 @@ function(hyperion_enable_warnings TARGET)
             -Wno-extra-semi
             -Wno-extra-semi-stmt
             -Wno-unused-local-typedef
+            -Wno-undef
             -Wno-unknown-warning-option
         )
     else()
