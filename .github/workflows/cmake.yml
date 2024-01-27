@@ -18,9 +18,16 @@ jobs:
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Install LLVM and Clang
+        if: runner.os == 'Linux'
         uses: KyleMayes/install-llvm-action@v1
         with:
           version: "16.0"
+
+      - name: Install LLVM and Clang
+        if: runner.os == 'MacOS'
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "13.0"
 
       - name: Install GCC 12
         if: runner.os == 'Linux'
@@ -61,12 +68,12 @@ jobs:
       - name: Configure Windows
         if: runner.os == 'Windows'
         working-directory: ${{github.workspace}}
-        run: cmake --preset msvc-release
+        run: cmake --preset env-cc-release
           
       - name: Build Windows
         if: runner.os == 'Windows'
         working-directory: ${{github.workspace}}
-        run: cmake --build --preset msvc-release
+        run: cmake --build --preset env-cc-release
 
       - name: Configure MacOS
         if: runner.os == 'MacOS'
