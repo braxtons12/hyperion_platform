@@ -44,7 +44,10 @@ jobs:
           CC: gcc-12
           CXX: gcc-12
         working-directory: ${{github.workspace}}
-        run: xmake b hyperion_platform_docs
+        run: |
+          mkdir -p docs/_build/html
+          touch docs/_build/html/.nojekyll
+          xmake b hyperion_platform_docs
 
       - name: Push Docs
         if: github.ref == 'refs/heads/main'

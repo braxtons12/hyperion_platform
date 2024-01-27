@@ -5,8 +5,6 @@ compile_commands.json
 test.ppm
 docs/doxygen/
 docs/_build/
-Doxyfile
-Doxyfile-mcss
 /cmake-build-debug/
 /cmake-build-release/
 /cmake-build-debug-clang/
