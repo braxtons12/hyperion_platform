@@ -25,7 +25,7 @@ jobs:
 
       - name: Replace clang-tidy
         if: runner.os == 'Linux'
-        run: sudo cp clang-tidy-16 /usr/bin/clang-tidy -y
+        run: sudo cp clang-tidy-16 /usr/bin/clang-tidy -f
 
       - name: Install LLVM and Clang
         if: runner.os == 'MacOS'
