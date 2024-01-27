@@ -9,6 +9,8 @@
 from sphinx.builders.html import StandaloneHTMLBuilder
 import subprocess, os
 subprocess.call("doxygen Doxyfile", shell=True)
+subprocess.call("mkdir -p _build/html")
+subprocess.call("touch _build/html/.nojekyll")
 
 project = "hyperion::platform"
 copyright = "2024, Braxton Salyer <braxtonsalyer@gmail.com>"
