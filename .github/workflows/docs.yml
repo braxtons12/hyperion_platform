@@ -47,8 +47,7 @@ jobs:
         run: xmake b hyperion_platform_docs
 
       - name: Push Docs
-        # Execute tests defined by the CMake configuration.  
-        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        if: github.ref == "refs/heads/main"
         uses: s0/git-publish-subdir-action@develop
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
