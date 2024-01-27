@@ -29,6 +29,12 @@ jobs:
         with:
           version: "13.0"
 
+      - name: Setup MSVC
+        if: runner.os == 'Windows'
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+
       - name: Install GCC 12
         if: runner.os == 'Linux'
         run: sudo apt-get -y install gcc-12
@@ -77,11 +83,17 @@ jobs:
 
       - name: Configure MacOS
         if: runner.os == 'MacOS'
+        env:
+          CC: clang-13
+          CXX: clang-13
         working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
       - name: Build MacOS
         if: runner.os == 'MacOS'
+        env:
+          CC: clang-13
+          CXX: clang-13
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
