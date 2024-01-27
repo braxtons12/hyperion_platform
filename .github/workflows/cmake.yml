@@ -23,6 +23,10 @@ jobs:
         with:
           version: "16.0"
 
+      - name: Replace clang-tidy
+        if: runner.os == 'Linux'
+        run: sudo cp clang-tidy-16 /usr/bin/clang-tidy -y
+
       - name: Install LLVM and Clang
         if: runner.os == 'MacOS'
         uses: KyleMayes/install-llvm-action@v1
