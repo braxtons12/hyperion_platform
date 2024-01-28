@@ -1,12 +1,12 @@
 ---@diagnostic disable: undefined-global,undefined-field,lowercase-global
 local function _set_compile_definitions(target)
-    if is_mode("release") then
+    if target:is_mode("release") then
         target:add("defines", "NDEBUG")
     else
         target:add("defines", "DEBUG")
     end
 
-    if is_plat("windows") then
+    if target:is_plat("windows") then
         target:add("defines", "_CRT_SECURE_NO_WARNINGS")
         target:add("defines", "NOMINMAX")
         target:add("defines", "WIN32_LEAN_AND_MEAN")
@@ -14,7 +14,7 @@ local function _set_compile_definitions(target)
 end
 
 local function _set_compile_options(target)
-    if is_mode("release") then
+    if target:is_mode("release") then
         target:set("optimize", "aggressive")
         target:add("vectorexts", "all")
         target:set("strip", "all")
