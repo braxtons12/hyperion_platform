@@ -7,18 +7,21 @@ on:
     branches: ["*"]
 
 jobs:
-  build:
+  build-linux:
+    runs-on: ubuntu-latest
     strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
-    runs-on: ${{matrix.os}}
     steps:
       - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
+      - name: Install XMake
+        run: |
+          sudo add-apt-repository ppa:xmake-io/xmake
+          sudo apt-get -y update
+          sudo apt-get -y install xmake
+
       - name: Install LLVM and Clang
-        if: runner.os == 'Linux'
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
@@ -26,43 +29,27 @@ jobs:
           sudo apt-get -y install clang-tidy-16
 
       - name: Replace clang-tidy
-        if: runner.os == 'Linux'
         run: sudo cp /usr/bin/clang-tidy-16 /usr/bin/clang-tidy -f
 
-      - name: Install LLVM and Clang
-        if: runner.os == 'MacOS'
-        uses: KyleMayes/install-llvm-action@v1
-        with:
-          version: "13.0"
-
-      - name: Setup MSVC
-        if: runner.os == 'Windows'
-        uses: TheMrMilchmann/setup-msvc-dev@v3
-        with:
-          arch: x64
-
       - name: Install GCC 12
-        if: runner.os == 'Linux'
         run: sudo apt-get -y install gcc-12
 
-      - name: Configure Linux
-        if: runner.os == 'Linux'
+      - name: Configure GCC
         env:
           CC: gcc-12
           CXX: gcc-12
         working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
-      - name: Build Linux
-        if: runner.os == 'Linux'
+      - name: Build GCC
         env:
           CC: gcc-12
           CXX: gcc-12
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
-      - name: Configure Linux Clang
-        if: runner.os == 'Linux'
+      - name: Configure Clang
         env:
           CC: clang-16
           CXX: clang-16
@@ -71,37 +58,76 @@ jobs:
           rm -rf build
           cmake --preset env-cc-release
 
-      - name: Build Linux Clang
-        if: runner.os == 'Linux'
+      - name: Build Clang
         env:
           CC: clang-16
           CXX: clang-16
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
-      - name: Configure Windows
-        if: runner.os == 'Windows'
+  build-windows:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Setup scoop
+        uses: MinoruSekine/setup-scoop@v2
+        with:
+          buckets: extras
+          scoop_checkup: true
+          scoop_update: true
+          update_path: true
+
+      - name: Setup MSVC
+        uses: TheMrMilchmann/setup-msvc-dev@v3
+        with:
+          arch: x64
+
+      - name: Install XMake
+        run: scoop install xmake
+
+      - name: Configure
         working-directory: ${{github.workspace}}
         run: cmake --preset msvc-release
           
-      - name: Build Windows
-        if: runner.os == 'Windows'
+      - name: Build
+        env:
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset msvc-release
 
-      - name: Configure MacOS
-        if: runner.os == 'MacOS'
+  build-macos:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Install XMake
+        run: brew install xmake
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v1
+        with:
+          version: "13.0"
+
+      - name: Configure
         env:
           CC: clang-13
           CXX: clang-13
         working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
-      - name: Build MacOS
-        if: runner.os == 'MacOS'
+      - name: Build
         env:
           CC: clang-13
           CXX: clang-13
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
