@@ -5,6 +5,10 @@ option(HYPERION_ENABLE_TRACY "Enables Profiling with Tracy" OFF)
 option(HYPERION_USE_FETCH_CONTENT "Enables FetchContent usage for getting dependencies" ON)
 
 if(HYPERION_USE_FETCH_CONTENT)
+    include(FetchContent)
+endif()
+
+if(HYPERION_USE_FETCH_CONTENT)
     FetchContent_Declare(doctest
         GIT_REPOSITORY "https://github.com/doctest/doctest"
         GIT_TAG "v2.4.11"
