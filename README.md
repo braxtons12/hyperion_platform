@@ -24,6 +24,13 @@ After following the Quick Start Guide, you'll be able to use hyperion::platform 
 A basic example of what you can do with hyperion::platform is below:
 
 ```cpp
+#include <hyperion/platform.h>
+#include <hyperion/platform/types.h>
+
+using hyperion::operator""_i32;
+
+static constexpr auto the_meaning_of_life = 42_i32;
+
 #if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_ARM_V8)
     // do something for ARM
 #elseif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)
