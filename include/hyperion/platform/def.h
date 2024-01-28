@@ -3,7 +3,7 @@
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
 /// @version 0.1
-/// @date 2024-01-26
+/// @date 2024-01-27
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -42,20 +42,6 @@
 
 HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 //
-
-/// @def HYPERION_NO_UNIQUE_ADDRESS
-/// @brief Platform-dependent, conditional [[no_unique_address]] to account for:
-/// 	1. MSVC dragging their feet on providing an actual implementation
-/// 	2. Clang not supporting it on Windows because of MSVC's lack of support
-/// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
-#if HYPERION_PLATFORM_COMPILER_IS_MSVC
-    #define HYPERION_NO_UNIQUE_ADDRESS msvc::no_unique_address
-#elif HYPERION_PLATFORM_IS_WINDOWS && HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #define HYPERION_NO_UNIQUE_ADDRESS
-#else
-    #define HYPERION_NO_UNIQUE_ADDRESS no_unique_address
-#endif // HYPERION_PLATFORM_COMPILER_IS_MSVC
 
 /// @def HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION
 /// @brief Whether Hyperion will use `std::experimental::source_location` if `<source_location>`
@@ -112,6 +98,59 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
     #define HYPERION_STD_LIB_HAS_JTHREAD false
 #endif // (defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
 
+/// @def HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
+/// @brief Used to check if the compiled-against standard library supports
+/// `#include <compare>`
+/// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if __cpp_lib_three_way_comparison >= 201907L
+    #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE true
+#else
+    #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE false
+#endif  // __cpp_lib_three_way_comparison >= 201907L
+
+/// @def HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT
+/// @brief Indicates whether the compiler builtin `__type_pack_element` is available
+/// (used for efficient type parameter pack indexing in `mpl`)
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if defined(__has_builtin)
+    #if __has_builtin(__type_pack_element)
+        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT true
+    #else // !__has_builtin(__type_pack_element)
+        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
+    #endif // __has_builtin(__type_pack_element)
+#else
+    #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
+#endif // defined(__has_builtin)
+
+/// @def HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS
+/// @brief Used to check if the current compiler supports conditionally trivial
+/// special member functions
+/// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if defined(__cpp_concepts) && __cpp_concepts >= 202002L
+    #define HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS true
+#else
+    #define HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS false
+#endif  // defined(__cpp_concepts) && __cpp_concepts >= 202002L
+
+/// @def HYPERION_NO_UNIQUE_ADDRESS
+/// @brief Platform-dependent, conditional [[no_unique_address]] to account for:
+/// 	1. MSVC dragging their feet on providing an actual implementation
+/// 	2. Clang not supporting it on Windows because of MSVC's lack of support
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if HYPERION_PLATFORM_COMPILER_IS_MSVC
+    #define HYPERION_NO_UNIQUE_ADDRESS msvc::no_unique_address
+#elif HYPERION_PLATFORM_IS_WINDOWS && HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #define HYPERION_NO_UNIQUE_ADDRESS
+#else
+    #define HYPERION_NO_UNIQUE_ADDRESS no_unique_address
+#endif // HYPERION_PLATFORM_COMPILER_IS_MSVC
+
 /// @def HYPERION_TRIVIAL_ABI
 /// @brief Use to apply clang's `trivial_abi` attribute to the following class/struct declaration
 /// when compiling with clang. On other compilers this macro is empty
@@ -162,48 +201,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
     #define HYPERION_UNREACHABLE()
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
 
-/// @def HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT
-/// @brief Indicates whether the compiler builtin `__type_pack_element` is available
-/// (used for efficient type parameter pack indexing in `mpl`)
-/// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
-#if defined(__has_builtin)
-    #if __has_builtin(__type_pack_element)
-        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT true
-    #else // !__has_builtin(__type_pack_element)
-        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
-    #endif // __has_builtin(__type_pack_element)
-#else
-    #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
-#endif // defined(__has_builtin)
 // clang-format off
-
-/// @def HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS
-/// @brief Used to check if the current compiler supports conditionally trivial
-/// special member functions
-/// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
-/// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
-#if defined(__cpp_concepts) && __cpp_concepts >= 202002L
-    #define HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS true
-#else
-    #define HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS false
-#endif  // defined(__cpp_concepts) && __cpp_concepts >= 202002L
-
-/// @def HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
-/// @brief Used to check if the compiled-against standard library supports
-/// `#include <compare>`
-/// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
-/// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
-#if __cpp_lib_three_way_comparison >= 201907L
-    #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE true
-#else
-    #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE false
-#endif  // __cpp_lib_three_way_comparison >= 201907L
-
-HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
-//
 
 /// @def HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START
 /// @brief Use to temporarily disable warnings for destructors that override but are not marked
@@ -1053,6 +1051,6 @@ HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP
     #define HYPERION_PROFILE_MARK_FRAME()       /** NOLINT(cppcoreguidelines-macro-usage) **/
 #endif
 
-HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP
+HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP;
 
 #endif // HYPERION_PLATFORM_DEF_H

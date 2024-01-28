@@ -4,6 +4,16 @@ project(hyperion_platform LANGUAGES CXX)
 option(HYPERION_ENABLE_TRACY "Enables Profiling with Tracy" OFF)
 option(HYPERION_USE_FETCH_CONTENT "Enables FetchContent usage for getting dependencies" ON)
 
+if(HYPERION_USE_FETCH_CONTENT)
+    FetchContent_Declare(doctest
+        GIT_REPOSITORY "https://github.com/doctest/doctest"
+        GIT_TAG "v2.4.11"
+        )
+    FetchContent_MakeAvailable(doctest)
+else()
+    find_package(doctest REQUIRED)
+endif()
+
 if(${HYPERION_ENABLE_TRACY})
     if(HYPERION_USE_FETCH_CONTENT)
         FetchContent_Declare(Tracy
@@ -30,6 +40,8 @@ set(HYPERION_PLATFORM_INCLUDE_PATH
 set(HYPERION_PLATFORM_HEADERS
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/def.h"
+    "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/ignore.h"
+    "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/testing.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/types.h"
 )
 
@@ -48,6 +60,7 @@ target_sources(
 target_link_libraries(
     hyperion_platform
     INTERFACE
+    doctest::doctest
     ${TRACY_LINK_TARGET}
 )
 

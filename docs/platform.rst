@@ -1,41 +1,6 @@
 Platform
 ********
 
-.. doxygendefine:: HYPERION_PLATFORM_IS_LINUX
-.. doxygendefine:: HYPERION_PLATFORM_IS_WINDOWS
-.. doxygendefine:: HYPERION_PLATFORM_IS_APPLE
-.. doxygendefine:: HYPERION_PLATFORM_IS_UNIX
-.. doxygendefine:: HYPERION_PLATFORM_IS_BSD
-.. doxygendefine:: HYPERION_PLATFORM_IS_ANDROID
-
-.. doxygendefine:: HYPERION_PLATFORM_COMPILER_IS_GCC
-.. doxygendefine:: HYPERION_PLATFORM_COMPILER_IS_CLANG
-.. doxygendefine:: HYPERION_PLATFORM_COMPILER_IS_MSVC
-
-.. doxygendefine:: HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP
-.. doxygendefine:: HYPERION_PLATFORM_STD_LIB_IS_LIBCPP
-.. doxygendefine:: HYPERION_PLATFORM_STD_LIB_IS_MSVC
-
-.. doxygendefine:: HYPERION_PLATFORM_MODE_IS_DEBUG
-.. doxygendefine:: HYPERION_PLATFORM_MODE_IS_RELEASE
-
-.. doxygendefine:: HYPERION_PLATFORM_X86_64
-.. doxygendefine:: HYPERION_PLATFORM_X86
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V6
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V7
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V7A
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V7R
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V7M
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V7S
-.. doxygendefine:: HYPERION_PLATFORM_ARM_V8
-.. doxygendefine:: HYPERION_PLATFORM_ARM_64
-.. doxygendefine:: HYPERION_PLATFORM_UNKNOWN
-
-.. doxygendefine:: HYPERION_PLATFORM_ARCHITECTURE
-.. doxygendefine:: HYPERION_PLATFORM_IS_ARCHITECTURE
-
-.. doxygendefine:: HYPERION_PLATFORM_IS_LITTLE_ENDIAN
-.. doxygendefine:: HYPERION_PLATFORM_IS_BIG_ENDIAN
-
-.. doxygendefine:: HYPERION_PLATFORM_CACHE_LINE_SIZE
+.. doxygengroup:: platform
+    :members:
 

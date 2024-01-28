@@ -4,6 +4,14 @@ set_version("0.1.0")
 
 set_xmakever("2.8.2")
 
+add_requires("doctest", {
+    system = false,
+    external = true,
+    configs = {
+        languages = "cxx20"
+    }
+})
+
 option("hyperion_enable_tracy", function()
     add_defines("TRACY_ENABLE")
     set_default(false)
@@ -26,6 +34,8 @@ local hyperion_platform_main_header = {
 
 local hyperion_platform_headers = {
     "$(projectdir)/include/hyperion/platform/def.h",
+    "$(projectdir)/include/hyperion/platform/ignore.h",
+    "$(projectdir)/include/hyperion/platform/testing.h",
     "$(projectdir)/include/hyperion/platform/types.h",
 }
 
@@ -46,8 +56,9 @@ target("hyperion_platform", function()
     end)
     add_options("hyperion_enable_tracy")
 
+    add_packages("doctest", {public = true})
     if has_package("tracy") then
-        add_deps("tracy")
+        add_packages("tracy", {public = true})
     end
 end)
 

@@ -74,7 +74,7 @@ html_theme_options = {
     "navbar_start": ["navbar-logo", "theme-switcher"],
     "navbar_center": ["navbar-nav"],
     "navbar_end": ["navbar-icon-links"],
-    "secondary_sidebar_items": [],
+    "secondary_sidebar_items": ["page-toc"],
     "footer_items": ["copyright", "last-updated", "sphinx-version"],
 }
 html_sidebars = {
