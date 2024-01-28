@@ -33,17 +33,6 @@ option("hyperion_enable_tracy", function()
     end)
 end)
 
-
-local build_main = true
-option("as_user", function()
-    set_default(false)
-    after_check(function(opt)
-        if opt:enabled() then
-            build_main = false
-        end
-    end)
-end)
-
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
 }
@@ -82,7 +71,7 @@ target("hyperion_platform_main", function()
     add_headerfiles(hyperion_platform_headers, { prefixdir = "hyperion/platform" })
     add_files("$(projectdir)/src/main.cpp", { prefixdir = "hyperion/platform" })
     add_deps("hyperion_platform")
-    set_default(build_main)
+    set_default(true)
     on_config(function(target)
         import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
