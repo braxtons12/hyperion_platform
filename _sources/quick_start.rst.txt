@@ -8,7 +8,7 @@ CMake
 -----
 
 hyperion::platform is easily incorporated into a raw CMake project with :cmake:`FetchContent` or
-:cmake:`add_subdirectory`\. Example for :cmake:`FetchContent`\:
+other methods like :cmake:`add_subdirectory`\. Example for :cmake:`FetchContent`\:
 
 .. code-block:: cmake
     :caption: CMakeLists.txt
@@ -26,6 +26,15 @@ hyperion::platform is easily incorporated into a raw CMake project with :cmake:`
     # For this example, we create an executable target and link hyperion::platform to it
     add_executable(MyExecutable "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
     target_link_libraries(MyExecutable PRIVATE hyperion::platform)
+
+Note that hyperion::platform depends on `doctest <https://github.com/doctest/doctestdoctest>`_ for
+the testing macros and configuration it wraps in :cpp:`#include <hyperion/platform/testing.h>`\,
+and optionally depends on `Tracy <https://github.com/wolfpld/tracy>`_ for the profiling macros it
+wraps in :cpp:`#include <hyperion/platform/def.h>`\ (set the option :cmake:`HYPERION_ENABLE_TRACY`
+to :cmake:`ON` to enable these). By default, it will use :cmake:`FetchContent` to obtain these
+dependencies, but you can disable this by setting :cmake:`HYPERION_USE_FETCH_CONTENT` to
+:cmake:`OFF`\, in which case you will need to make sure each package is findable via CMake's
+:cmake:`find_package`
 
 XMake
 -----

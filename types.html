@@ -43,6 +43,7 @@
     <link rel="canonical" href="braxtons12.github.io/hyperion_platform/types.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Core Library Utilities" href="utility.html" />
     <link rel="prev" title="Defines" href="def.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -176,6 +177,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
       
@@ -235,6 +243,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </header>
@@ -289,6 +301,13 @@ document.write(`
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Core Numeric Types
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
                       </a>
                     </li>
                 
@@ -377,6 +396,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
         <div class="sidebar-primary-item">
@@ -438,6 +464,19 @@ document.write(`
                   
   <section id="core-numeric-types">
 <h1>Core Numeric Types<a class="headerlink" href="#core-numeric-types" title="Link to this heading">#</a></h1>
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__core__numeric__types"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">core_numeric_types</span></span></dt>
+<dd><p>Hyperion provides type aliases for fixed-width integer and floating point types, as well as the platform native size-type, byte, and maximum-width integer and floating point types. It also provides user-defined literals for each that support numeric separators (eg “12’345”) and provide bounds checking to ensure a literal is not out of the range of its associated type.</p>
+<section id="group__core__numeric__types_1autotoc_md6">
+<h2>Example<a class="headerlink" href="#group__core__numeric__types_1autotoc_md6" title="Link to this heading">#</a></h2>
+<div class="highlight-cpp notranslate" id="group__core__numeric__types_1autotoc_md6"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">hyperion</span><span class="o">::</span><span class="k">operator</span><span class="s">&quot;&quot;</span><span class="n">_f32</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">my_f32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">12&#39;345.6789</span><span class="n">_f32</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-typedefs">Typedefs</p>
 <dl class="cpp type">
 <dt class="sig sig-object cpp" id="_CPPv42u8">
 <span id="_CPPv32u8"></span><span id="_CPPv22u8"></span><span class="target" id="group__core__numeric__types_1gacfdac4fe7c3fe87fab1c63b0e3619533"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">u8</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">uint8_t</span></span><a class="headerlink" href="#_CPPv42u8" title="Link to this definition">#</a><br /></dt>
@@ -528,6 +567,9 @@ document.write(`
 <dd><p><code class="docutils literal notranslate"><span class="pre">fmax</span></code> is the largest-precision floating point number on the platform (<code class="docutils literal notranslate"><span class="pre">long</span> <span class="pre">double</span></code>) </p>
 </dd></dl>
 
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4I_DpcEli5_byte4bytev">
 <span id="_CPPv3I_DpcEli5_bytev"></span><span id="_CPPv2I_DpcEli5_bytev"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">char</span></span><span class="p"><span class="pre">...</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Chars</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="group__core__numeric__types_1gab662ca403e76c5e7ad83bb21033fb7df"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">auto</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="n"><span class="pre">_byte</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="o"><span class="pre">-&gt;</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv44byte" title="byte"><span class="n"><span class="pre">byte</span></span></a><a class="headerlink" href="#_CPPv4I_DpcEli5_byte4bytev" title="Link to this definition">#</a><br /></dt>
@@ -723,6 +765,9 @@ document.write(`
 </section>
 </dd></dl>
 
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -744,12 +789,67 @@ document.write(`
         <p class="prev-next-title">Defines</p>
       </div>
     </a>
+    <a class="right-next"
+       href="utility.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Core Library Utilities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv42u8"><code class="docutils literal notranslate"><span class="pre">u8</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43u16"><code class="docutils literal notranslate"><span class="pre">u16</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43u32"><code class="docutils literal notranslate"><span class="pre">u32</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43u64"><code class="docutils literal notranslate"><span class="pre">u64</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv45usize"><code class="docutils literal notranslate"><span class="pre">usize</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44umax"><code class="docutils literal notranslate"><span class="pre">umax</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv42i8"><code class="docutils literal notranslate"><span class="pre">i8</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43i16"><code class="docutils literal notranslate"><span class="pre">i16</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43i32"><code class="docutils literal notranslate"><span class="pre">i32</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43i64"><code class="docutils literal notranslate"><span class="pre">i64</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44imax"><code class="docutils literal notranslate"><span class="pre">imax</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44byte"><code class="docutils literal notranslate"><span class="pre">byte</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43f32"><code class="docutils literal notranslate"><span class="pre">f32</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv43f64"><code class="docutils literal notranslate"><span class="pre">f64</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv44fmax"><code class="docutils literal notranslate"><span class="pre">fmax</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli5_byte4bytev"><code class="docutils literal notranslate"><span class="pre">operator""_byte()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli3_u82u8v"><code class="docutils literal notranslate"><span class="pre">operator""_u8()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_u163u16v"><code class="docutils literal notranslate"><span class="pre">operator""_u16()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_u323u32v"><code class="docutils literal notranslate"><span class="pre">operator""_u32()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_u643u64v"><code class="docutils literal notranslate"><span class="pre">operator""_u64()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli6_usize5usizev"><code class="docutils literal notranslate"><span class="pre">operator""_usize()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli5_umax4umaxv"><code class="docutils literal notranslate"><span class="pre">operator""_umax()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli3_i82i8v"><code class="docutils literal notranslate"><span class="pre">operator""_i8()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_i163i16v"><code class="docutils literal notranslate"><span class="pre">operator""_i16()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_i323i32v"><code class="docutils literal notranslate"><span class="pre">operator""_i32()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_i643i64v"><code class="docutils literal notranslate"><span class="pre">operator""_i64()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli5_imax4imaxv"><code class="docutils literal notranslate"><span class="pre">operator""_imax()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_f323f32v"><code class="docutils literal notranslate"><span class="pre">operator""_f32()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli4_f643f64v"><code class="docutils literal notranslate"><span class="pre">operator""_f64()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I_DpcEli5_fmax4fmaxv"><code class="docutils literal notranslate"><span class="pre">operator""_fmax()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

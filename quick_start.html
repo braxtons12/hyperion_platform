@@ -177,6 +177,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
       
@@ -236,6 +243,10 @@ document.write(`
   
 
   
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
 </div>
 
     </header>
@@ -290,6 +301,13 @@ document.write(`
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="types.html">
                         Core Numeric Types
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
                       </a>
                     </li>
                 
@@ -378,6 +396,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
         <div class="sidebar-primary-item">
@@ -444,7 +469,7 @@ easy.</p>
 <section id="cmake">
 <h2>CMake<a class="headerlink" href="#cmake" title="Link to this heading">#</a></h2>
 <p>hyperion::platform is easily incorporated into a raw CMake project with <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code> or
-<code class="code highlight cmake docutils literal highlight-cmake"><span class="err">add_subdirectory</span></code>. Example for <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code>:</p>
+other methods like <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">add_subdirectory</span></code>. Example for <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code>:</p>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">CMakeLists.txt</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
 <div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c"># Include FetchContent so we can use it</span>
@@ -462,6 +487,14 @@ easy.</p>
 </pre></div>
 </div>
 </div>
+<p>Note that hyperion::platform depends on <a class="reference external" href="https://github.com/doctest/doctestdoctest">doctest</a> for
+the testing macros and configuration it wraps in <code class="code highlight cpp docutils literal highlight-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/testing.h&gt;</span></code>,
+and optionally depends on <a class="reference external" href="https://github.com/wolfpld/tracy">Tracy</a> for the profiling macros it
+wraps in <code class="code highlight cpp docutils literal highlight-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/def.h&gt;</span></code>(set the option <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_ENABLE_TRACY</span></code>
+to <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">ON</span></code> to enable these). By default, it will use <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code> to obtain these
+dependencies, but you can disable this by setting <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_USE_FETCH_CONTENT</span></code> to
+<code class="code highlight cmake docutils literal highlight-cmake"><span class="err">OFF</span></code>, in which case you will need to make sure each package is findable via CMake’s
+<code class="code highlight cmake docutils literal highlight-cmake"><span class="err">find_package</span></code></p>
 </section>
 <section id="xmake">
 <h2>XMake<a class="headerlink" href="#xmake" title="Link to this heading">#</a></h2>
@@ -526,6 +559,24 @@ way to use Hyperion packages. Example:</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cmake">CMake</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xmake">XMake</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

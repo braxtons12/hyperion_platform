@@ -177,6 +177,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
       
@@ -293,6 +300,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
         
@@ -378,6 +392,13 @@ document.write(`
                       </a>
                     </li>
                 
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utility.html">
+                        Core Library Utilities
+                      </a>
+                    </li>
+                
   </ul>
 </nav></div>
         <div class="sidebar-primary-item">
@@ -439,12 +460,16 @@ document.write(`
                   
   <section id="platform">
 <h1>Platform<a class="headerlink" href="#platform" title="Link to this heading">#</a></h1>
-<dl class="cpp macro">
-<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_IS_LINUX">
-<span class="target" id="group__platform_1gade038fc016ffb1ed741597734f97ad7a"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_IS_LINUX</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_IS_LINUX" title="Link to this definition">#</a><br /></dt>
-<dd><p>Whether the compiled-for platform is LINUX. </p>
-</dd></dl>
-
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="group__platform"></span><em><span class="pre">group</span></em> <span class="sig-name descname"><span class="pre">platform</span></span></dt>
+<dd><p>Hyperion provides an assortment of platform detection macros to detect operating system, compiler, little vs big endianness, and architecture. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>while Hyperion provides many different platform detection macros, it has currently only been tested on x86_64 Windows, x86_64 linux, and ARM64 (M1) MacOs </p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
 <dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_IS_WINDOWS">
 <span class="target" id="group__platform_1ga55aead10632cc8d17dc8d90d13d432e9"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_IS_WINDOWS</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_IS_WINDOWS" title="Link to this definition">#</a><br /></dt>
@@ -464,6 +489,12 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_IS_LINUX">
+<span class="target" id="group__platform_1gade038fc016ffb1ed741597734f97ad7a"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_IS_LINUX</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_IS_LINUX" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the compiled-for platform is LINUX. </p>
+</dd></dl>
+
+<dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_IS_BSD">
 <span class="target" id="group__platform_1ga89772ac468c03647546f47cc47e78d44"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_IS_BSD</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_IS_BSD" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the compiled-for platform is a BSD. </p>
@@ -476,15 +507,15 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp macro">
-<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_COMPILER_IS_GCC">
-<span class="target" id="group__platform_1ga499afe9d6bd77652979235cf390209c8"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_GCC</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_COMPILER_IS_GCC" title="Link to this definition">#</a><br /></dt>
-<dd><p>Whether the current compiler is GCC. </p>
-</dd></dl>
-
-<dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_COMPILER_IS_CLANG">
 <span class="target" id="group__platform_1gad19be42e31ec5bab710bbe89f2d3a743"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_CLANG</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_COMPILER_IS_CLANG" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the current compiler is CLANG. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_COMPILER_IS_GCC">
+<span class="target" id="group__platform_1ga499afe9d6bd77652979235cf390209c8"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_GCC</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_COMPILER_IS_GCC" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the current compiler is GCC. </p>
 </dd></dl>
 
 <dl class="cpp macro">
@@ -494,15 +525,15 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp macro">
-<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP">
-<span class="target" id="group__platform_1ga03e82d43772f6318182993992309c2f0"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP" title="Link to this definition">#</a><br /></dt>
-<dd><p>Whether the used standard library is libstdc++ (gcc) </p>
-</dd></dl>
-
-<dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_STD_LIB_IS_LIBCPP">
 <span class="target" id="group__platform_1ga4174926c7e73371a158f82e02ba3a69d"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_LIBCPP</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_STD_LIB_IS_LIBCPP" title="Link to this definition">#</a><br /></dt>
 <dd><p>Whether the used standard library is libc++ (llvm) </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP">
+<span class="target" id="group__platform_1ga03e82d43772f6318182993992309c2f0"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP</span></span></span><a class="headerlink" href="#c.HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP" title="Link to this definition">#</a><br /></dt>
+<dd><p>Whether the used standard library is libstdc++ (gcc) </p>
 </dd></dl>
 
 <dl class="cpp macro">
@@ -631,6 +662,9 @@ document.write(`
 <dd><p>The architecture cache-line size. </p>
 </dd></dl>
 
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -667,6 +701,8 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"></div>
               
             
           </div>
