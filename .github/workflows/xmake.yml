@@ -83,7 +83,7 @@ jobs:
         env:
           CC: gcc-12
           CXX: gcc-12
-          ACTIONS_SETP_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: xmake b hyperion_platform
 
@@ -102,7 +102,7 @@ jobs:
         env:
           CC: clang-16
           CXX: clang-16
-          ACTIONS_SETP_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: |
           xmake b hyperion_platform
@@ -116,7 +116,7 @@ jobs:
       - name: Build Windows
         if: runner.os == 'Windows'
         env:
-          ACTIONS_SETP_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: xmake b hyperion_platform
 
@@ -133,7 +133,7 @@ jobs:
         env:
           CC: clang-13
           CXX: clang-13
-          ACTIONS_SETP_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: |
           xmake b hyperion_platform
