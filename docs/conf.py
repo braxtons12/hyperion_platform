@@ -74,7 +74,7 @@ html_theme_options = {
     "navbar_start": ["navbar-logo", "theme-switcher"],
     "navbar_center": ["navbar-nav"],
     "navbar_end": ["navbar-icon-links"],
-    "page_sidebar_items": ["page-toc"],
+    "secondary_sidebar_items": [],
     "footer_items": ["copyright", "last-updated", "sphinx-version"],
 }
 html_sidebars = {
@@ -114,4 +114,5 @@ breathe_projects = {
         "hyperion::platform": "_build/xml"
 }
 breathe_default_project = "hyperion::platform"
-breathe_default_members = ("members")
+breathe_default_members = ('members')
+

@@ -1,4 +1,4 @@
-/// @file HyperionDef.h
+/// @file def.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
@@ -40,7 +40,8 @@
 #include <hyperion/platform.h>
 #include <version>
 
-HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
+HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
+//
 
 /// @def HYPERION_NO_UNIQUE_ADDRESS
 /// @brief Platform-dependent, conditional [[no_unique_address]] to account for:
@@ -56,24 +57,24 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
     #define HYPERION_NO_UNIQUE_ADDRESS no_unique_address
 #endif // HYPERION_PLATFORM_COMPILER_IS_MSVC
 
-/// @def HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION
+/// @def HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION
 /// @brief Whether Hyperion will use `std::experimental::source_location` if `<source_location>`
 /// is not yet available for the given compiler. This defaults to true when using libstdc++
 /// (gcc's std lib). To disable it, define it to false prior to including any Hyperion headers
 /// @ingroup defines
 /// @headerfile "hyperion/platform/def.h"
-#if !defined(HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION)
+#if !defined(HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION)
     #if __has_include(<experimental/source_location>)
-        #define HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION true
+        #define HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION true
     #else // !__has_include(<experimental/source_location>)
-        #define HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION false
+        #define HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION false
     #endif // __has_include(<experimental/source_location>)
-#endif     // !defined(HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION)
+#endif     // !defined(HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION)
 
-/// @def HYPERION_HAS_SOURCE_LOCATION
+/// @def HYPERION_STD_LIB_HAS_SOURCE_LOCATION
 /// @brief if `<source_location>` is available, this will be defined as true, otherwise it will be
 /// false. If this is false, `std::source_location` may be aliased as
-/// `std::experimental::source_location` if `HYPERION_HAS_EXPERIMENTAL_SOURCE_LOCATION` is true,
+/// `std::experimental::source_location` if `HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION` is true,
 /// otherwise, features relying on `std::source_location` will revert to macros using `__FILE__` and
 /// `__LINE__` instead
 /// @ingroup defines
@@ -84,31 +85,31 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
         #if defined(__has_builtin)
             // NOLINTNEXTLINE(readability-redundant-preprocessor)
             #if __has_builtin(__builtin_source_location)
-                #define HYPERION_HAS_SOURCE_LOCATION true
+                #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION true
             #else // !__has_builtin(__builtin_source_location)
-                #define HYPERION_HAS_SOURCE_LOCATION false
+                #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION false
             #endif // __has_builtin(__builtin_source_location)
         #elif HYPERION_PLATFORM_STD_LIB_LIBCPP
-            #define HYPERION_HAS_SOURCE_LOCATION true
+            #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION true
         #else
-            #define HYPERION_HAS_SOURCE_LOCATION false
+            #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION false
         #endif // __has_builtin(__builtin_source_location)
     #else      // MSVC
-        #define HYPERION_HAS_SOURCE_LOCATION true
+        #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION true
     #endif // HYPERION_PLATFORM_COMPILER_IS_GCC
            // || (HYPERION_PLATFORM_COMPILER_IS_CLANG && !HYPERION_PLATFORM_IS_WINDOWS)
 #else
-    #define HYPERION_HAS_SOURCE_LOCATION false
+    #define HYPERION_STD_LIB_HAS_SOURCE_LOCATION false
 #endif // (defined(__cpp_lib_source_location) && __cpp_lib_source_location >= 201907)
 
-/// @def HYPERION_HAS_JTHREAD
+/// @def HYPERION_STD_LIB_HAS_JTHREAD
 /// @brief if `std::jthread` is available, this will be defined as true, otherwise it will be false.
 /// @ingroup defines
 /// @headerfile "hyperion/platform/def.h"
 #if(defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
-    #define HYPERION_HAS_JTHREAD true
+    #define HYPERION_STD_LIB_HAS_JTHREAD true
 #else
-    #define HYPERION_HAS_JTHREAD false
+    #define HYPERION_STD_LIB_HAS_JTHREAD false
 #endif // (defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
 
 /// @def HYPERION_TRIVIAL_ABI
@@ -161,19 +162,19 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
     #define HYPERION_UNREACHABLE()
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
 
-/// @def HYPERION_HAS_TYPE_PACK_ELEMENT
+/// @def HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT
 /// @brief Indicates whether the compiler builtin `__type_pack_element` is available
 /// (used for efficient type parameter pack indexing in `mpl`)
 /// @ingroup defines
 /// @headerfile "hyperion/platform/def.h"
 #if defined(__has_builtin)
     #if __has_builtin(__type_pack_element)
-        #define HYPERION_HAS_TYPE_PACK_ELEMENT true
+        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT true
     #else // !__has_builtin(__type_pack_element)
-        #define HYPERION_HAS_TYPE_PACK_ELEMENT false
+        #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
     #endif // __has_builtin(__type_pack_element)
 #else
-    #define HYPERION_HAS_TYPE_PACK_ELEMENT false
+    #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT false
 #endif // defined(__has_builtin)
 // clang-format off
 
@@ -201,7 +202,8 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
     #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE false
 #endif  // __cpp_lib_three_way_comparison >= 201907L
 
-HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
+HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
+//
 
 /// @def HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START
 /// @brief Use to temporarily disable warnings for destructors that override but are not marked

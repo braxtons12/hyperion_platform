@@ -1,4 +1,4 @@
-/// @file Platform.h
+/// @file platform.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief This module includes macro definitions for identifying the platform being compiled for
 /// (operating system, compiler, etc)
@@ -47,7 +47,8 @@
 #if !((defined(__MSC_VER) || defined(_MSC_VER)) && !defined(__clang__))
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_START \
-        _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-macros\"")
+            _Pragma("GCC diagnostic push")              \
+            _Pragma("GCC diagnostic ignored \"-Wunused-macros\"")
 #else
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
@@ -66,7 +67,8 @@
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP
 #endif // !((defined(__MSC_VER) || defined(_MSC_VER)) && !defined(__clang__))
 
-HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
+HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
+//
 
 /// @def HYPERION_PLATFORM_IS_WINDOWS
 /// @brief Whether the compiled-for platform is WINDOWS
@@ -360,29 +362,30 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
 /// @brief Whether the compiled-for architecture is a little endian architecture
 /// @ingroup platform
 /// @headerfile "hyperion/platform.h"
-#define HYPERION_PLATFORM_LITTLE_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
+#define HYPERION_PLATFORM_IS_LITTLE_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
     (!HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_UNKNOWN))
 /// @brief Whether the compiled-for architecture is a big endian architecture
 /// @ingroup platform
 /// @headerfile "hyperion/platform.h"
-#define HYPERION_PLATFORM_BIG_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
+#define HYPERION_PLATFORM_IS_BIG_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
     HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_UNKNOWN)
 
 /// @def HYPERION_PLATFORM_CACHE_LINE_SIZE
 /// @brief The architecture cache-line size
 /// @ingroup platform
 /// @headerfile "hyperion/platform.h"
+
 #if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86_64) \
     || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V8)
-    /// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
+    // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_CACHE_LINE_SIZE 64
 #elif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86)     \
     || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V7) \
     || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V6)
-    /// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
+    // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_CACHE_LINE_SIZE 32
 #else
-    /// NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
+    // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_CACHE_LINE_SIZE 128
 #endif // HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86_64)
        // || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V8)
