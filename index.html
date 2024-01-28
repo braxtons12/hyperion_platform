@@ -158,21 +158,21 @@ document.write(`
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="platform.html">
-                        <no title>
+                        Platform
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="def.html">
-                        <no title>
+                        Defines
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="types.html">
-                        <no title>
+                        Core Numeric Types
                       </a>
                     </li>
                 
@@ -235,10 +235,6 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
 </div>
 
     </header>
@@ -280,21 +276,21 @@ document.write(`
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="platform.html">
-                        <no title>
+                        Platform
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="def.html">
-                        <no title>
+                        Defines
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="types.html">
-                        <no title>
+                        Core Numeric Types
                       </a>
                     </li>
                 
@@ -365,21 +361,21 @@ document.write(`
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="platform.html">
-                        <no title>
+                        Platform
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="def.html">
-                        <no title>
+                        Defines
                       </a>
                     </li>
                 
 
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="types.html">
-                        <no title>
+                        Core Numeric Types
                       </a>
                     </li>
                 
@@ -420,6 +416,25 @@ related libraries.</p>
 separately from any other Hyperion projects.</p>
 <p>See the <a class="reference internal" href="quick_start.html"><span class="doc">Quick Start Guide</span></a> for how to get started using hyperion::platform.</p>
 <p>For an overview of each module, see the links in the left sidebar or below.</p>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Example</span><a class="headerlink" href="#id1" title="Link to this code">#</a></div>
+<div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform.h&gt;</span>
+<span class="linenos"> 2</span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/types.h&gt;</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">using</span><span class="w"> </span><span class="n">hyperion</span><span class="o">::</span><span class="k">operator</span><span class="s">&quot;&quot;</span><span class="n">_i32</span><span class="p">;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span><span class="k">static</span><span class="w"> </span><span class="k">constexpr</span><span class="w"> </span><span class="k">auto</span><span class="w"> </span><span class="n">the_meaning_of_life</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="n">_i32</span><span class="p">;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="cp">#if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_ARM_V8)</span>
+<span class="linenos"> 9</span><span class="w">    </span><span class="c1">// do something for ARM</span>
+<span class="linenos">10</span><span class="cp">#elseif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)</span>
+<span class="linenos">11</span><span class="w">    </span><span class="c1">// do something for x86_64</span>
+<span class="linenos">12</span><span class="cp">#else</span>
+<span class="linenos">13</span><span class="w">    </span><span class="c1">// do something else</span>
+<span class="linenos">14</span><span class="cp">#endif</span>
+</pre></div>
+</div>
+</div>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
 <ul>
@@ -437,10 +452,54 @@ separately from any other Hyperion projects.</p>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Platform and Feature Detection Macros</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="platform.html">Platform</a></li>
+</ul>
 </div>
 <div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Utility Macros</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="def.html">Defines</a></li>
+</ul>
 </div>
 <div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Core Numeric types</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="types.html">Core Numeric Types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv42u8"><code class="docutils literal notranslate"><span class="pre">u8</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43u16"><code class="docutils literal notranslate"><span class="pre">u16</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43u32"><code class="docutils literal notranslate"><span class="pre">u32</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43u64"><code class="docutils literal notranslate"><span class="pre">u64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv45usize"><code class="docutils literal notranslate"><span class="pre">usize</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv44umax"><code class="docutils literal notranslate"><span class="pre">umax</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv42i8"><code class="docutils literal notranslate"><span class="pre">i8</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43i16"><code class="docutils literal notranslate"><span class="pre">i16</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43i32"><code class="docutils literal notranslate"><span class="pre">i32</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43i64"><code class="docutils literal notranslate"><span class="pre">i64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv44imax"><code class="docutils literal notranslate"><span class="pre">imax</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv44byte"><code class="docutils literal notranslate"><span class="pre">byte</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43f32"><code class="docutils literal notranslate"><span class="pre">f32</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv43f64"><code class="docutils literal notranslate"><span class="pre">f64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv44fmax"><code class="docutils literal notranslate"><span class="pre">fmax</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli5_byte4bytev"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_byte()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli3_u82u8v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_u8()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_u163u16v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_u16()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_u323u32v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_u32()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_u643u64v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_u64()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli6_usize5usizev"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_usize()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli5_umax4umaxv"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_umax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli3_i82i8v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_i8()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_i163i16v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_i16()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_i323i32v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_i32()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_i643i64v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_i64()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli5_imax4imaxv"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_imax()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_f323f32v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_f32()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli4_f643f64v"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_f64()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html#_CPPv4I_DpcEli5_fmax4fmaxv"><code class="docutils literal notranslate"><span class="pre">operator&quot;&quot;_fmax()</span></code></a></li>
+</ul>
+</li>
+</ul>
 </div>
 </section>
 
@@ -469,20 +528,6 @@ separately from any other Hyperion projects.</p>
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="_sources/index.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
-
-</div></div>
               
             
           </div>
