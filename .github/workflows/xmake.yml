@@ -109,7 +109,7 @@ jobs:
       - name: Configure Windows
         if: runner.os == 'Windows'
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=vs
+        run: xmake f -c -y --toolchain=msvc
           
       - name: Build Windows
         if: runner.os == 'Windows'
