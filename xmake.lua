@@ -33,10 +33,16 @@ option("hyperion_enable_tracy", function()
     end)
 end)
 
+
 local build_main = true
-if get_config("as_user") == true then
-    build_main = false
-end
+option("as_user", function()
+    set_default(false)
+    after_check(function(opt)
+        if opt:enabled() then
+            build_main = false
+        end
+    end)
+end)
 
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
