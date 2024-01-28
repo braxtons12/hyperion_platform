@@ -66,11 +66,3 @@ jobs:
         with:
           version: "13.0"
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-      fail-fast: false
-    runs-on: ${{matrix.os}}
-    steps:
-      - uses: actions/checkout@v4
-
