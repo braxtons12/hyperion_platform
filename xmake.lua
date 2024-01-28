@@ -4,6 +4,10 @@ set_version("0.1.0")
 
 set_xmakever("2.8.2")
 
+set_languages("cxx20")
+
+add_rules("mode.debug", "mode.release")
+
 add_requires("doctest", {
     system = false,
     external = true,
