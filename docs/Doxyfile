@@ -44,7 +44,7 @@ PROJECT_NUMBER         =
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF = "Basic platform compatibility, architecture, and feature checks for C++. Part of Hyperion Engine."
+PROJECT_BRIEF = "Platform and Architecture Detection and Feature Test Macros for C++. Part of Hyperion Engine."
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
