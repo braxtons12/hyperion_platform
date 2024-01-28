@@ -7,15 +7,18 @@ on:
     branches: ["*"]
 
 jobs:
+  setup:
+    uses: ./.github/workflows/setup.yml
+
   build:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
     runs-on: ${{matrix.os}}
+    needs: [setup]
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/workflows/setup.yml
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Configure Linux
