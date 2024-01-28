@@ -448,7 +448,7 @@ separately from any other Hyperion projects.</p>
 <span class="linenos"> 7</span>
 <span class="linenos"> 8</span><span class="cp">#if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_ARM_V8)</span>
 <span class="linenos"> 9</span><span class="w">    </span><span class="c1">// do something for ARM</span>
-<span class="linenos">10</span><span class="cp">#elseif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)</span>
+<span class="linenos">10</span><span class="cp">#elif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)</span>
 <span class="linenos">11</span><span class="w">    </span><span class="c1">// do something for x86_64</span>
 <span class="linenos">12</span><span class="cp">#else</span>
 <span class="linenos">13</span><span class="w">    </span><span class="c1">// do something else</span>
