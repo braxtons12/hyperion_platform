@@ -7,6 +7,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Install XMake
@@ -33,6 +34,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Setup scoop
@@ -56,6 +58,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Install XMake
