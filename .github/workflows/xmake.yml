@@ -122,6 +122,6 @@ jobs:
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: |
-          xmake b hyperion_platform
+          xmake b -y hyperion_platform
           xmake check clang.tidy
 
