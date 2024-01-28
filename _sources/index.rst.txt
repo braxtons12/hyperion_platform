@@ -1,9 +1,9 @@
 hyperion::platform
-**************
+******************
 
-hyperion::platform is a foundational library for the Hyperion game engine, the core platform
-and feature detection macros necessary to implement other parts of the engine and its related
-libraries.
+hyperion::platform is a foundational library for the Hyperion game engine, providing the core
+platform and feature detection macros necessary to implement other parts of the engine and its
+related libraries.
 
 It's currently under active development and has not yet hit a stable release point.
 
