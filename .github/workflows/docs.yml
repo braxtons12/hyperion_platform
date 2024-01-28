@@ -41,7 +41,7 @@ jobs:
           CC: gcc-12
           CXX: gcc-12
         working-directory: ${{github.workspace}}
-        run: xmake f -c --toolchain=envs
+        run: xmake f -c -y --toolchain=envs
 
       - name: Build Linux
         env:
