@@ -7,6 +7,7 @@ set_xmakever("2.8.2")
 set_languages("cxx20")
 
 add_rules("mode.debug", "mode.release")
+add_moduledirs("xmake")
 
 add_requires("doctest", {
     system = false,
@@ -32,6 +33,11 @@ option("hyperion_enable_tracy", function()
     end)
 end)
 
+local build_main = true
+if get_config("as_user") == true then
+    build_main = false
+end
+
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
 }
@@ -51,7 +57,7 @@ target("hyperion_platform", function()
     add_headerfiles(hyperion_platform_headers, { prefixdir = "hyperion/platform", public = true })
     set_default(true)
     on_config(function(target)
-        import("xmake.hyperion_compiler_settings", {alias = "settings"})
+        import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
     add_options("hyperion_enable_tracy")
@@ -70,9 +76,9 @@ target("hyperion_platform_main", function()
     add_headerfiles(hyperion_platform_headers, { prefixdir = "hyperion/platform" })
     add_files("$(projectdir)/src/main.cpp", { prefixdir = "hyperion/platform" })
     add_deps("hyperion_platform")
-    set_default(true)
+    set_default(build_main)
     on_config(function(target)
-        import("xmake.hyperion_compiler_settings", {alias = "settings"})
+        import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
 end)
