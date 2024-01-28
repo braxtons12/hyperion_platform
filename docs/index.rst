@@ -27,7 +27,7 @@ For an overview of each module, see the links in the left sidebar or below.
 
     #if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_ARM_V8)
         // do something for ARM
-    #elseif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)
+    #elif HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARCHITECTURE_X86_64)
         // do something for x86_64
     #else
         // do something else
