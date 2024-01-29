@@ -159,52 +159,100 @@ namespace hyperion {
                 return {.status = literal_status::InvalidLiteralType};
             }
             else {
-                Type sum = 0;
+                usize sum = 0;
                 const auto& str = literal.array;
+                const auto is_hex
+                    = str.size() > 2 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
 
+                const auto is_binary
+                    = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
+                const auto offset = is_hex || is_binary ? 2U : 0U;
+
+                // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                [[maybe_unused]] const usize base = is_hex ? 16U : (is_binary ? 2U : 10U);
                 [[maybe_unused]] bool found_decimal = false;
-                [[maybe_unused]] usize power_of_ten = 1;
-                for(auto& digit : str) {
+                [[maybe_unused]] usize current_multiplier = 1U;
+                [[maybe_unused]] usize num_before_decimal = 0U;
+                const auto size = str.size();
+                for(auto i = 0U; i < size - offset; ++i) {
+                    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+                    auto& digit = str[size - 1 - i];
+
                     if constexpr(std::is_floating_point_v<Type>) {
                         if((digit < '0' || digit > '9') && digit != '\'' && digit != '.') {
                             return {.status = literal_status::InvalidCharacterSequence};
                         }
                     }
-                    else {
-                        if((digit < '0' || digit > '9') && digit != '\'') {
+                    else if(!is_binary) {
+                        // hex or decimal
+                        const auto in_0_to_9 = digit >= '0' && digit <= '9';
+                        if(is_hex) {
+                            const auto in_a_to_f = digit >= 'a' && digit <= 'f';
+                            const auto in_A_to_F = digit >= 'A' && digit <= 'F';
+                            const auto valid_hex = (in_a_to_f || in_A_to_F || in_0_to_9);
+                            if(!valid_hex && digit != '\'') {
+                                return {.status = literal_status::InvalidCharacterSequence};
+                            }
+                        }
+                        else if(!in_0_to_9 && digit != '\'') {
                             return {.status = literal_status::InvalidCharacterSequence};
                         }
+                    }
+                    else if(!(digit == '0' || digit == '1') && digit != '\'') {
+                        return {.status = literal_status::InvalidCharacterSequence};
                     }
 
                     if constexpr(std::is_floating_point_v<Type>) {
                         if(digit >= '0' && digit <= '9') {
-                            sum = sum * 10 + static_cast<Type>(digit - '0'); // NOLINT
-                            if(found_decimal) {
-                                power_of_ten *= 10; // NOLINT
-                            }
+                            sum += static_cast<usize>(digit - '0') * current_multiplier;
+                            current_multiplier *= base;
                         }
                         else if(digit == '.') {
                             found_decimal = true;
+                            num_before_decimal = i;
                         }
                     }
                     else {
                         if(digit >= '0' && digit <= '9') {
-                            sum = sum * 10 + static_cast<Type>(digit - '0'); // NOLINT
+                            sum += static_cast<usize>(digit - '0') * current_multiplier;
+                            current_multiplier *= base;
+                        }
+                        else if(digit >= 'a' && digit <= 'f') {
+                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                            sum += static_cast<usize>((digit - 'a') + 10) * current_multiplier;
+                            current_multiplier *= base;
+                        }
+                        else if(digit >= 'A' && digit <= 'F') {
+                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                            sum += static_cast<usize>((digit - 'A') + 10) * current_multiplier;
+                            current_multiplier *= base;
                         }
                     }
                 }
 
+                auto result = static_cast<Type>(sum);
                 if constexpr(std::is_floating_point_v<Type>) {
-                    if(found_decimal && power_of_ten != 1) {
-                        sum = static_cast<Type>(sum) / static_cast<Type>(power_of_ten);
+                    if(found_decimal && num_before_decimal != 0U) {
+                        usize divisor = 1U;
+                        for(auto j = 0U; j < num_before_decimal; ++j) {
+                            divisor *= base;
+                        }
+                        result /= static_cast<Type>(divisor);
+
+                        // NOLINTNEXTLINE(bugprone-integer-division)
+                        if(sum / divisor > std::numeric_limits<Type>::max()) {
+                            return {.status = literal_status::OutOfRange};
+                        }
+                    }
+                    else if(sum > std::numeric_limits<Type>::max()) {
+                        return {.status = literal_status::OutOfRange};
                     }
                 }
-
-                if(sum > std::numeric_limits<Type>::max()) {
+                else if(sum > std::numeric_limits<Type>::max()) {
                     return {.status = literal_status::OutOfRange};
                 }
 
-                return {.status = literal_status::Valid, .value = sum};
+                return {.status = literal_status::Valid, .value = result};
             }
         }
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -467,10 +515,22 @@ namespace hyperion {
 		// NOLINTNEXTLINE
 		static_assert(static_cast<usize>(64'123'456) == 64'123'456_usize,
 					  "usize literal operator broken!");
+		// NOLINTNEXTLINE
+		static_assert(static_cast<usize>(0xDEAD'BEEF) == 0xDEAD'BEEF_usize,
+					  "usize literal operator broken!");
+		// NOLINTNEXTLINE
+		static_assert(static_cast<usize>(0b0011001100) == 0b0011001100_usize,
+					  "usize literal operator broken!");
         // clang-format on
 
         // NOLINTNEXTLINE
         static_assert(static_cast<i64>(-64'123'456) == -64'123'456_i64,
+                      "i64 literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(-static_cast<i64>(0xDEAD'BEEF) == -0xDEAD'BEEF_i64,
+                      "i64 literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<i64>(0b0011001100) == 0b0011001100_i64,
                       "i64 literal operator broken!");
 
         static inline constexpr auto acceptable_deviation
