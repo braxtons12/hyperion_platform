@@ -547,8 +547,7 @@ namespace hyperion {
         static_assert(-static_cast<i64>(0xDEAD'BEEF) == -0xDEAD'BEEF_i64,
                       "i64 literal operator broken!");
         // NOLINTNEXTLINE
-        static_assert(-static_cast<usize>(012345) == -012345_usize,
-                      "usize literal operator broken!");
+        static_assert(-static_cast<i64>(012345) == -012345_i64, "i64 literal operator broken!");
         // NOLINTNEXTLINE
         static_assert(static_cast<i64>(0b0011001100) == 0b0011001100_i64,
                       "i64 literal operator broken!");
