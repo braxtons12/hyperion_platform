@@ -159,7 +159,7 @@ namespace hyperion {
                 return {.status = literal_status::InvalidLiteralType};
             }
             else {
-                usize sum = 0;
+                Type sum = 0;
                 const auto& str = literal.array;
                 const auto is_hex
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
@@ -173,6 +173,7 @@ namespace hyperion {
                 [[maybe_unused]] bool found_decimal = false;
                 [[maybe_unused]] usize current_multiplier = 1U;
                 [[maybe_unused]] usize num_before_decimal = 0U;
+                [[maybe_unused]] usize divisor = 1U;
                 const auto size = str.size();
                 for(auto i = 0U; i < size - offset; ++i) {
                     // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
@@ -203,53 +204,62 @@ namespace hyperion {
                     }
 
                     if constexpr(std::is_floating_point_v<Type>) {
+                        Type value = 0;
+                        auto calculated_value = false;
                         if(digit >= '0' && digit <= '9') {
-                            sum += static_cast<usize>(digit - '0') * current_multiplier;
+                            value = static_cast<Type>(digit - '0') * current_multiplier;
                             current_multiplier *= base;
+                            calculated_value = true;
                         }
                         else if(digit == '.') {
                             found_decimal = true;
                             num_before_decimal = i;
+                            for(auto j = 0U; j < num_before_decimal; ++j) {
+                                divisor *= base;
+                            }
                         }
+
+                        if(calculated_value
+                           && sum / divisor > std::numeric_limits<Type>::max() - value)
+                        {
+                            return {.status = literal_status::OutOfRange};
+                        }
+
+                        sum += value;
                     }
                     else {
+                        Type value = 0;
                         if(digit >= '0' && digit <= '9') {
-                            sum += static_cast<usize>(digit - '0') * current_multiplier;
+                            value = static_cast<Type>(digit - '0')
+                                    * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
                         }
                         else if(digit >= 'a' && digit <= 'f') {
                             // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                            sum += static_cast<usize>((digit - 'a') + 10) * current_multiplier;
+                            value = static_cast<Type>((digit - 'a') + 10)
+                                    * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
                         }
                         else if(digit >= 'A' && digit <= 'F') {
                             // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                            sum += static_cast<usize>((digit - 'A') + 10) * current_multiplier;
+                            value = static_cast<Type>((digit - 'A') + 10)
+                                    * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
                         }
+
+                        if(value != 0 && sum > std::numeric_limits<Type>::max() - value) {
+                            return {.status = literal_status::OutOfRange};
+                        }
+
+                        sum += value;
                     }
                 }
 
                 auto result = static_cast<Type>(sum);
                 if constexpr(std::is_floating_point_v<Type>) {
                     if(found_decimal && num_before_decimal != 0U) {
-                        usize divisor = 1U;
-                        for(auto j = 0U; j < num_before_decimal; ++j) {
-                            divisor *= base;
-                        }
                         result /= static_cast<Type>(divisor);
-
-                        // NOLINTNEXTLINE(bugprone-integer-division)
-                        if(sum / divisor > std::numeric_limits<Type>::max()) {
-                            return {.status = literal_status::OutOfRange};
-                        }
                     }
-                    else if(sum > std::numeric_limits<Type>::max()) {
-                        return {.status = literal_status::OutOfRange};
-                    }
-                }
-                else if(sum > std::numeric_limits<Type>::max()) {
-                    return {.status = literal_status::OutOfRange};
                 }
 
                 return {.status = literal_status::Valid, .value = result};
