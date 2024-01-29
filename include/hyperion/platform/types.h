@@ -166,10 +166,30 @@ namespace hyperion {
 
                 const auto is_binary
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
-                const auto offset = is_hex || is_binary ? 2U : 0U;
+                const auto is_octal = str.size() > 1 && str[0] == '0' && !is_hex && !is_binary;
+                const auto offset = is_hex || is_binary ? 2U : (is_octal ? 1U : 0U);
+
+                constexpr auto to_number = [](char digit) {
+                    if(digit >= '0' && digit <= '9') {
+                        return static_cast<Type>(digit - '0');
+                    }
+
+                    if(digit >= 'a' && digit <= 'f') {
+                        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                        return static_cast<Type>(digit - 'a') + static_cast<Type>(10);
+                    }
+
+                    if(digit >= 'A' && digit <= 'F') {
+                        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                        return static_cast<Type>(digit - 'A') + static_cast<Type>(10);
+                    }
+
+                    return static_cast<Type>(0);
+                };
 
                 // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                [[maybe_unused]] const usize base = is_hex ? 16U : (is_binary ? 2U : 10U);
+                [[maybe_unused]] const usize base
+                    = is_hex ? 16U : (is_binary ? 2U : (is_octal ? 8U : 10U));
                 [[maybe_unused]] bool found_decimal = false;
                 [[maybe_unused]] usize current_multiplier = 1U;
                 [[maybe_unused]] usize num_before_decimal = 0U;
@@ -181,6 +201,12 @@ namespace hyperion {
 
                     if constexpr(std::is_floating_point_v<Type>) {
                         if((digit < '0' || digit > '9') && digit != '\'' && digit != '.') {
+                            return {.status = literal_status::InvalidCharacterSequence};
+                        }
+                    }
+                    else if(is_octal) {
+                        const auto in_0_to_7 = digit >= '0' && digit <= '7';
+                        if(!in_0_to_7 && digit != '\'') {
                             return {.status = literal_status::InvalidCharacterSequence};
                         }
                     }
@@ -204,54 +230,32 @@ namespace hyperion {
                     }
 
                     if constexpr(std::is_floating_point_v<Type>) {
-                        Type value = 0;
-                        auto calculated_value = false;
-                        if(digit >= '0' && digit <= '9') {
-                            value = static_cast<Type>(digit - '0') * current_multiplier;
-                            current_multiplier *= base;
-                            calculated_value = true;
-                        }
-                        else if(digit == '.') {
+                        if(digit == '.') {
                             found_decimal = true;
                             num_before_decimal = i;
                             for(auto j = 0U; j < num_before_decimal; ++j) {
                                 divisor *= base;
                             }
                         }
+                        else if(digit != '\'') {
+                            Type value = to_number(digit) * current_multiplier;
+                            current_multiplier *= base;
+                            if(sum / divisor > std::numeric_limits<Type>::max() - value) {
+                                return {.status = literal_status::OutOfRange};
+                            }
 
-                        if(calculated_value
-                           && sum / divisor > std::numeric_limits<Type>::max() - value)
-                        {
-                            return {.status = literal_status::OutOfRange};
+                            sum += value;
                         }
-
-                        sum += value;
                     }
                     else {
-                        Type value = 0;
-                        if(digit >= '0' && digit <= '9') {
-                            value = static_cast<Type>(digit - '0')
-                                    * static_cast<Type>(current_multiplier);
+                        if(digit != '\'') {
+                            Type value = to_number(digit) * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
+                            if(sum > std::numeric_limits<Type>::max() - value) {
+                                return {.status = literal_status::OutOfRange};
+                            }
+                            sum += value;
                         }
-                        else if(digit >= 'a' && digit <= 'f') {
-                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                            value = static_cast<Type>((digit - 'a') + 10)
-                                    * static_cast<Type>(current_multiplier);
-                            current_multiplier *= base;
-                        }
-                        else if(digit >= 'A' && digit <= 'F') {
-                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                            value = static_cast<Type>((digit - 'A') + 10)
-                                    * static_cast<Type>(current_multiplier);
-                            current_multiplier *= base;
-                        }
-
-                        if(value != 0 && sum > std::numeric_limits<Type>::max() - value) {
-                            return {.status = literal_status::OutOfRange};
-                        }
-
-                        sum += value;
                     }
                 }
 
@@ -529,6 +533,9 @@ namespace hyperion {
 		static_assert(static_cast<usize>(0xDEAD'BEEF) == 0xDEAD'BEEF_usize,
 					  "usize literal operator broken!");
 		// NOLINTNEXTLINE
+		static_assert(static_cast<usize>(012345) == 012345_usize,
+					  "usize literal operator broken!");
+		// NOLINTNEXTLINE
 		static_assert(static_cast<usize>(0b0011001100) == 0b0011001100_usize,
 					  "usize literal operator broken!");
         // clang-format on
@@ -539,6 +546,9 @@ namespace hyperion {
         // NOLINTNEXTLINE
         static_assert(-static_cast<i64>(0xDEAD'BEEF) == -0xDEAD'BEEF_i64,
                       "i64 literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(-static_cast<usize>(012345) == -012345_usize,
+                      "usize literal operator broken!");
         // NOLINTNEXTLINE
         static_assert(static_cast<i64>(0b0011001100) == 0b0011001100_i64,
                       "i64 literal operator broken!");
