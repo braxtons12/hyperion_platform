@@ -854,6 +854,38 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 	#define HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_STOP
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
+/// @def HYPERION_IGNORE_DOCUMENTATION_WARNING_START
+/// @brief Use to temporarily disable warnings about documentation
+/// (for example, using a tparam directive in a non-template)
+/// Make sure to pair with `HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP` to properly scope the
+/// area where the warning is ignored
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+	// NOLINTNEXTLINE
+	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_START \
+		    _Pragma("GCC diagnostic push")                    \
+		    _Pragma("GCC diagnostic ignored \"-Wdocumentation\"")
+#else
+	// NOLINTNEXTLINE
+	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_START
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+
+/// @def HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP
+/// @brief Use to re-enable warnings about documentation (for example, using a
+/// tparam directive in a non-template) after having previously used
+/// `HYPERION_IGNORE_DOCUMENTATION_WARNING_START`
+/// @ingroup defines
+/// @headerfile "hyperion/platform/def.h"
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+	// NOLINTNEXTLINE
+	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP \
+		    _Pragma("GCC diagnostic pop")
+#else
+	// NOLINTNEXTLINE
+	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+
 /// @def HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START
 /// @brief Use to temporarily disable warnings for constructor parameters that shadow class/struct
 /// members
