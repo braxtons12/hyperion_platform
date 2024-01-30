@@ -794,6 +794,18 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.HYPERION_IGNORE_DOCUMENTATION_WARNING_START">
+<span class="target" id="group__defines_1ga1c1e20dc348e980c8fd258209cc32f25"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_START</span></span></span><a class="headerlink" href="#c.HYPERION_IGNORE_DOCUMENTATION_WARNING_START" title="Link to this definition">#</a><br /></dt>
+<dd><p>Use to temporarily disable warnings about documentation (for example, using a tparam directive in a non-template) Make sure to pair with <code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP</span></code> to properly scope the area where the warning is ignored. </p>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP">
+<span class="target" id="group__defines_1ga4c20951aded47cc8baf2da87f117746b"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP</span></span></span><a class="headerlink" href="#c.HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP" title="Link to this definition">#</a><br /></dt>
+<dd><p>Use to re-enable warnings about documentation (for example, using a tparam directive in a non-template) after having previously used <code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_START</span></code></p>
+</dd></dl>
+
+<dl class="cpp macro">
 <dt class="sig sig-object cpp" id="c.HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START">
 <span class="target" id="group__defines_1ga0f95eb8d935ac7a5b3c1924ee78fe1d7"></span><span class="sig-name descname"><span class="n"><span class="pre">HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START</span></span></span><a class="headerlink" href="#c.HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START" title="Link to this definition">#</a><br /></dt>
 <dd><p>Use to temporarily disable warnings for constructor parameters that shadow class/struct members Make sure to pair with <code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP</span></code> to properly scope the area where the warning is ignored. </p>
