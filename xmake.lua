@@ -20,18 +20,17 @@ add_requires("doctest", {
 option("hyperion_enable_tracy", function()
     add_defines("TRACY_ENABLE")
     set_default(false)
-    after_check(function(opt)
-        if opt:enabled() then
-            add_requires("tracy", {
-                system = false,
-                external = true,
-                configs = {
-                    languages = "cxx20"
-                }
-            })
-        end
-    end)
 end)
+
+if has_config("hyperion_enable_tracy") then
+    add_requires("tracy", {
+        system = false,
+        external = true,
+        configs = {
+            languages = "cxx20"
+        }
+    })
+end
 
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
