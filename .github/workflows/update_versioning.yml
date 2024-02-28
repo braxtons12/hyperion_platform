@@ -1,4 +1,4 @@
-name: update_versioning
+name: Update Version
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ on:
       - labeled
 
 jobs:
-  update_versioning:
+  update_version:
     if: github.event.action != 'labeled'
     runs-on: ubuntu-latest
     steps:
