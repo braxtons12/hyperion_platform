@@ -15,5 +15,5 @@ jobs:
           count: 1
           labels: "bump:major, bump:minor, bump:patch"
           add_comment: true
-          message: "Missing label for the version update type associated with this PR.\
+          message: "Missing label for the version update type associated with this PR.\n\
                     Please add the appropriate lable of [bump:major, bump:minor, bump:patch]"
