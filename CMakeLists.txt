@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(hyperion_platform LANGUAGES CXX)
 
+include(CTest)
+
 option(HYPERION_ENABLE_TRACY "Enables Profiling with Tracy" OFF)
 option(HYPERION_USE_FETCH_CONTENT "Enables FetchContent usage for getting dependencies" ON)
 
@@ -79,6 +81,9 @@ target_link_libraries(hyperion_platform_main
 
 hyperion_compile_settings(hyperion_platform_main)
 hyperion_enable_warnings(hyperion_platform_main)
+
+add_test(NAME hyperion_platform_main
+         COMMAND hyperion_platform_main)
 
 set(HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/docs/_build/html")
 set(HYPERION_PLATFORM_DOXYGEN_HTML "${HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR}/index.html")
