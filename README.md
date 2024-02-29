@@ -1,5 +1,8 @@
 # hyperion::platform
 
+[![XMake](https://github.com/braxtons12/hyperion_platform/actions/workflows/xmake.yml/badge.svg?event=push)](https://github.com/braxtons12/hyperion_platform/actions/workflows/xmake.yml)
+[![CMake](https://github.com/braxtons12/hyperion_platform/actions/workflows/cmake.yml/badge.svg?event=push)](https://github.com/braxtons12/hyperion_platform/actions/workflows/cmake.yml)
+
 hyperion::platform is a foundational library for the Hyperion game engine, providing the core
 platform/feature detection and utility macros necessary to implement other parts of the engine and
 its related libraries, as well as other core library utilities.

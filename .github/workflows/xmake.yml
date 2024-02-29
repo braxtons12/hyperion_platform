@@ -7,7 +7,45 @@ on:
     branches: ["*"]
 
 jobs:
-  build-linux:
+  build-linux-gcc-12-x64:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Install XMake
+        run: |
+          sudo add-apt-repository ppa:xmake-io/xmake
+          sudo apt-get -y update
+          sudo apt-get -y install xmake
+
+      - name: Install GCC 12
+        run: sudo apt-get -y install gcc-12
+
+      - name: Configure
+        env:
+          CC: gcc-12
+          CXX: gcc-12
+        working-directory: ${{github.workspace}}
+        run: xmake f -c -y --toolchain=envs
+
+      - name: Build
+        env:
+          CC: gcc-12
+          CXX: gcc-12
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake b hyperion_platform
+
+      - name: Test
+        env:
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake test
+
+  build-linux-clang-16-x64:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -31,31 +69,7 @@ jobs:
       - name: Replace clang-tidy
         run: sudo cp /usr/bin/clang-tidy-16 /usr/bin/clang-tidy -f
 
-      - name: Install GCC 12
-        run: sudo apt-get -y install gcc-12
-
-      - name: Configure GCC
-        env:
-          CC: gcc-12
-          CXX: gcc-12
-        working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=envs
-
-      - name: Build GCC
-        env:
-          CC: gcc-12
-          CXX: gcc-12
-          ACTIONS_STEP_DEBUG: true
-        working-directory: ${{github.workspace}}
-        run: xmake b hyperion_platform
-
-      - name: Test GCC
-        env:
-          ACTIONS_STEP_DEBUG: true
-        working-directory: ${{github.workspace}}
-        run: xmake test
-
-      - name: Configure Clang
+      - name: Configure
         env:
           CC: clang-16
           CXX: clang-16
@@ -64,7 +78,7 @@ jobs:
           rm -rf build .xmake
           xmake f -c -y --toolchain=envs
 
-      - name: Build Clang
+      - name: Build
         env:
           CC: clang-16
           CXX: clang-16
@@ -74,13 +88,13 @@ jobs:
           xmake b hyperion_platform
           xmake check clang.tidy
 
-      - name: Test Clang
+      - name: Test
         env:
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: xmake test
 
-  build-windows:
+  build-windows-msvc-x64:
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -120,7 +134,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake test
 
-  build-macos:
+  build-macos-xcode-x64:
     runs-on: macos-latest
     strategy:
       fail-fast: false
