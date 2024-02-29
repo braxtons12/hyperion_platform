@@ -75,7 +75,7 @@ target("hyperion_platform_main", function()
         import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
-    add_test("hyperion_platform_main")
+    add_tests("hyperion_platform_main")
 end)
 
 target("hyperion_platform_docs", function()
