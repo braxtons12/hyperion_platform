@@ -59,6 +59,9 @@ jobs:
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
           xrepo install -y --toolchain=envs "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_tracy=true,hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
   build-linux-clang-16-x64:
     runs-on: ubuntu-latest
@@ -123,6 +126,9 @@ jobs:
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
           xrepo install -y --toolchain=envs "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=envs --configs="hyperion_enable_tracy=true,hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
   build-windows-msvc-x64:
     runs-on: windows-latest
@@ -176,6 +182,9 @@ jobs:
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
           xrepo install -y --toolchain=msvc "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=msvc --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=msvc --configs="hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=msvc --configs="hyperion_enable_tracy=true,hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
   build-macos-xcode-x64:
     runs-on: macos-latest
@@ -223,4 +232,7 @@ jobs:
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
           xrepo install -y --toolchain=xcode "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=xcode --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=xcode --configs="hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=xcode --configs="hyperion_enable_tracy=true,hyperion_enable_testing=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 

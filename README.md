@@ -3,14 +3,17 @@
 [![XMake](https://github.com/braxtons12/hyperion_platform/actions/workflows/xmake.yml/badge.svg?event=push)](https://github.com/braxtons12/hyperion_platform/actions/workflows/xmake.yml)
 [![CMake](https://github.com/braxtons12/hyperion_platform/actions/workflows/cmake.yml/badge.svg?event=push)](https://github.com/braxtons12/hyperion_platform/actions/workflows/cmake.yml)
 
-hyperion::platform is a foundational library for the Hyperion game engine, providing the core
-platform/feature detection and utility macros necessary to implement other parts of the engine and
-its related libraries, as well as other core library utilities.
+hyperion::platform is a foundational C++ library for cross-platform projects, providing several common
+features to detect, work around, or abstract away the differences between various platforms and
+toolchains, such as operating system detection macros, CPU architecture detection macros, compiler
+and library feature detection macros, and bounds-checked numeric literals.
 
-It's currently under active development and has not yet hit a stable release point.
-
-hyperion::platform is not dependent on other parts of the engine and can be used freely,
-separately from any other Hyperion projects.
+hyperion::platform is also a core library of the Hyperion game engine project.
+As such, it also provides a few _optional_ features specific to its usage in that
+and related projects, including frame profiling support backed by [Tracy](https://github.com/wolfpld/tracy),
+and testing support backed by [Doctest](https://github.com/doctest/doctest). Both of these are
+disabled by default (see the [Quick Start Guide](https://braxtons12.github.io/hyperion_platform/quick_start.html)
+and the documentation for more on these and how to enable them)
 
 ### Quick Start
 
