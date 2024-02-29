@@ -4,20 +4,24 @@ project(hyperion_platform LANGUAGES CXX)
 include(CTest)
 
 option(HYPERION_ENABLE_TRACY "Enables Profiling with Tracy" OFF)
+option(HYPERION_ENABLE_TESTING "Enables Doctset Testing Macros" OFF)
 option(HYPERION_USE_FETCH_CONTENT "Enables FetchContent usage for getting dependencies" ON)
 
 if(HYPERION_USE_FETCH_CONTENT)
     include(FetchContent)
 endif()
 
-if(HYPERION_USE_FETCH_CONTENT)
-    FetchContent_Declare(doctest
-        GIT_REPOSITORY "https://github.com/doctest/doctest"
-        GIT_TAG "v2.4.11"
-        )
-    FetchContent_MakeAvailable(doctest)
-else()
-    find_package(doctest REQUIRED)
+if(${HYPERION_ENABLE_TESTING})
+    if(HYPERION_USE_FETCH_CONTENT)
+        FetchContent_Declare(doctest
+            GIT_REPOSITORY "https://github.com/doctest/doctest"
+            GIT_TAG "v2.4.11"
+            )
+        FetchContent_MakeAvailable(doctest)
+    else()
+        find_package(doctest REQUIRED)
+    endif()
+    set(DOCTEST_LINK_TARGET doctest::doctest)
 endif()
 
 if(${HYPERION_ENABLE_TRACY})
@@ -66,12 +70,28 @@ target_sources(
 target_link_libraries(
     hyperion_platform
     INTERFACE
-    doctest::doctest
+    ${DOCTEST_LINK_TARGET}
     ${TRACY_LINK_TARGET}
 )
 
 hyperion_compile_settings(hyperion_platform)
 hyperion_enable_warnings(hyperion_platform)
+
+if(${HYPERION_ENABLE_TRACY})
+    target_compile_definitions(
+        hyperion_platform
+        INTERFACE
+        TRACY_ENABLE
+    )
+endif()
+
+if(${HYPERION_ENABLE_TESTING})
+    target_compile_definitions(
+        hyperion_platform
+        INTERFACE
+        HYPERION_ENABLE_TESTING
+    )
+endif()
 
 add_executable(hyperion_platform_main ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(hyperion_platform_main

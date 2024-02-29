@@ -9,16 +9,13 @@ set_languages("cxx20")
 add_rules("mode.debug", "mode.release")
 add_moduledirs("xmake")
 
-add_requires("doctest", {
-    system = false,
-    external = true,
-    configs = {
-        languages = "cxx20"
-    }
-})
-
 option("hyperion_enable_tracy", function()
     add_defines("TRACY_ENABLE")
+    set_default(false)
+end)
+
+option("hyperion_enable_testing", function()
+    add_defines("HYPERION_ENABLE_TESTING")
     set_default(false)
 end)
 
@@ -31,6 +28,17 @@ if has_config("hyperion_enable_tracy") then
         }
     })
 end
+
+if has_config("hyperion_enable_testing") then
+    add_requires("doctest", {
+        system = false,
+        external = true,
+        configs = {
+            languages = "cxx20"
+        }
+    })
+end
+
 
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
@@ -59,6 +67,12 @@ target("hyperion_platform", function()
     add_packages("doctest", {public = true})
     if has_package("tracy") then
         add_packages("tracy", {public = true})
+    end
+
+    if has_package("doctest") then
+        add_packages("doctest", {public = true})
+    else
+        add_defines("DOCTEST_CONFIG_DISABLE")
     end
 end)
 
