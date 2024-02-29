@@ -81,7 +81,7 @@ if(${HYPERION_ENABLE_TRACY})
     target_compile_definitions(
         hyperion_platform
         INTERFACE
-        TRACY_ENABLE
+        TRACY_ENABLE=1
     )
 endif()
 
@@ -89,7 +89,7 @@ if(${HYPERION_ENABLE_TESTING})
     target_compile_definitions(
         hyperion_platform
         INTERFACE
-        HYPERION_ENABLE_TESTING
+        HYPERION_ENABLE_TESTING=1
     )
 endif()
 
