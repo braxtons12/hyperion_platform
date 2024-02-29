@@ -49,6 +49,12 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake b hyperion_platform
 
+      - name: Test GCC
+        env:
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake test
+
       - name: Configure Clang
         env:
           CC: clang-16
@@ -67,6 +73,12 @@ jobs:
         run: |
           xmake b hyperion_platform
           xmake check clang.tidy
+
+      - name: Test Clang
+        env:
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake test
 
   build-windows:
     runs-on: windows-latest
@@ -102,6 +114,12 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake b hyperion_platform
 
+      - name: Test
+        env:
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake test
+
   build-macos:
     runs-on: macos-latest
     strategy:
@@ -111,7 +129,9 @@ jobs:
       - uses: seanmiddleditch/gha-setup-ninja@v4
 
       - name: Install XMake
-        run: brew install xmake
+        run: |
+          brew update
+          brew install xmake
 
       - name: Install LLVM
         run: xrepo install -y llvm
@@ -127,4 +147,10 @@ jobs:
         run: |
           xmake b -y hyperion_platform
           xmake check clang.tidy
+
+      - name: Test
+        env:
+          ACTIONS_STEP_DEBUG: true
+        working-directory: ${{github.workspace}}
+        run: xmake test
 
