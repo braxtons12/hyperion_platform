@@ -45,6 +45,16 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake test
 
+      - name: Install Package
+        env:
+          CC: gcc-12
+          CXX: gcc-12
+          ACTIONS_STEP_DEBUG: true
+        run: |
+          xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
+          xrepo update-repo -y
+          xrepo install -y --toolchain=envs hyperion_platform
+
   build-linux-clang-16-x64:
     runs-on: ubuntu-latest
     strategy:
@@ -94,6 +104,16 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake test
 
+      - name: Install Package
+        env:
+          CC: clang-16
+          CXX: clang-16
+          ACTIONS_STEP_DEBUG: true
+        run: |
+          xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
+          xrepo update-repo -y
+          xrepo install -y --toolchain=envs hyperion_platform
+
   build-windows-msvc-x64:
     runs-on: windows-latest
     strategy:
@@ -134,6 +154,14 @@ jobs:
         working-directory: ${{github.workspace}}
         run: xmake test
 
+      - name: Install Package
+        env:
+          ACTIONS_STEP_DEBUG: true
+        run: |
+          xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
+          xrepo update-repo -y
+          xrepo install -y --toolchain=msvc hyperion_platform
+
   build-macos-xcode-x64:
     runs-on: macos-latest
     strategy:
@@ -167,4 +195,12 @@ jobs:
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: xmake test
+
+      - name: Install Package
+        env:
+          ACTIONS_STEP_DEBUG: true
+        run: |
+          xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
+          xrepo update-repo -y
+          xrepo install -y --toolchain=xcode hyperion_platform
 
