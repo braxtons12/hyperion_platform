@@ -20,7 +20,7 @@ other methods like :cmake:`add_subdirectory`\. Example for :cmake:`FetchContent`
     # Declare the dependency on hyperion-utils and make it available for use
     FetchContent_Declare(hyperion_platform
         GIT_REPOSITORY "https://github.com/braxtons12/hyperion_platform"
-        GIT_TAG "origin/main")
+        GIT_TAG "v0.2.2")
     FetchContent_MakeAvailable(hyperion_platform)
 
     # For this example, we create an executable target and link hyperion::platform to it
@@ -56,10 +56,8 @@ way to use Hyperion packages. Example:
 
     -- add hyperion_platform as a required dependency for the project
     add_requires("hyperion_platform", {
-        -- Don't verify the git commit. This is necessary because hyperion::platform hasn't reached
-        -- an official release yet, and thus doesn't have a stable git commit to track.
-        -- This allows pulling directly from $HEAD
-        verify = false,
+        system = false,
+        external = true,
     })
     
     -- For this example, we create an executable target and link hyperion::platform to it
