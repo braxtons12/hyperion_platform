@@ -44,8 +44,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define TEST_SUITE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_TEST_SUITE(__VA_ARGS__)                                   \
         /** NOLINT(modernize-use-trailing-return-type) **/                \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
@@ -56,8 +56,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define TEST_CASE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START               \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                   \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;              \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                  \
         /** NOLINTNEXTLINE **/                                           \
         DOCTEST_TEST_CASE(__VA_ARGS__)                                   \
         /** NOLINT **/                                                   \
@@ -69,8 +69,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define SUBCASE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START             \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                 \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;            \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                \
         /** NOLINTNEXTLINE **/                                         \
         DOCTEST_SUBCASE(__VA_ARGS__)                                   \
         /** NOLINT **/                                                 \
@@ -124,8 +124,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START           \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START               \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;          \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;              \
         DOCTEST_CHECK(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP            \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -135,8 +135,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_FALSE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                 \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                     \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;                \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                    \
         DOCTEST_CHECK_FALSE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                  \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -147,8 +147,8 @@
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_EQ(...) /** NOLINT(cppcoreguidelines-macro-usage) **/         \
                           /** NOLINTNEXTLINE(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                      \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                          \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;                     \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                         \
         DOCTEST_CHECK_EQ(__VA_ARGS__)                                           \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                       \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -158,8 +158,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_NE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START              \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                  \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;             \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                 \
         DOCTEST_CHECK_NE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP               \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -169,8 +169,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_GT(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START              \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                  \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;             \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                 \
         DOCTEST_CHECK_GT(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP               \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -180,8 +180,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_LT(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START              \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                  \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;             \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                 \
         DOCTEST_CHECK_LT(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP               \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -191,8 +191,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_GE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START              \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                  \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;             \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                 \
         DOCTEST_CHECK_GE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP               \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -202,8 +202,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define CHECK_LE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START              \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                  \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;             \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                 \
         DOCTEST_CHECK_LE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP               \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -214,8 +214,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START             \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                 \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;            \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                \
         DOCTEST_REQUIRE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP              \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -225,8 +225,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_FALSE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                   \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                       \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;                  \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                      \
         DOCTEST_REQUIRE_FALSE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                    \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -237,8 +237,8 @@
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_EQ(...) /** NOLINT(cppcoreguidelines-macro-usage) **/         \
                             /** NOLINTNEXTLINE(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                        \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                            \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;                       \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                           \
         DOCTEST_REQUIRE_EQ(__VA_ARGS__)                                           \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                         \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -248,8 +248,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_NE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_REQUIRE_NE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -259,8 +259,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_GT(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_REQUIRE_GT(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -270,8 +270,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_LT(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_REQUIRE_LT(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -281,8 +281,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_GE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_REQUIRE_GE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
@@ -292,8 +292,8 @@
     /// @ingroup defines
     /// @headerfile hyperion/platform/testing.h
     #define REQUIRE_LE(...) /** NOLINT(cppcoreguidelines-macro-usage) **/ \
-        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START                \
-        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START                    \
+        HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START;               \
+        HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START;                   \
         DOCTEST_REQUIRE_LE(__VA_ARGS__)                                   \
         HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP                 \
         HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP
