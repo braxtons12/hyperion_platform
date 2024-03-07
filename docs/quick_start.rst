@@ -20,24 +20,22 @@ other methods like :cmake:`add_subdirectory`\. Example for :cmake:`FetchContent`
     # Declare the dependency on hyperion-utils and make it available for use
     FetchContent_Declare(hyperion_platform
         GIT_REPOSITORY "https://github.com/braxtons12/hyperion_platform"
-        GIT_TAG "v0.2.2")
+        GIT_TAG "v0.3.1")
     FetchContent_MakeAvailable(hyperion_platform)
 
     # For this example, we create an executable target and link hyperion::platform to it
     add_executable(MyExecutable "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
     target_link_libraries(MyExecutable PRIVATE hyperion::platform)
 
-Note that hyperion::platform has two optional features, or testing macros and configuration it wraps
-in :cpp:`#include <hyperion/platform/testing.h>`\, and the profiling macros it wraps in
-:cpp:`#include <hyperion/platform/def.h>`\. When these features are enabled, it requires the
-optional dependencies `doctest <https://github.com/doctest/doctestdoctest>`_ and
-`Tracy <https://github.com/wolfpld/tracy>`_ for them, respectively.
+Note that hyperion::platform has an optional feature, for the profiling macros it wraps in
+:cpp:`#include <hyperion/platform/def.h>`\. When this feature is enabled, it requires the
+optional dependency, `Tracy <https://github.com/wolfpld/tracy>`_\.
 
-By default, both of these are disabled. You can enable them by setting
-:cmake:`HYPERION_ENABLE_TESTING` and :cmake:`HYPERION_ENABLE_TRACY`\, respectively, to :cmake:`ON`\.
-If enabled, by default :cmake:`FetchContent` will be used to obtain these optional dependencies,
+By default, this is disabled. You can enable it by setting :cmake:`HYPERION_ENABLE_TRACY` to
+:cmake:`ON`\.
+If enabled, by default :cmake:`FetchContent` will be used to obtain this optional dependency,
 but you can disable this by setting :cmake:`HYPERION_USE_FETCH_CONTENT` to :cmake:`OFF`\,
-in which case you will need to make sure each package is findable via CMake's :cmake:`find_package`\.
+in which case you will need to make sure the package is findable via CMake's :cmake:`find_package`\.
 
 XMake
 -----
@@ -70,5 +68,4 @@ CMake build system. Third-party dependencies will be pulled from xmake-repo, the
 repository/registry for XMake.
 
 As with CMake, you can enable or disable the Tracy profiling macros (defaults to off) by setting the
-option :bash:`hyperion_enable_tracy` and the Doctest-backed testing macros by setting the option
-:bash:`hyperion_enable_testing`\.
+option :bash:`hyperion_enable_tracy`\.
