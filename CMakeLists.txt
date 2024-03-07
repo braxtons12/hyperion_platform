@@ -4,24 +4,10 @@ project(hyperion_platform LANGUAGES CXX)
 include(CTest)
 
 option(HYPERION_ENABLE_TRACY "Enables Profiling with Tracy" OFF)
-option(HYPERION_ENABLE_TESTING "Enables Doctset Testing Macros" OFF)
 option(HYPERION_USE_FETCH_CONTENT "Enables FetchContent usage for getting dependencies" ON)
 
 if(HYPERION_USE_FETCH_CONTENT)
     include(FetchContent)
-endif()
-
-if(${HYPERION_ENABLE_TESTING})
-    if(HYPERION_USE_FETCH_CONTENT)
-        FetchContent_Declare(doctest
-            GIT_REPOSITORY "https://github.com/doctest/doctest"
-            GIT_TAG "v2.4.11"
-            )
-        FetchContent_MakeAvailable(doctest)
-    else()
-        find_package(doctest REQUIRED)
-    endif()
-    set(DOCTEST_LINK_TARGET doctest::doctest)
 endif()
 
 if(${HYPERION_ENABLE_TRACY})
@@ -51,7 +37,6 @@ set(HYPERION_PLATFORM_HEADERS
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/def.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/ignore.h"
-    "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/testing.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/types.h"
 )
 
@@ -70,7 +55,6 @@ target_sources(
 target_link_libraries(
     hyperion_platform
     INTERFACE
-    ${DOCTEST_LINK_TARGET}
     ${TRACY_LINK_TARGET}
 )
 
@@ -82,14 +66,6 @@ if(${HYPERION_ENABLE_TRACY})
         hyperion_platform
         INTERFACE
         TRACY_ENABLE=1
-    )
-endif()
-
-if(${HYPERION_ENABLE_TESTING})
-    target_compile_definitions(
-        hyperion_platform
-        INTERFACE
-        HYPERION_ENABLE_TESTING=1
     )
 endif()
 
