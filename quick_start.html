@@ -478,7 +478,7 @@ other methods like <code class="code highlight cmake docutils literal highlight-
 <span class="linenos"> 4</span><span class="c"># Declare the dependency on hyperion-utils and make it available for use</span>
 <span class="linenos"> 5</span><span class="nb">FetchContent_Declare</span><span class="p">(</span><span class="s">hyperion_platform</span>
 <span class="linenos"> 6</span><span class="w">    </span><span class="s">GIT_REPOSITORY</span><span class="w"> </span><span class="s2">&quot;https://github.com/braxtons12/hyperion_platform&quot;</span>
-<span class="linenos"> 7</span><span class="w">    </span><span class="s">GIT_TAG</span><span class="w"> </span><span class="s2">&quot;v0.2.2&quot;</span><span class="p">)</span>
+<span class="linenos"> 7</span><span class="w">    </span><span class="s">GIT_TAG</span><span class="w"> </span><span class="s2">&quot;v0.3.1&quot;</span><span class="p">)</span>
 <span class="linenos"> 8</span><span class="nb">FetchContent_MakeAvailable</span><span class="p">(</span><span class="s">hyperion_platform</span><span class="p">)</span>
 <span class="linenos"> 9</span>
 <span class="linenos">10</span><span class="c"># For this example, we create an executable target and link hyperion::platform to it</span>
@@ -487,16 +487,14 @@ other methods like <code class="code highlight cmake docutils literal highlight-
 </pre></div>
 </div>
 </div>
-<p>Note that hyperion::platform has two optional features, or testing macros and configuration it wraps
-in <code class="code highlight cpp docutils literal highlight-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/testing.h&gt;</span></code>, and the profiling macros it wraps in
-<code class="code highlight cpp docutils literal highlight-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/def.h&gt;</span></code>. When these features are enabled, it requires the
-optional dependencies <a class="reference external" href="https://github.com/doctest/doctestdoctest">doctest</a> and
-<a class="reference external" href="https://github.com/wolfpld/tracy">Tracy</a> for them, respectively.</p>
-<p>By default, both of these are disabled. You can enable them by setting
-<code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_ENABLE_TESTING</span></code> and <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_ENABLE_TRACY</span></code>, respectively, to <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">ON</span></code>.
-If enabled, by default <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code> will be used to obtain these optional dependencies,
+<p>Note that hyperion::platform has an optional feature, for the profiling macros it wraps in
+<code class="code highlight cpp docutils literal highlight-cpp"><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;hyperion/platform/def.h&gt;</span></code>. When this feature is enabled, it requires the
+optional dependency, <a class="reference external" href="https://github.com/wolfpld/tracy">Tracy</a>.</p>
+<p>By default, this is disabled. You can enable it by setting <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_ENABLE_TRACY</span></code> to
+<code class="code highlight cmake docutils literal highlight-cmake"><span class="err">ON</span></code>.
+If enabled, by default <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">FetchContent</span></code> will be used to obtain this optional dependency,
 but you can disable this by setting <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">HYPERION_USE_FETCH_CONTENT</span></code> to <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">OFF</span></code>,
-in which case you will need to make sure each package is findable via CMake’s <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">find_package</span></code>.</p>
+in which case you will need to make sure the package is findable via CMake’s <code class="code highlight cmake docutils literal highlight-cmake"><span class="err">find_package</span></code>.</p>
 </section>
 <section id="xmake">
 <h2>XMake<a class="headerlink" href="#xmake" title="Link to this heading">#</a></h2>
@@ -526,8 +524,7 @@ way to use Hyperion packages. Example:</p>
 CMake build system. Third-party dependencies will be pulled from xmake-repo, the package
 repository/registry for XMake.</p>
 <p>As with CMake, you can enable or disable the Tracy profiling macros (defaults to off) by setting the
-option <code class="code highlight bash docutils literal highlight-bash">hyperion_enable_tracy</code> and the Doctest-backed testing macros by setting the option
-<code class="code highlight bash docutils literal highlight-bash">hyperion_enable_testing</code>.</p>
+option <code class="code highlight bash docutils literal highlight-bash">hyperion_enable_tracy</code>.</p>
 </section>
 </section>
 

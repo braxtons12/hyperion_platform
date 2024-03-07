@@ -7,11 +7,10 @@ toolchains, such as operating system detection macros, CPU architecture detectio
 and library feature detection macros, and bounds-checked numeric literals.
 
 hyperion::platform is also a core library of the Hyperion game engine project.
-As such, it also provides a few _optional_ features specific to its usage in that
-and related projects, including frame profiling support backed by `Tracy <https://github.com/wolfpld/tracy>`_\,
-and testing support backed by `Doctest <https://github.com/doctest/doctest>`_\. Both of these are
-disabled by default (see the :doc:`Quick Start Guide <quick_start>` and the documentation for more
-on these and how to enable them)
+As such, it also provides an _optional_ feature specific to its usage in that
+and related projects, namely frame profiling support backed by
+`Tracy <https://github.com/wolfpld/tracy>`_\. This is disabled by default
+(see the :doc:`Quick Start Guide <quick_start>` and the documentation for more on to enable it).
 
 See the :doc:`Quick Start Guide <quick_start>` for how to get started using hyperion::platform.
 
