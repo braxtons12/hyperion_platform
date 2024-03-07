@@ -2,8 +2,8 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
-/// @version 0.2.4
-/// @date 2024-03-06
+/// @version 0.3.2
+/// @date 2024-03-07
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -990,7 +990,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @ingroup defines
 /// @headerfile "hyperion/platform/def.h"
 
-#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major__ >= 16
     #define HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_START \
 	        _Pragma("GCC diagnostic push")              \
 	        _Pragma("GCC diagnostic ignored \"-Wunsafe-buffer-usage\"")
