@@ -35,12 +35,9 @@ jobs:
           pip install sphinx breathe exhale myst-parser docutils pydata-sphinx-theme sphinx-sitemap
 
       - name: Configure Linux
-        env:
-          CC: gcc-12
-          CXX: gcc-12
         working-directory: ${{github.workspace}}
         run: |
-          xmake f -c -y --toolchain=envs
+          xmake f -c -y --toolchain=gcc-12
           xmake project -k compile_commands
 
       - name: Build Linux
