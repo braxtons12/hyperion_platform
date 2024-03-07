@@ -2,8 +2,8 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
-/// @version 0.1
-/// @date 2024-01-31
+/// @version 0.2.4
+/// @date 2024-03-06
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -214,7 +214,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START \
-            _Pragma("GCC diagnostic push");                           \
+            _Pragma("GCC diagnostic push")                           \
             _Pragma("GCC diagnostic ignored \"-Wsuggest-destructor-override\"")
 #else
 // NOLINTNEXTLINE
@@ -244,7 +244,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_START \
-            _Pragma("GCC diagnostic push");                          \
+            _Pragma("GCC diagnostic push")                          \
             _Pragma("GCC diagnostic ignored \"-Wswitch-enum\"")
 #else
     // NOLINTNEXTLINE
@@ -274,7 +274,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_START \
-            _Pragma("GCC diagnostic push");               \
+            _Pragma("GCC diagnostic push")               \
             _Pragma("GCC diagnostic ignored \"-Wold-style-cast\"")
 #else
     // NOLINTNEXTLINE
@@ -304,7 +304,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
     #define HYPERION_IGNORE_INVALID_NORETURN_WARNING_START \
-	        _Pragma("GCC diagnostic push");                \
+	        _Pragma("GCC diagnostic push")                \
 	        _Pragma("GCC diagnostic ignored \"-Winvalid-noreturn\"")
 #else
     // NOLINTNEXTLINE
@@ -335,7 +335,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                       \
+		    _Pragma("GCC diagnostic push")                       \
 		    _Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
 #else
 	// NOLINTNEXTLINE
@@ -366,7 +366,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_START \
-		    _Pragma("GCC diagnostic push");                       \
+		    _Pragma("GCC diagnostic push")                       \
 		    _Pragma("GCC diagnostic ignored \"-Wuninitialized\"")
 #else
 	// NOLINTNEXTLINE
@@ -397,7 +397,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_START \
-		    _Pragma("GCC diagnostic push");                      \
+		    _Pragma("GCC diagnostic push")                      \
 		    _Pragma("GCC diagnostic ignored \"-Wunneeded-internal-declaration\"")
 #else
 	// NOLINTNEXTLINE
@@ -431,7 +431,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #else
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_START \
-		    _Pragma("warning( push )");                                    \
+		    _Pragma("warning( push )")                                    \
 		    _Pragma("warning( disable : 4127 )")
 #endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 
@@ -464,7 +464,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #else
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_START \
-		    _Pragma("warning( push )");                              \
+		    _Pragma("warning( push )")                              \
 		    _Pragma("warning( disable : 4297 )")
 #endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 
@@ -491,7 +491,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VALUES_WARNING_START \
-		    _Pragma("GCC diagnostic push");             \
+		    _Pragma("GCC diagnostic push")             \
 		    _Pragma("GCC diagnostic ignored \"-Wunused-value\"")
 #else
 	// NOLINTNEXTLINE
@@ -521,7 +521,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_START \
-		    _Pragma("GCC diagnostic push");                \
+		    _Pragma("GCC diagnostic push")                \
 		    _Pragma("GCC diagnostic ignored \"-Wunused-variable\"")
 #else
 	// NOLINTNEXTLINE
@@ -551,7 +551,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MISSING_NORETURN_WARNING_START \
-		    _Pragma("GCC diagnostic push");                \
+		    _Pragma("GCC diagnostic push")                \
 		    _Pragma("GCC diagnostic ignored \"-Wmissing-noreturn\"")
 #else
 	// NOLINTNEXTLINE
@@ -581,12 +581,12 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                    \
+		    _Pragma("GCC diagnostic push")                    \
 		    _Pragma("GCC diagnostic ignored \"-Wreserved-identifier\"")
 #elif HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START \
-		    _Pragma("warning( push )");                        \
+		    _Pragma("warning( push )")                        \
 		    _Pragma("warning( disable : 4405 )")
 #else
 	// NOLINTNEXTLINE
@@ -620,7 +620,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                          \
+		    _Pragma("GCC diagnostic push")                          \
 		    _Pragma("GCC diagnostic ignored \"-Wreserved-macro-identifier\"")
 #else
 	// NOLINTNEXTLINE
@@ -650,12 +650,12 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_PADDING_WARNING_START \
-		    _Pragma("GCC diagnostic push");       \
+		    _Pragma("GCC diagnostic push")       \
 		    _Pragma("GCC diagnostic ignored \"-Wpadded\"")
 #else
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_PADDING_WARNING_START \
-		_Pragma("warning( push )"); \
+		_Pragma("warning( push )") \
 		_Pragma("warning( disable : 4820 )")
 #endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 
@@ -683,7 +683,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 		// NOLINTNEXTLINE
 		#define HYPERION_IGNORE_WEAK_VTABLES_WARNING_START \
-			    _Pragma("GCC diagnostic push");            \
+			    _Pragma("GCC diagnostic push")            \
 			    _Pragma("GCC diagnostic ignored \"-Wweak-vtables\"")
 #else
 	// NOLINTNEXTLINE
@@ -713,7 +713,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START \
-		    _Pragma("GCC diagnostic push");                \
+		    _Pragma("GCC diagnostic push")                \
 		    _Pragma("GCC diagnostic ignored \"-Wunused-template\"")
 #else
 	// NOLINTNEXTLINE
@@ -743,7 +743,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                \
+		    _Pragma("GCC diagnostic push")                \
 		    _Pragma("GCC diagnostic ignored \"-Wunused-function\"")
 #else
 	// NOLINTNEXTLINE
@@ -773,7 +773,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                       \
+		    _Pragma("GCC diagnostic push")                       \
 		    _Pragma("GCC diagnostic ignored \"-Wunused-member-function\"")
 #else
 	// NOLINTNEXTLINE
@@ -804,7 +804,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_START \
-		    _Pragma("GCC diagnostic push");               \
+		    _Pragma("GCC diagnostic push")               \
 		    _Pragma("GCC diagnostic ignored \"-Wsigned-enum-bitfield\"")
 #else
 	// NOLINTNEXTLINE
@@ -834,7 +834,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_START \
-		    _Pragma("GCC diagnostic push");                   \
+		    _Pragma("GCC diagnostic push")                   \
 		    _Pragma("GCC diagnostic ignored \"-Wdocumentation-unknown-command\"")
 #else
 	// NOLINTNEXTLINE
@@ -865,7 +865,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_START \
-		    _Pragma("GCC diagnostic push");             \
+		    _Pragma("GCC diagnostic push")             \
 		    _Pragma("GCC diagnostic ignored \"-Wdocumentation\"")
 #else
 	// NOLINTNEXTLINE
@@ -897,7 +897,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START \
-		    _Pragma("GCC diagnostic push");                         \
+		    _Pragma("GCC diagnostic push")                         \
 		    _Pragma("GCC diagnostic ignored \"-Wshadow-field-in-constructor\"")
 #else
 	// NOLINTNEXTLINE
@@ -927,7 +927,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_START \
-		    _Pragma("GCC diagnostic push");              \
+		    _Pragma("GCC diagnostic push")              \
 		    _Pragma("GCC diagnostic ignored \"-Wfloat-equal\"")
 #else
 	// NOLINTNEXTLINE
@@ -957,7 +957,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_COMMA_MISUSE_WARNING_START \
-		    _Pragma("GCC diagnostic push");            \
+		    _Pragma("GCC diagnostic push")            \
 		    _Pragma("GCC diagnostic ignored \"-Wcomma\"")
 #else
 	// NOLINTNEXTLINE
@@ -992,7 +992,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #define HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_START \
-	        _Pragma("GCC diagnostic push");             \
+	        _Pragma("GCC diagnostic push")              \
 	        _Pragma("GCC diagnostic ignored \"-Wunsafe-buffer-usage\"")
     #define HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_STOP \
 	        _Pragma("GCC diagnostic pop")
