@@ -178,7 +178,7 @@ jobs:
           brew install xmake
 
       - name: Install LLVM
-        run: xrepo install -y "llvm 16"
+        run: xrepo install -y llvm
 
       - name: Configure
         working-directory: ${{github.workspace}}
