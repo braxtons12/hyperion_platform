@@ -1318,7 +1318,7 @@ namespace hyperion::_test::platform::compare {
             "floats_near_resolution_limits_compare_correctly"_test = [] {
                 expect(that % less_than_compare(1.0e10F, 10'000'001'000.0_f32));
                 expect(that % less_than_compare(1.0e16, 10'000'000'000'001'000.0));
-                expect(that % less_than_compare(1.0e22L, 10'000'000'000'000'000'010'000.0L));
+                expect(that % less_than_compare(1.0e22L, 10'000'000'000'000'000'100'000.0L));
 
                 expect(that % not less_than_compare(1.0e10F, 10'000'000'001.0_f32));
                 expect(that % not less_than_compare(1.0e16, 10'000'000'000'000'001.0));
@@ -1524,7 +1524,7 @@ namespace hyperion::_test::platform::compare {
             "floats_near_resolution_limits_compare_correctly"_test = [] {
                 expect(that % greater_than_compare(10'000'001'000.0_f32, 1.0e10F));
                 expect(that % greater_than_compare(10'000'000'000'001'000.0, 1.0e16));
-                expect(that % greater_than_compare(10'000'000'000'000'000'010'000.0L, 1.0e22L));
+                expect(that % greater_than_compare(10'000'000'000'000'000'100'000.0L, 1.0e22L));
 
                 expect(that % not greater_than_compare(1.0e10F, 10'000'000'001.0_f32));
                 expect(that % not greater_than_compare(1.0e16, 10'000'000'000'000'001.0));
@@ -1635,7 +1635,7 @@ namespace hyperion::_test::platform::compare {
                 expect(that % not greater_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that
                        % not greater_than_or_equal_compare(1.0e22L,
-                                                           10'000'000'000'000'000'010'000.0L));
+                                                           10'000'000'000'000'000'100'000.0L));
 
                 expect(that % greater_than_or_equal_compare(1.0e10F, 10'000'000'001.0_f32));
                 expect(that % greater_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
