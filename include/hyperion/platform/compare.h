@@ -910,6 +910,8 @@ namespace hyperion::platform {
 
     #include <boost/ut.hpp>
 
+    #include <iostream>
+
 namespace hyperion::_test::platform::compare {
 
     // NOLINTNEXTLINE(google-build-using-namespace)
@@ -947,7 +949,7 @@ namespace hyperion::_test::platform::compare {
             auto operator>=(const non_arithmetic& rhs) const noexcept -> bool {
                 return val >= rhs.val;
             }
-    #endif
+    #endif // HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
         };
 
         "equality_compare"_test = [] {
@@ -1316,6 +1318,7 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
+                std::cout << "testing resolution limits" << std::endl;
                 expect(that % less_than_compare(1.0e10F, 10'000'001'000.0_f32));
                 expect(that % less_than_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that % less_than_compare(1.0e22L, 10'000'000'000'000'010'000'000.0L));
