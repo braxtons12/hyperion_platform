@@ -165,7 +165,7 @@ jobs:
           xrepo install -y --toolchain=msvc --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
   build-macos-xcode-x64:
-    runs-on: macos-latest
+    runs-on: macos-13
     strategy:
       fail-fast: false
     steps:
