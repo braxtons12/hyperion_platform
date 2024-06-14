@@ -135,14 +135,14 @@ jobs:
       - name: Configure
         env:
           CC: clang-15
-          CXX: clang++-15
+          CXX: clang++
         working-directory: ${{github.workspace}}
         run: cmake --preset env-cc-release
 
       - name: Build
         env:
           CC: clang-15
-          CXX: clang++-15
+          CXX: clang++
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
@@ -150,7 +150,7 @@ jobs:
       - name: Test
         env:
           CC: clang-15
-          CXX: clang++-15
+          CXX: clang++
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: ctest --preset env-cc-release --verbose
