@@ -1,7 +1,7 @@
-/// @file ignore.h
+/// @file test_main.cpp
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
-/// @brief Provides utilities to ignore an arbitrary number of values
-/// @version 0.4.0
+/// @brief Unit tests main for hyperion::platform.
+/// @version 0.1
 /// @date 2024-04-20
 ///
 /// MIT License
@@ -24,28 +24,16 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
-#ifndef HYPERION_PLATFORM_IGNORE_H
-#define HYPERION_PLATFORM_IGNORE_H
 
-/// @ingroup platform
-/// @{
-///	@defgroup utility Utilities
-/// This module contains basic core library utilities.
-/// @}
+#include <hyperion/platform.h>
+#include <hyperion/platform/def.h>
+#include <hyperion/platform/types.h>
+#include <hyperion/platform/compare.h>
 
-namespace hyperion {
-    /// @brief Utility function to ignore the given values
-    ///
-    /// @tparam Args - The types of the things to ignore
-    /// @param args - The things to ignore
-    /// @ingroup utility
-    /// @headerfile hyperion/platform/ignore.h
-    template<typename... Args>
-    constexpr auto
-    ignore([[maybe_unused]] Args&&... args) // NOLINT(cppcoreguidelines-missing-std-forward)
-        noexcept -> void {
-        // std::ignore = std::make_tuple<Args...>(std::forward<Args>(args)...);
-    }
-} // namespace hyperion
+#include <boost/ut.hpp>
 
-#endif // HYPERION_PLATFORM_IGNORE_H
+using namespace hyperion; // NOLINT(google-build-using-namespace)
+
+[[nodiscard]] auto
+main([[maybe_unused]] i32 argc, [[maybe_unused]] const char* const* argv) -> i32 {
+}

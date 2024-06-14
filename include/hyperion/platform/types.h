@@ -242,7 +242,9 @@ namespace hyperion {
                         else if(digit != '\'') {
                             Type value = to_number(digit) * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
-                            if(sum / static_cast<Type>(divisor) > std::numeric_limits<Type>::max() - value) {
+                            if(sum / static_cast<Type>(divisor)
+                               > std::numeric_limits<Type>::max() - value)
+                            {
                                 return {.status = literal_status::OutOfRange};
                             }
 
@@ -578,6 +580,12 @@ namespace hyperion {
                       "fmax literal operator broken!");
         // NOLINTNEXTLINE
         static_assert(static_cast<fmax>(0.5) == 0.5_fmax, "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(1.0e10) == 10'000'000'000.0_fmax,
+                      "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(1.0e18) == 1'000'000'000'000'000'000.0_fmax,
+                      "fmax literal operator broken!");
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
         _Pragma("GCC diagnostic pop")

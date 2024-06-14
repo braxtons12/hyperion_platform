@@ -1,7 +1,7 @@
 ---
 Checks: 'cert-*,clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-*,google-*,misc-*,modernize-*,performance-*,portability-*,readability-*,bugprone-*,-cppcoreguidelines-non-private-member-variables-in-classes,-misc-non-private-member-variables-in-classes,-google-readability-casting,-clang-analyzer-optin.cplusplus.UninitializedObject,-clang-analyzer-cplusplus.NewDeleteLeaks'
-WarningsAsErrors: 'cert-*,clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-*,google-*,misc-*,modernize-*,performance-*,portability-*,readability-*,bugprone-*,-cppcoreguidelines-non-private-member-variables-in-classes,-misc-non-private-member-variables-in-classes,-google-readability-casting,-clang-analyzer-optin.cplusplus.UninitializedObject,-clang-analyzer-cplusplus.NewDeleteLeaks'
-HeaderFilterRegex: ''
+WarningsAsErrors: 'cert-*,clang-diagnostic-*,clang-analyzer-*,cppcoreguidelines-*,hicpp-*,google-*,misc-*,modernize-*,performance-*,portability-*,readability-*,bugprone-*,-cppcoreguidelines-non-private-member-variables-in-classes,-misc-non-private-member-variables-in-classes,-google-readability-casting,-clang-analyzer-optin.cplusplus.UninitializedObject,-clang-analyzer-cplusplus.NewDeleteLeaks,-misc-include-cleaner'
+HeaderFilterRegex: '(hyperion)$'
 AnalyzeTemporaryDtors: true
 FormatStyle: none
 User: braxton

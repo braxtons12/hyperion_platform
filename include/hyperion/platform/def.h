@@ -2,8 +2,8 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
-/// @version 0.3.2
-/// @date 2024-03-07
+/// @version 0.4.0
+/// @date 2024-04-20
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -31,7 +31,7 @@
 ///	@defgroup defines Macro Definitions
 /// This module provides a collection of macro definitions for things like compiler-specific
 /// attributes, feature inclusion, and warning suppression.
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 /// @}
 
 #ifndef HYPERION_PLATFORM_DEF_H
@@ -48,7 +48,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// is not yet available for the given compiler. This defaults to true when using libstdc++
 /// (gcc's std lib). To disable it, define it to false prior to including any Hyperion headers
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !defined(HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION)
     #if __has_include(<experimental/source_location>)
         #define HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION true
@@ -65,7 +65,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// `__FILE__` and
 /// `__LINE__` instead
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if __has_include(<source_location>)
     #if HYPERION_PLATFORM_COMPILER_IS_GCC \
         || (HYPERION_PLATFORM_COMPILER_IS_CLANG && !HYPERION_PLATFORM_IS_WINDOWS)
@@ -92,7 +92,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_STD_LIB_HAS_JTHREAD
 /// @brief if `std::jthread` is available, this will be defined as true, otherwise it will be false.
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if(defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
     #define HYPERION_STD_LIB_HAS_JTHREAD true
 #else
@@ -104,7 +104,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// `#include <compare>`
 /// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if __cpp_lib_three_way_comparison >= 201907L
     #define HYPERION_PLATFORM_STD_LIB_HAS_COMPARE true
 #else
@@ -115,7 +115,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Indicates whether the compiler builtin `__type_pack_element` is available
 /// (used for efficient type parameter pack indexing in `mpl`)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if defined(__has_builtin)
     #if __has_builtin(__type_pack_element)
         #define HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT true
@@ -131,7 +131,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// special member functions
 /// @link [__cpp_concepts](https://en.cppreference.com/w/cpp/feature_test)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if defined(__cpp_concepts) && __cpp_concepts >= 202002L
     #define HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS true
 #else
@@ -143,7 +143,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// 	1. MSVC dragging their feet on providing an actual implementation
 /// 	2. Clang not supporting it on Windows because of MSVC's lack of support
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_MSVC
     #define HYPERION_NO_UNIQUE_ADDRESS msvc::no_unique_address
 #elif HYPERION_PLATFORM_IS_WINDOWS && HYPERION_PLATFORM_COMPILER_IS_CLANG
@@ -156,7 +156,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to apply clang's `trivial_abi` attribute to the following class/struct declaration
 /// when compiling with clang. On other compilers this macro is empty
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #define HYPERION_TRIVIAL_ABI [[clang::trivial_abi]]
 #else
@@ -167,7 +167,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to apply clang's `no_destroy` attribute to the following variable declaration
 /// when compiling with clang. On other compilers this macro is empty
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #define HYPERION_NO_DESTROY [[clang::no_destroy]] // NOLINT
 #else
@@ -178,7 +178,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Conditionally marks a function or variable constexpr if `constexpr std::string` has been
 /// implemented for the compiler/standard library implementation being compiled with
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if defined(__cpp_lib_constexpr_string)
     #if(__cpp_lib_constexpr_string >= 201907L)
         #define HYPERION_CONSTEXPR_STRINGS constexpr
@@ -193,7 +193,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Marks the containing control flow branch as unreachable. On GCC/Clang, this will use
 /// `__builtin_unreachable()`, on MSVC `__assume(false)`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
     #define HYPERION_UNREACHABLE() __builtin_unreachable() // NOLINT(cppcoreguidelines-macro-usage
 #elif HYPERION_PLATFORM_COMPILER_IS_MSVC
@@ -210,7 +210,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_STOP` to properly scope the area
 /// where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START \
@@ -224,7 +224,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_STOP
 /// @brief Use to re-enable warnings for destructors that override but are not marked `override`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_STOP \
@@ -240,7 +240,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_STOP` to properly scope the area
 /// where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_START \
@@ -255,7 +255,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for switches that don't cover all enum values of the enum being
 /// "switched" on (-Wswitch-enum)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_STOP \
@@ -270,7 +270,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_START` to properly scope the area where
 /// the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_START \
@@ -284,7 +284,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_STOP
 /// @brief Use to re-enable warnings for c-style casts
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_STOP \
@@ -300,7 +300,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_INVALID_NORETURN_WARNING_STOP` to properly scope the area where
 /// the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
     #define HYPERION_IGNORE_INVALID_NORETURN_WARNING_START \
@@ -315,7 +315,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for for functions marked `[[noreturn]]` that may return
 /// `HYPERION_IGNORE_INVALID_NORETURN_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_INVALID_NORETURN_WARNING_STOP \
@@ -331,7 +331,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_STOP` to properly scope the area where
 /// the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_START \
@@ -346,7 +346,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for using deprecated declarations after having previously used
 /// `HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_STOP \
@@ -362,7 +362,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_STOP` to properly scope the area where
 /// the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_START \
@@ -377,7 +377,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for using uninitialized variables after having previously used
 /// `HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_STOP \
@@ -393,7 +393,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_STOP` to properly scope the area where
 /// the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_START \
@@ -408,7 +408,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unneeded internal declarations after having previously used
 /// `HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_STOP \
@@ -424,7 +424,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_START
@@ -439,7 +439,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for constant conditional expressions after having previously
 /// used `HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_STOP`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_STOP
@@ -457,7 +457,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @note Using this __**ONLY**__ makes sense if it's used to suppress __warnings__ when throwing is
 /// intentionally used as a way to force compiler errors in constexpr functions
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_START
@@ -472,7 +472,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for functions marked noexcept that intentionally throw after
 /// having previously used `HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_STOP
@@ -487,7 +487,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_VALUES_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VALUES_WARNING_START \
@@ -502,7 +502,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unused variables after having previously used
 /// `HYPERION_IGNORE_UNUSED_VALUES_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VALUES_WARNING_STOP \
@@ -517,7 +517,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_START \
@@ -532,7 +532,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unused variables after having previously used
 /// `HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_STOP \
@@ -547,7 +547,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_MISSING_NORETURN_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MISSING_NORETURN_WARNING_START \
@@ -562,7 +562,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for noreturn functions missing a noreturn attribute after
 /// having previously used `HYPERION_IGNORE_MISSING_NORETURN_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_MISSING_NORETURN_WARNING_STOP \
@@ -577,7 +577,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START \
@@ -597,7 +597,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for using reserved identifiers after having previously used
 /// `HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP \
@@ -616,7 +616,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_START \
@@ -631,7 +631,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for using reserved macro identifiers after having previously
 /// used `HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_STOP \
@@ -646,7 +646,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_PADDING_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_PADDING_WARNING_START \
@@ -663,7 +663,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for class/struct definitions requiring padding after having
 /// previously used `HYPERION_IGNORE_PADDING_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if !HYPERION_PLATFORM_COMPILER_IS_MSVC
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_PADDING_WARNING_STOP \
@@ -679,7 +679,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_WEAK_VTABLES_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 		// NOLINTNEXTLINE
 		#define HYPERION_IGNORE_WEAK_VTABLES_WARNING_START \
@@ -694,7 +694,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for virtual classes with weak vtables after having
 /// previously used `HYPERION_IGNORE_WEAK_VTABLES_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 		// NOLINTNEXTLINE
 		#define HYPERION_IGNORE_WEAK_VTABLES_WARNING_STOP \
@@ -709,7 +709,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START \
@@ -724,7 +724,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unused function templates after having
 /// previously used `HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP \
@@ -739,7 +739,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_START \
@@ -754,7 +754,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unused functions after having
 /// previously used `HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_STOP \
@@ -769,7 +769,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_START \
@@ -784,7 +784,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unused member functions after having
 /// previously used `HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_STOP \
@@ -800,7 +800,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_START \
@@ -815,7 +815,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for enums with signed underlying type used as bitfields after
 /// having previously used `HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_STOP \
@@ -830,7 +830,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_START \
@@ -845,7 +845,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for unknown documentation commands after having previously used
 /// `HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_STOP \
@@ -861,7 +861,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_START \
@@ -877,7 +877,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// tparam directive in a non-template) after having previously used
 /// `HYPERION_IGNORE_DOCUMENTATION_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP \
@@ -893,7 +893,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START \
@@ -908,7 +908,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for constructor parameters that shadow class/struct members
 /// after having previously used `HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP \
@@ -923,7 +923,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_START \
@@ -938,7 +938,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for checking for floating point equality
 /// after having previously used `HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP \
@@ -953,7 +953,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// Make sure to pair with `HYPERION_IGNORE_COMMA_MISUSE_WARNING_STOP` to properly scope the
 /// area where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_COMMA_MISUSE_WARNING_START \
@@ -968,7 +968,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to re-enable warnings for comma operator misuse after having previously used
 /// `HYPERION_IGNORE_COMMA_MISUSE_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 	// NOLINTNEXTLINE
 	#define HYPERION_IGNORE_COMMA_MISUSE_WARNING_STOP \
@@ -982,13 +982,13 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Use to disable warnings for usage of raw pointers for buffers
 /// (clang's '-Wunsafe-buffer-usage`)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 /// @def HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_STOP
 /// @brief Use to re-enable warnings for usage of raw pointers for buffers
 /// (clang's '-Wunsafe-buffer-usage`)
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major__ >= 16
     #define HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_START \
@@ -1006,30 +1006,30 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_PROFILING_ENABLED
 /// @brief Indicates whether Tracy profiling is enabled for this build
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 /// @def HYPERION_PROFILE_FUNCTION
 /// @brief Profiles the containing scope with Tracy in builds where Tracy profiling is enabled
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 /// @def HYPERION_PROFILE_START_FRAME
 /// @brief Starts a profiling frame with the given name with Tracy in builds where Tracy
 /// profiling is enabled
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 /// @def HYPERION_PROFILE_END_FRAME
 /// @brief Ends the profiling frame with the given name with Tracy in builds where Tracy
 /// profiling is enabled
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 /// @def HYPERION_PROFILE_MARK_FRAME
 /// @brief Marks the end of a profiling frame with Tracy in builds where Tracy profiling is
 /// enabled
 /// @ingroup defines
-/// @headerfile "hyperion/platform/def.h"
+/// @headerfile hyperion/platform/def.h
 
 #ifdef TRACY_ENABLE
 

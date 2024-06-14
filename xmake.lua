@@ -1,12 +1,12 @@
 ---@diagnostic disable: undefined-global,undefined-field
 set_project("hyperion_platform")
-set_version("0.3.2")
+set_version("0.4.0")
 
 set_xmakever("2.8.7")
 
 set_languages("cxx20")
 
-add_rules("mode.debug", "mode.release")
+add_rules("mode.debug", "mode.check", "mode.coverage", "mode.release")
 add_moduledirs("xmake")
 
 option("hyperion_enable_tracy", function()
@@ -24,6 +24,14 @@ if has_config("hyperion_enable_tracy") then
     })
 end
 
+add_requires("boost_ut", {
+    system = false,
+    external = true,
+    configs = {
+        languages = "cxx20",
+    }
+})
+
 local hyperion_platform_main_header = {
     "$(projectdir)/include/hyperion/platform.h",
 }
@@ -32,21 +40,24 @@ local hyperion_platform_headers = {
     "$(projectdir)/include/hyperion/platform/def.h",
     "$(projectdir)/include/hyperion/platform/ignore.h",
     "$(projectdir)/include/hyperion/platform/types.h",
+    "$(projectdir)/include/hyperion/platform/compare.h",
 }
 
 target("hyperion_platform", function()
     set_kind("headeronly")
     set_languages("cxx20")
+    set_default(true)
+
     add_includedirs("$(projectdir)/include", { public = true })
     add_headerfiles(hyperion_platform_main_header, { prefixdir = "hyperion", public = true})
     add_headerfiles(hyperion_platform_headers, { prefixdir = "hyperion/platform", public = true })
-    set_default(true)
+
     on_config(function(target)
         import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
-    add_options("hyperion_enable_tracy", {public = true})
 
+    add_options("hyperion_enable_tracy", {public = true})
     if has_package("tracy") then
         add_packages("tracy", {public = true})
     end
@@ -55,17 +66,37 @@ end)
 target("hyperion_platform_main", function()
     set_kind("binary")
     set_languages("cxx20")
-    add_includedirs("$(projectdir)/include", { public = true })
-    add_headerfiles(hyperion_platform_main_header, { prefixdir = "hyperion" })
-    add_headerfiles(hyperion_platform_headers, { prefixdir = "hyperion/platform" })
-    add_files("$(projectdir)/src/main.cpp", { prefixdir = "hyperion/platform" })
-    add_deps("hyperion_platform")
     set_default(true)
+
+    add_files("$(projectdir)/src/main.cpp", { prefixdir = "hyperion/platform" })
+
+    add_deps("hyperion_platform")
+
     on_config(function(target)
         import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
     add_tests("hyperion_platform_main")
+end)
+
+target("hyperion_platform_tests", function()
+    set_kind("binary")
+    set_languages("cxx20")
+    set_default(true)
+
+    add_files("$(projectdir)/src/test_main.cpp")
+    add_defines("HYPERION_ENABLE_TESTING=1")
+    add_defines("BOOST_UT_DISABLE_MODULE=1")
+
+    add_deps("hyperion_platform")
+    add_packages("boost_ut")
+
+    on_config(function(target)
+        import("hyperion_compiler_settings", { alias = "settings" })
+        settings.set_compiler_settings(target)
+    end)
+
+    add_tests("hyperion_platform_tests")
 end)
 
 target("hyperion_platform_docs", function()
