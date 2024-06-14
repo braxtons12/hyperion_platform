@@ -31,6 +31,7 @@
 
 #include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
+#include <hyperion/platform/ignore.h>
 
 #include <cmath>
 #include <concepts>
@@ -262,6 +263,7 @@ namespace hyperion::platform {
             /// between `lhs` and `rhs`
             constexpr auto epsilon(const Arithmetic auto& lhs,
                                    const Arithmetic auto& rhs) const noexcept -> TNumeric {
+                ignore(lhs, rhs);
                 if constexpr(TType == EpsilonType::Absolute) {
                     return m_epsilon;
                 }

@@ -32,6 +32,8 @@
 
 #include <boost/ut.hpp>
 
+#include <string>
+
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
 [[nodiscard]] auto
