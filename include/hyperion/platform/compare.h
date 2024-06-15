@@ -3,7 +3,7 @@
 /// @brief Comparison functions that are safe regardless of the being-compared types,
 /// including the floating point types
 /// @version 0.4.0
-/// @date 2024-06-13
+/// @date 2024-06-15
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -910,8 +910,6 @@ namespace hyperion::platform {
 
     #include <boost/ut.hpp>
 
-    #include <iostream>
-
 namespace hyperion::_test::platform::compare {
 
     // NOLINTNEXTLINE(google-build-using-namespace)
@@ -921,8 +919,6 @@ namespace hyperion::_test::platform::compare {
 
     // NOLINTNEXTLINE(cert-err58-cpp)
     static const suite<"hyperion::platform::compare"> compare_tests = [] {
-        // NOLINTNEXTLINE(performance-avoid-endl)
-        std::cout << "testing comparison functions" << std::endl;
         static constexpr auto f32_epsilon = std::numeric_limits<f32>::epsilon();
         static constexpr auto f64_epsilon = std::numeric_limits<f64>::epsilon();
         static constexpr auto fmax_epsilon = std::numeric_limits<fmax>::epsilon();
@@ -955,8 +951,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "equality_compare"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing equality compare" << std::endl;
             "equal_integers_are_equal"_test = [] {
                 expect(that % equality_compare(1, 1));
             };
@@ -1118,8 +1112,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "inequality_compare"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing inequality compare" << std::endl;
             "equal_integers_are_equal"_test = [] {
                 expect(that % not inequality_compare(1, 1));
             };
@@ -1281,8 +1273,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "less_than"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing less than compare" << std::endl;
             "equal_integers_are_not_less_than"_test = [] {
                 expect(that % not less_than_compare(1_i32, 1_i32));
             };
@@ -1326,8 +1316,6 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
-                // NOLINTNEXTLINE(performance-avoid-endl)
-                std::cout << "testing resolution limits" << std::endl;
                 expect(that % less_than_compare(1.0e10F, 10'000'001'000.0_f32));
                 expect(that % less_than_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that % less_than_compare(1.0e22L, 10'000'000'000'000'010'000'000.0L));
@@ -1381,8 +1369,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "less_than_or_equal"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing less than or equal compare" << std::endl;
             "equal_integers_are_less_than_or_equal"_test = [] {
                 expect(that % less_than_or_equal_compare(1_i32, 1_i32));
             };
@@ -1485,8 +1471,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "greater_than"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing greater than compare" << std::endl;
             "equal_integers_are_not_greater_than"_test = [] {
                 expect(that % not greater_than_compare(1_i32, 1_i32));
             };
@@ -1591,8 +1575,6 @@ namespace hyperion::_test::platform::compare {
         };
 
         "greater_than_or_equal"_test = [] {
-            // NOLINTNEXTLINE(performance-avoid-endl)
-            std::cout << "testing greater than or equal compare" << std::endl;
             "equal_integers_are_greater_than_or_equal"_test = [] {
                 expect(that % greater_than_or_equal_compare(1_i32, 1_i32));
             };

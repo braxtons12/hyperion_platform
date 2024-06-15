@@ -29,7 +29,6 @@
 #include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
 
-
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 #include <boost/ut.hpp>
@@ -51,7 +50,6 @@ auto boost::ut::cfg<boost::ut::override> = boost::ut::runner<boost::ut::reporter
 #include <boost/ut.hpp>
 
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
-
 
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
