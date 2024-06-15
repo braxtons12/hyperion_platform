@@ -109,6 +109,9 @@ target_compile_definitions(
 hyperion_compile_settings(hyperion_platform_tests)
 hyperion_enable_warnings(hyperion_platform_tests)
 
+add_test(NAME hyperion_platform_tests
+         COMMAND hyperion_platform_tests)
+
 set(HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/docs/_build/html")
 set(HYPERION_PLATFORM_DOXYGEN_HTML "${HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR}/index.html")
 
