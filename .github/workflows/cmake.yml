@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  build-linux-gcc-x64:
+  linux-gcc-x64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,7 +46,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: ctest --preset env-cc-release --verbose
 
-  build-linux-clang-x64:
+  linux-clang-x64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -91,7 +91,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: ctest --preset env-cc-release --verbose
 
-  build-windows-msvc-x64:
+  windows-msvc-x64:
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -128,7 +128,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: ctest --preset msvc-release --verbose
 
-  build-macos-clang-x64:
+  macos-clang-x64:
     runs-on: macos-latest
     strategy:
       matrix:

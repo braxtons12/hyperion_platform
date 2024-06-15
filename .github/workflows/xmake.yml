@@ -5,7 +5,7 @@ on:
     branches: ["*"]
 
 jobs:
-  build-linux-gcc-x64:
+  linux-gcc-x64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -59,7 +59,7 @@ jobs:
           xrepo install -y --toolchain=gcc-${{matrix.version}} "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
           xrepo install -y --toolchain=gcc-${{matrix.version}} --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
-  build-linux-clang-x64:
+  linux-clang-x64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -119,7 +119,7 @@ jobs:
           xrepo install -y --toolchain=clang-${{matrix.version}} "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
           xrepo install -y --toolchain=clang-${{matrix.version}} --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
-  build-windows-msvc-x64:
+  windows-msvc-x64:
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -173,7 +173,7 @@ jobs:
           xrepo install -y --toolchain=msvc "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
           xrepo install -y --toolchain=msvc --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
-  build-macos-clang-x64:
+  macos-clang-x64:
     runs-on: macos-13
     strategy:
       matrix:
