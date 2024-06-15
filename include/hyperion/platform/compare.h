@@ -30,8 +30,8 @@
 #define HYPERION_PLATFORM_COMPARE_H
 
 #include <hyperion/platform/def.h>
-#include <hyperion/platform/types.h>
 #include <hyperion/platform/ignore.h>
+#include <hyperion/platform/types.h>
 
 #include <cmath>
 #include <concepts>
@@ -43,11 +43,12 @@
     #include <compare>
 #endif // HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
 
-/// @ingroup platform
+/// @ingroup utility
 /// @{
 ///	@defgroup comparison Safe Comparison Functions
 /// Hyperion provides safe comparison functions for safely comparing any types
-/// providing comparison operators, including floating point types.
+/// providing comparison operators, including floating point types, as well as
+/// mixed comparisons between signed, unsigned, and floating point types.
 ///
 /// # Example
 /// @code {.cpp}
@@ -139,6 +140,12 @@ namespace hyperion::platform {
         /// @brief Types of epsilons usable in floating point comparisons,
         /// either `Absolute`, i.e. a fixed magnitude difference, or `Relative`,
         /// i.e. a percentage magnitude difference.
+        ///
+        /// # Example
+        /// @code{.cpp}
+        /// static constexpr auto my_epsilon = make_epsilon<EpsilonType::Relative>{0.1_f64};
+        /// @endcode
+        ///
         /// @ingroup comparison
         /// @headerfile hyperion/platform/compare.h
         enum class EpsilonType : bool {
@@ -234,6 +241,11 @@ namespace hyperion::platform {
 
         /// @brief Represents an `Absolute` or `Relative` epsilon of a specific `Arithmetic` type.
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// static constexpr auto my_epsilon = make_epsilon<EpsilonType::Relative>{0.1_f64};
+        /// @endcode
+        ///
         /// @tparam TType The `EpsilonType` this `Epsilon` represents
         /// @tparam TNumeric The `Arithmetic` type of this `Epsilon`
         /// @ingroup comparison
@@ -277,11 +289,15 @@ namespace hyperion::platform {
                 }
             }
 
+            /// @brief Returns the numeric value of this `Epsilon`
+            /// @return The value of the `Epsilon`
+            constexpr auto value() const noexcept -> TNumeric {
+                return m_epsilon;
+            }
+
           private:
             TNumeric m_epsilon = detail::default_epsilon<TType, TNumeric, TNumeric>;
         };
-        template<Arithmetic TNumeric>
-        Epsilon(TNumeric) -> Epsilon<EpsilonType::Absolute, TNumeric>;
 
         namespace detail {
             template<typename TLhs, typename TRhs, EpsilonType TType = EpsilonType::Absolute>
@@ -294,6 +310,24 @@ namespace hyperion::platform {
                 return {detail::default_epsilon<TType, TLhs, TRhs>};
             }
         } // namespace detail
+
+        /// @brief Returns an `Epsilon` of the specified `EpsilonType` and given value.
+        ///
+        /// # Example
+        /// @code{.cpp}
+        /// static constexpr auto my_epsilon = make_epsilon<EpsilonType::Relative>{0.1_f64};
+        /// @endcode
+        ///
+        /// @tparam TType The `EpsilonType` of the epsilon
+        /// @tparam TEpsilon The arithmetic type of the epsilon (e.g., `f64`, or `int`)
+        /// @param epsilon the arithmetic value of the epsilon (e.g. `0.001_f64`)
+        /// @return The `Epsilon`
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
+        template<EpsilonType TType, Arithmetic TEpsilon>
+        constexpr auto make_epsilon(TEpsilon&& epsilon) -> Epsilon<TType, TEpsilon> {
+            return {std::forward<TEpsilon>(epsilon)};
+        }
 
         /// @brief Type trait to check whether `TType` is a specialization of `Epsilon`
         /// @tparam TType The type to check
@@ -318,28 +352,40 @@ namespace hyperion::platform {
         /// @ingroup comparison
         /// @headerfile hyperion/platform/compare.h
         template<typename TType>
-        concept EpsilonKind = is_epsilon_specialization_v<TType>;
+        concept EpsilonKind = is_epsilon_specialization_v<std::remove_cvref_t<TType>>;
 
         HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_START;
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
         /// @brief Safely compares `lhs` and `rhs` for equality, taking into account signedness
         /// differences and accounting for floating point inaccuracies with an `Epsilon`
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 and value2 are within 10% of whichever is largest
+        /// auto is_equal = equality_compare(value1, value2, my_epsilon);
+        /// @endcode
+        ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` and `rhs` are equal
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -353,7 +399,7 @@ namespace hyperion::platform {
             -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
        //
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -410,23 +456,35 @@ namespace hyperion::platform {
         }
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
         /// @brief Safely compares `lhs` and `rhs` for inequality, taking into account signedness
         /// differences and accounting for floating point inaccuracies with an `Epsilon`
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 and value2 are _not_ within 10% of whichever is largest
+        /// auto is_equal = inequality_compare(value1, value2, my_epsilon);
+        /// @endcode
+        ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` and `rhs` are _not_ equal
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -440,7 +498,7 @@ namespace hyperion::platform {
             -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -497,23 +555,35 @@ namespace hyperion::platform {
         }
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
         /// @brief Safely compares whether `lhs` is less than `rhs`, taking into account signedness
         /// differences and accounting for floating point inaccuracies with an `Epsilon`
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 is less than value2 by at least 10%
+        /// auto is_equal = less_than_compare(value1, value2, my_epsilon);
+        /// @endcode
+        ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` is less than `rhs`
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -527,7 +597,7 @@ namespace hyperion::platform {
             -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -598,24 +668,37 @@ namespace hyperion::platform {
         }
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
         /// @brief Safely compares whether `lhs` is less than or equal to `rhs`,
         /// taking into account signedness differences and accounting for floating point
         /// inaccuracies with an `Epsilon`
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 is less than value2 by at least 10%,
+        /// // or that value1 and value2 are within 10% of whichever is largest
+        /// auto is_equal = less_than_or_equal_compare(value1, value2, my_epsilon);
+        /// @endcode
+        ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` is less than or equal to `rhs`
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -628,7 +711,7 @@ namespace hyperion::platform {
                                                            && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -700,23 +783,35 @@ namespace hyperion::platform {
         }
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
-        /// @brief Safely compares whether `lhs` is greater than `rhs`, taking into account signedness
-        /// differences and accounting for floating point inaccuracies with an `Epsilon`
+        /// @brief Safely compares whether `lhs` is greater than `rhs`, taking into account
+        /// signedness differences and accounting for floating point inaccuracies with an `Epsilon`
+        ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 is greater than value2 by at least 10%
+        /// auto is_equal = greater_than_compare(value1, value2, my_epsilon);
+        /// @endcode
         ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` is greater than `rhs`
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -730,7 +825,7 @@ namespace hyperion::platform {
             -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -800,24 +895,37 @@ namespace hyperion::platform {
         }
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wdouble-promotion"
-    #pragma GCC diagnostic ignored "-Wimplicit-int-float-conversion"
+        _Pragma("GCC diagnostic push");
+        _Pragma("GCC diagnostic ignored \"-Wdouble-promotion\"");
+        _Pragma("GCC diagnostic ignored \"-Wimplicit-int-float-conversion\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
         /// @brief Safely compares whether `lhs` is greater than or equal to `rhs`,
         /// taking into account signedness differences and accounting for floating point
         /// inaccuracies with an `Epsilon`
         ///
+        /// # Example
+        /// @code{.cpp}
+        /// constexpr auto my_epsilon = Epsilon<EpsilonType::Relative>{0.1_f64};
+        ///
+        /// auto value1 = getSomeValue(1);
+        /// auto value2 = getSomeValue(2);
+        /// // check that value1 is greater than value2 by at least 10%,
+        /// // or that value1 and value2 are within 10% of whichever is largest
+        /// auto is_equal = less_than_or_equal_compare(value1, value2, my_epsilon);
+        /// @endcode
+        ///
         /// @tparam TLhs The type of the left-hand argument in the comparison
         /// @tparam TRhs The type of the right-hand argument in the comparison
-        /// @tparam TEpsilon The `Epsilon` specialization used for floating point comparison.
         /// Defaults to an `Absolute` epsilon of type `fmax`.
         /// @param lhs The left-hand argument in the comparison
         /// @param rhs The right-hand argument in the comparison
         /// @param epsilon The `Epsilon` used for floating point comparison.
-        /// Defaults to an `Absolute` `fmax` epsilon of `0.001`
+        /// Defaults to an `Absolute` epsilon equal to the machine epsilon corresponding with
+        /// the type that is the wider of the two types `TLhs` and `TRhs`.
         /// @return Whether `lhs` is greater than or equal to `rhs`
+        /// @ingroup comparison
+        /// @headerfile hyperion/platform/compare.h
         template<typename TLhs,
                  typename TRhs,
                  EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
@@ -830,7 +938,7 @@ namespace hyperion::platform {
                                                            && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+            _Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             using lhs_t = std::remove_cvref_t<TLhs>;
@@ -922,6 +1030,11 @@ namespace hyperion::_test::platform::compare {
         static constexpr auto f32_epsilon = std::numeric_limits<f32>::epsilon();
         static constexpr auto f64_epsilon = std::numeric_limits<f64>::epsilon();
         static constexpr auto fmax_epsilon = std::numeric_limits<fmax>::epsilon();
+
+        static constexpr auto custom_absolute_epsilon
+            = make_epsilon<EpsilonType::Absolute>(0.001_f64);
+        static constexpr auto custom_relative_epsilon
+            = make_epsilon<EpsilonType::Relative>(0.1_f64);
 
         struct non_arithmetic {
             i32 val;
@@ -1109,6 +1222,34 @@ namespace hyperion::_test::platform::compare {
                 expect(that % equality_compare(val1, val3));
                 expect(that % not equality_compare(val1, val2));
             };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that % equality_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % equality_compare(1.0_f64,
+                                          1.0_f64 + custom_absolute_epsilon.value(),
+                                          custom_absolute_epsilon));
+                expect(that
+                       % not equality_compare(1.0_f64,
+                                              1.0_f64 + custom_absolute_epsilon.value()
+                                                  + custom_absolute_epsilon.value(),
+                                              custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that % equality_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(that
+                       % equality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(that
+                       % not equality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+
+                expect(that
+                       % equality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(that
+                       % equality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
+                expect(that
+                       % not equality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
+            };
         };
 
         "inequality_compare"_test = [] {
@@ -1188,64 +1329,64 @@ namespace hyperion::_test::platform::compare {
                     const auto test_value = 1.23456_f64;
                     expect(that
                            % not inequality_compare(std::abs(test_value - 0.0_f64)
-                                                  / (std::abs(test_value) + 0.0_f64),
-                                              1.0_f64));
+                                                        / (std::abs(test_value) + 0.0_f64),
+                                                    1.0_f64));
                 };
 
                 "limits_compare_correctly"_test = [] {
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::max(),
-                                              std::numeric_limits<f32>::max()));
+                                                    std::numeric_limits<f32>::max()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f64>::max(),
-                                              std::numeric_limits<f64>::max()));
+                                                    std::numeric_limits<f64>::max()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<fmax>::max(),
-                                              std::numeric_limits<fmax>::max()));
+                                                    std::numeric_limits<fmax>::max()));
                     expect(that
                            % inequality_compare(std::numeric_limits<f32>::max(),
-                                                  std::numeric_limits<f64>::max()));
+                                                std::numeric_limits<f64>::max()));
                     expect(that
                            % inequality_compare(std::numeric_limits<f32>::max(),
-                                                  std::numeric_limits<fmax>::max()));
+                                                std::numeric_limits<fmax>::max()));
 
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f32>::min()));
+                                                    std::numeric_limits<f32>::min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f64>::min(),
-                                              std::numeric_limits<f64>::min()));
+                                                    std::numeric_limits<f64>::min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<fmax>::min(),
-                                              std::numeric_limits<fmax>::min()));
+                                                    std::numeric_limits<fmax>::min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f32>::min()));
+                                                    std::numeric_limits<f32>::min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f64>::min()));
+                                                    std::numeric_limits<f64>::min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<fmax>::min()));
+                                                    std::numeric_limits<fmax>::min()));
 
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f32>::denorm_min()));
+                                                    std::numeric_limits<f32>::denorm_min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f64>::denorm_min(),
-                                              std::numeric_limits<f64>::denorm_min()));
+                                                    std::numeric_limits<f64>::denorm_min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<fmax>::denorm_min(),
-                                              std::numeric_limits<fmax>::denorm_min()));
+                                                    std::numeric_limits<fmax>::denorm_min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f32>::denorm_min()));
+                                                    std::numeric_limits<f32>::denorm_min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f64>::denorm_min()));
+                                                    std::numeric_limits<f64>::denorm_min()));
                     expect(that
                            % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<fmax>::denorm_min()));
+                                                    std::numeric_limits<fmax>::denorm_min()));
 
                     expect(that % inequality_compare(std::numeric_limits<f32>::min(), 1.0));
                     expect(that % inequality_compare(std::numeric_limits<f64>::min(), 1.0));
@@ -1269,6 +1410,37 @@ namespace hyperion::_test::platform::compare {
                 expect(that % inequality_compare(val1, val2));
                 expect(that % not inequality_compare(val1, val1));
                 expect(that % not inequality_compare(val1, val3));
+            };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that % not inequality_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % not inequality_compare(1.0_f64,
+                                                1.0_f64 + custom_absolute_epsilon.value(),
+                                                custom_absolute_epsilon));
+                expect(that
+                       % inequality_compare(1.0_f64,
+                                            1.0_f64 + custom_absolute_epsilon.value()
+                                                + custom_absolute_epsilon.value(),
+                                            custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that % not inequality_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % not inequality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(that
+                       % inequality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+
+                expect(
+                    that
+                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
+                expect(that
+                       % inequality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
             };
         };
 
@@ -1365,6 +1537,37 @@ namespace hyperion::_test::platform::compare {
                 expect(that % less_than_compare(val1, val2));
                 expect(that % not less_than_compare(val1, val1));
                 expect(that % not less_than_compare(val1, val3));
+            };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that % not less_than_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % not less_than_compare(1.0_f64,
+                                               1.0_f64 + custom_absolute_epsilon.value(),
+                                               custom_absolute_epsilon));
+                expect(that
+                       % less_than_compare(1.0_f64,
+                                           1.0_f64 + custom_absolute_epsilon.value()
+                                               + custom_absolute_epsilon.value(),
+                                           custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that % not less_than_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % not less_than_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(that
+                       % less_than_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+
+                expect(
+                    that
+                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
+                expect(that
+                       % less_than_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
             };
         };
 
@@ -1467,6 +1670,52 @@ namespace hyperion::_test::platform::compare {
                 expect(that % less_than_or_equal_compare(val1, val2));
                 expect(that % less_than_or_equal_compare(val1, val1));
                 expect(that % less_than_or_equal_compare(val1, val3));
+            };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64,
+                                                    1.0_f64 + custom_absolute_epsilon.value(),
+                                                    custom_absolute_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64,
+                                                    1.0_f64 + custom_absolute_epsilon.value()
+                                                        + custom_absolute_epsilon.value(),
+                                                    custom_absolute_epsilon));
+                expect(that
+                       % not less_than_or_equal_compare(1.1_f64, 1.0_f64, custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64,
+                                                    1.0_f64 + 0.1_f64,
+                                                    custom_relative_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(1.0_f64,
+                                                    1.0_f64 + 0.2_f64,
+                                                    custom_relative_epsilon));
+                expect(that
+                       % not less_than_or_equal_compare(1.2_f64, 1.0_f64, custom_relative_epsilon));
+
+                expect(that
+                       % less_than_or_equal_compare(2.0_f64,
+                                                    2.0_f64 + 0.1_f64,
+                                                    custom_relative_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(2.0_f64,
+                                                    2.0_f64 + 0.2_f64,
+                                                    custom_relative_epsilon));
+                expect(that
+                       % less_than_or_equal_compare(2.0_f64,
+                                                    2.0_f64 + 0.3_f64,
+                                                    custom_relative_epsilon));
+                expect(that
+                       % not less_than_or_equal_compare(2.3_f64, 2.0_f64, custom_relative_epsilon));
             };
         };
 
@@ -1571,6 +1820,51 @@ namespace hyperion::_test::platform::compare {
                 expect(that % greater_than_compare(val2, val1));
                 expect(that % not greater_than_compare(val1, val1));
                 expect(that % not greater_than_compare(val1, val3));
+            };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that % not greater_than_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % not greater_than_compare(1.0_f64,
+                                                  1.0_f64 + custom_absolute_epsilon.value(),
+                                                  custom_absolute_epsilon));
+                expect(that
+                       % not greater_than_compare(1.0_f64,
+                                                  1.0_f64 + custom_absolute_epsilon.value()
+                                                      + custom_absolute_epsilon.value(),
+                                                  custom_absolute_epsilon));
+                expect(that
+                       % greater_than_compare(1.0_f64 + custom_absolute_epsilon.value()
+                                                  + custom_absolute_epsilon.value(),
+                                              1.0_f64,
+                                              custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that % not greater_than_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(that
+                       % not greater_than_compare(1.0_f64,
+                                                  1.0_f64 + 0.1_f64,
+                                                  custom_relative_epsilon));
+                expect(that
+                       % not greater_than_compare(1.0_f64,
+                                                  1.0_f64 + 0.2_f64,
+                                                  custom_relative_epsilon));
+
+                expect(that
+                       % not greater_than_compare(2.0_f64,
+                                                  2.0_f64 + 0.1_f64,
+                                                  custom_relative_epsilon));
+                expect(that
+                       % not greater_than_compare(2.0_f64,
+                                                  2.0_f64 + 0.2_f64,
+                                                  custom_relative_epsilon));
+                expect(that
+                       % not greater_than_compare(2.0_f64,
+                                                  2.0_f64 + 0.3_f64,
+                                                  custom_relative_epsilon));
+                expect(that
+                       % greater_than_compare(2.0_f64 + 0.3_f64, 2.0_f64, custom_relative_epsilon));
             };
         };
 
@@ -1689,6 +1983,55 @@ namespace hyperion::_test::platform::compare {
                 expect(that % greater_than_or_equal_compare(val2, val1));
                 expect(that % greater_than_or_equal_compare(val1, val1));
                 expect(that % greater_than_or_equal_compare(val1, val3));
+            };
+
+            "custom_absolute_epsilon"_test = [] {
+                expect(that
+                       % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(that
+                       % greater_than_or_equal_compare(1.0_f64,
+                                                       1.0_f64 + custom_absolute_epsilon.value(),
+                                                       custom_absolute_epsilon));
+                expect(that
+                       % not greater_than_or_equal_compare(1.0_f64,
+                                                           1.0_f64 + custom_absolute_epsilon.value()
+                                                               + custom_absolute_epsilon.value(),
+                                                           custom_absolute_epsilon));
+                expect(that
+                       % greater_than_or_equal_compare(1.0_f64 + custom_absolute_epsilon.value()
+                                                           + custom_absolute_epsilon.value(),
+                                                       1.0_f64,
+                                                       custom_absolute_epsilon));
+            };
+
+            "custom_relative_epsilon"_test = [] {
+                expect(that
+                       % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
+                expect(that
+                       % greater_than_or_equal_compare(1.0_f64,
+                                                       1.0_f64 + 0.1_f64,
+                                                       custom_relative_epsilon));
+                expect(that
+                       % not greater_than_or_equal_compare(1.0_f64,
+                                                           1.0_f64 + 0.2_f64,
+                                                           custom_relative_epsilon));
+
+                expect(that
+                       % greater_than_or_equal_compare(2.0_f64,
+                                                       2.0_f64 + 0.1_f64,
+                                                       custom_relative_epsilon));
+                expect(that
+                       % greater_than_or_equal_compare(2.0_f64,
+                                                       2.0_f64 + 0.2_f64,
+                                                       custom_relative_epsilon));
+                expect(that
+                       % not greater_than_or_equal_compare(2.0_f64,
+                                                           2.0_f64 + 0.3_f64,
+                                                           custom_relative_epsilon));
+                expect(that
+                       % greater_than_or_equal_compare(2.0_f64 + 0.3_f64,
+                                                       2.0_f64,
+                                                       custom_relative_epsilon));
             };
         };
     };

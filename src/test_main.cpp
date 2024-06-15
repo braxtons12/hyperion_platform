@@ -33,14 +33,14 @@
 
 #include <boost/ut.hpp>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
+_Pragma("GCC diagnostic push");
+_Pragma("GCC diagnostic ignored \"-Wmissing-variable-declarations\"");
 
 template<>
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
 auto boost::ut::cfg<boost::ut::override> = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
 
-#pragma GCC diagnostic pop
+_Pragma("GCC diagnostic pop");
 
 #include <hyperion/platform/compare.h>
 

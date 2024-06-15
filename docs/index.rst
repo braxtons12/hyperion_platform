@@ -57,11 +57,12 @@ For an overview of each module, see the links in the left sidebar or below.
     def
 
 .. toctree::
+    :caption: Core Library Utilities
+
+    utility
+
+.. toctree::
     :caption: Core Numeric types
 
     types
 
-.. toctree::
-    :caption: Core Library Utilities
-
-    utility
