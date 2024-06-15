@@ -28,6 +28,7 @@ add_requires("boost_ut", {
     system = false,
     external = true,
     configs = {
+        modules = false,
         languages = "cxx20",
     }
 })
