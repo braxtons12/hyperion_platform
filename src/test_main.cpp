@@ -28,9 +28,29 @@
 #include <hyperion/platform.h>
 #include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
-#include <hyperion/platform/compare.h>
+
+
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 #include <boost/ut.hpp>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
+
+template<>
+auto boost::ut::cfg<boost::ut::override> = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
+
+#pragma GCC diagnostic pop
+
+#include <hyperion/platform/compare.h>
+
+#else
+
+#include <hyperion/platform/compare.h>
+#include <boost/ut.hpp>
+
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+
 
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
