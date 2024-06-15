@@ -1040,7 +1040,7 @@ namespace hyperion::_test::platform::compare {
             _Pragma("GCC diagnostic ignored \"-Wzero-as-null-pointer-constant\"");
 
         #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
-               //
+
             auto
             operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering = default;
 
