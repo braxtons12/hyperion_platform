@@ -21,7 +21,7 @@ jobs:
           sudo apt-get -y update
 
       - name: Install GCC
-        run: sudo apt-get -y install gcc-${{matrix.version}}
+        run: sudo apt-get -y install gcc-${{matrix.version}} g++-${{matrix.version}}
 
       - name: Configure
         env:
