@@ -137,10 +137,10 @@ jobs:
       - name: Install LLVM
         run: |
           brew install llvm@${{matrix.version}}
-          echo "PATH=/usr/local/opt/llvm@${{matrix.version}}/bin:$PATH" >> $GITHUB_ENV
+          echo "PATH=$(brew --prefix llvm@${{matrix.version}})/bin:$PATH" >> $GITHUB_ENV
           echo "CC=$(brew --prefix llvm@${{matrix.version}})/bin/clang" >> $GITHUB_ENV
           echo "CXX=$(brew --prefix llvm@${{matrix.version}})/bin/clang++" >> $GITHUB_ENV
-          echo "LDFLAGS='-L/usr/local/opt/llvm@${{matrix.version}}/lib/c++ -Wl,-rpath,/usr/local/opt/llvm@${{matrix.version}}/lib/c++'" >> $GITHUB_ENV
+          echo "LDFLAGS='-L$(brew --prefix llvm@${{matrix.version}})/lib/c++ -Wl,-rpath,$(brew --prefix llvm@${{matrix.version}})/lib/c++'" >> $GITHUB_ENV
 
       - name: Configure
         working-directory: ${{github.workspace}}
