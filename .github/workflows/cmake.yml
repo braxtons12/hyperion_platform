@@ -9,12 +9,16 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # update to 12 and 13 when 13 is available on runners
-        version: [12]
+        version: [12, 13, 14]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
       - uses: seanmiddleditch/gha-setup-ninja@v4
+
+      - name: Install Toolchains PPA
+        run: |
+          sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+          sudo apt-get -y update
 
       - name: Install GCC
         run: sudo apt-get -y install gcc-${{matrix.version}}
