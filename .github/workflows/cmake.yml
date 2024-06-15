@@ -39,7 +39,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: ctest --preset env-cc-release --verbose
 
-  build-linux-clang-16-x64:
+  build-linux-clang-17-x64:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -51,16 +51,16 @@ jobs:
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 16
-          sudo apt-get -y install clang-tidy-16
+          sudo ./llvm.sh 17
+          sudo apt-get -y install clang-tidy-17
 
       - name: Replace clang-tidy
-        run: sudo cp /usr/bin/clang-tidy-16 /usr/bin/clang-tidy -f
+        run: sudo cp /usr/bin/clang-tidy-17 /usr/bin/clang-tidy -f
 
       - name: Configure
         env:
-          CC: clang-16
-          CXX: clang++-16
+          CC: clang-17
+          CXX: clang++-17
         working-directory: ${{github.workspace}}
         run: |
           rm -rf build
@@ -68,16 +68,16 @@ jobs:
 
       - name: Build
         env:
-          CC: clang-16
-          CXX: clang++-16
+          CC: clang-17
+          CXX: clang++-17
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: cmake --build --preset env-cc-release
 
       - name: Test
         env:
-          CC: clang-16
-          CXX: clang++-16
+          CC: clang-17
+          CXX: clang++-17
           ACTIONS_STEP_DEBUG: true
         working-directory: ${{github.workspace}}
         run: ctest --preset env-cc-release --verbose
