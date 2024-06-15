@@ -921,6 +921,7 @@ namespace hyperion::_test::platform::compare {
 
     // NOLINTNEXTLINE(cert-err58-cpp)
     static const suite<"hyperion::platform::compare"> compare_tests = [] {
+        std::cout << "testing comparison functions" << std::endl;
         static constexpr auto f32_epsilon = std::numeric_limits<f32>::epsilon();
         static constexpr auto f64_epsilon = std::numeric_limits<f64>::epsilon();
         static constexpr auto fmax_epsilon = std::numeric_limits<fmax>::epsilon();
@@ -953,6 +954,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "equality_compare"_test = [] {
+            std::cout << "testing equality compare" << std::endl;
             "equal_integers_are_equal"_test = [] {
                 expect(that % equality_compare(1, 1));
             };
@@ -1114,6 +1116,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "inequality_compare"_test = [] {
+            std::cout << "testing inequality compare" << std::endl;
             "equal_integers_are_equal"_test = [] {
                 expect(that % not inequality_compare(1, 1));
             };
@@ -1275,6 +1278,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "less_than"_test = [] {
+            std::cout << "testing less than compare" << std::endl;
             "equal_integers_are_not_less_than"_test = [] {
                 expect(that % not less_than_compare(1_i32, 1_i32));
             };
@@ -1372,6 +1376,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "less_than_or_equal"_test = [] {
+            std::cout << "testing less than or equal compare" << std::endl;
             "equal_integers_are_less_than_or_equal"_test = [] {
                 expect(that % less_than_or_equal_compare(1_i32, 1_i32));
             };
@@ -1474,6 +1479,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "greater_than"_test = [] {
+            std::cout << "testing greater than compare" << std::endl;
             "equal_integers_are_not_greater_than"_test = [] {
                 expect(that % not greater_than_compare(1_i32, 1_i32));
             };
@@ -1578,6 +1584,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "greater_than_or_equal"_test = [] {
+            std::cout << "testing greater than or equal compare" << std::endl;
             "equal_integers_are_greater_than_or_equal"_test = [] {
                 expect(that % greater_than_or_equal_compare(1_i32, 1_i32));
             };
