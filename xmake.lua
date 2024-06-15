@@ -24,7 +24,7 @@ if has_config("hyperion_enable_tracy") then
     })
 end
 
-add_requires("boost_ut", {
+add_requires("boost_ut master", {
     system = false,
     external = true,
     configs = {
