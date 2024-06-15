@@ -60,9 +60,7 @@
 /// @headerfile hyperion/platform/compare.h
 /// @}
 
-namespace hyperion::platform {
-
-    namespace compare {
+namespace hyperion::platform::compare {
 
         /// @brief Concept definition requiring that a `TLhs` is
         /// equality comparable with a `TRhs`
@@ -1010,9 +1008,7 @@ namespace hyperion::platform {
         }
 
         HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP;
-    } // namespace compare
-
-} // namespace hyperion::platform
+} // namespace hyperion::platform::compare
 
 #if defined(HYPERION_ENABLE_TESTING) && HYPERION_ENABLE_TESTING
 
