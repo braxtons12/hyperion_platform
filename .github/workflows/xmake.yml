@@ -31,7 +31,7 @@ jobs:
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=gcc-${{matrix.version}}
+        run: xmake f -c -y --toolchain=gcc-${{matrix.version}} --hyperion_enable_tracy=y
 
       - name: Build
         env:
@@ -89,7 +89,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           rm -rf build .xmake
-          xmake f -c -y --toolchain=clang-${{matrix.version}}
+          xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
 
       - name: Build
         env:
@@ -145,7 +145,7 @@ jobs:
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=msvc
+        run: xmake f -c -y --toolchain=msvc --hyperion_enable_tracy=y
           
       - name: Build
         env:
@@ -198,7 +198,7 @@ jobs:
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=clang
+        run: xmake f -c -y --toolchain=clang --hyperion_enable_tracy=y
 
       - name: Build
         env:
