@@ -52,7 +52,7 @@ jobs:
           xrepo install -y --toolchain=gcc-12 "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
           xrepo install -y --toolchain=gcc-12 --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
-  build-linux-clang-18-x64:
+  build-linux-clang-16-x64:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -70,17 +70,17 @@ jobs:
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh 18
-          sudo apt-get -y install clang-tidy-18
+          sudo ./llvm.sh 16
+          sudo apt-get -y install clang-tidy-16
 
       - name: Replace clang-tidy
-        run: sudo cp /usr/bin/clang-tidy-18 /usr/bin/clang-tidy -f
+        run: sudo cp /usr/bin/clang-tidy-16 /usr/bin/clang-tidy -f
 
       - name: Configure
         working-directory: ${{github.workspace}}
         run: |
           rm -rf build .xmake
-          xmake f -c -y --toolchain=clang-18
+          xmake f -c -y --toolchain=clang-16
 
       - name: Build
         env:
@@ -107,8 +107,8 @@ jobs:
         run: |
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
-          xrepo install -y --toolchain=clang-18 "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
-          xrepo install -y --toolchain=clang-18 --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=clang-16 "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=clang-16 --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
   build-windows-msvc-x64:
     runs-on: windows-latest
