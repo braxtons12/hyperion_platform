@@ -27,7 +27,7 @@ endif()
 if(HYPERION_USE_FETCH_CONTENT)
     FetchContent_Declare(boost_ut
         GIT_REPOSITORY "https://github.com/boost-ext/ut"
-        GIT_TAG "v2.0.1"
+        GIT_TAG "master"
         SYSTEM
         )
     FetchContent_MakeAvailable(boost_ut)
