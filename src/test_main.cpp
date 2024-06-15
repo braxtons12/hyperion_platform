@@ -2,7 +2,7 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
 /// @version 0.1
-/// @date 2024-04-20
+/// @date 2024-06-15
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -38,6 +38,7 @@
 #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
 
 template<>
+// NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
 auto boost::ut::cfg<boost::ut::override> = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
 
 #pragma GCC diagnostic pop
