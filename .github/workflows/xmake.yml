@@ -150,6 +150,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           xmake --version
+          cmake --version
           xmake f -c -y --toolchain=msvc --hyperion_enable_tracy=y
           
       - name: Build
