@@ -144,6 +144,7 @@ jobs:
         run: |
           scoop install xmake
           xmake update -s dev
+          xmake --version
 
       - name: Configure
         working-directory: ${{github.workspace}}
