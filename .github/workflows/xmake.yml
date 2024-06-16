@@ -143,7 +143,7 @@ jobs:
       - name: Install XMake
         run: |
           scoop install xmake
-          xmake update -s dev
+          xmake update -vy dev
           xmake --version
 
       - name: Configure
