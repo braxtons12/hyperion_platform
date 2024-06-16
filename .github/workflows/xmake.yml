@@ -141,7 +141,9 @@ jobs:
           arch: x64
 
       - name: Install XMake
-        run: scoop install xmake
+        run: |
+          scoop install xmake
+          xmake update -s dev
 
       - name: Configure
         working-directory: ${{github.workspace}}
