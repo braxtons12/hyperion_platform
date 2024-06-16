@@ -143,8 +143,9 @@ jobs:
       - name: Install XMake
         run: |
           scoop install xmake
-          xmake update -sfy dev
-          xmake update -fy dev
+          xmake update -sfy master
+          Start-Sleep -Seconds 2
+          xmake update -fy master
           xmake --version
 
       - name: Configure
