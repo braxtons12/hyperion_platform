@@ -143,12 +143,14 @@ jobs:
       - name: Install XMake
         run: |
           scoop install xmake
-          xmake update -vy dev
+          xmake update -y dev
           xmake --version
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=msvc --hyperion_enable_tracy=y
+        run: |
+          xmake --version
+          xmake f -c -y --toolchain=msvc --hyperion_enable_tracy=y
           
       - name: Build
         env:
