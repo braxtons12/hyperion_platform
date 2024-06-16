@@ -70,13 +70,17 @@ ForEachMacros:
   - BOOST_FOREACH
 IncludeBlocks: Regroup
 IncludeCategories:
-  - Regex: "^(<|/)"
+  - Regex: '^".*'
+    Priority: 0
+  - Regex: '[<hyperion](/|\\).*'
     Priority: 1
-    SortPriority: 0
-  - Regex: ".*"
+  - Regex: '[<].*(/|\\).*'
     Priority: 2
-    SortPriority: 0
-IncludeIsMainRegex: "(Test)?$"
+  - Regex: '[<].*\.hpp'
+    Priority: 2
+  - Regex: '[<].*[>]'
+    Priority: 3
+IncludeIsMainRegex: "(_test)?$"
 IncludeIsMainSourceRegex: ""
 IndentAccessModifiers: false
 IndentCaseBlocks: true
@@ -84,7 +88,7 @@ IndentCaseLabels: true
 IndentExternBlock: Indent
 IndentGotoLabels: true
 IndentPPDirectives: BeforeHash
-IndentRequires: false
+IndentRequiresClause: true
 IndentWidth: 4
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: true

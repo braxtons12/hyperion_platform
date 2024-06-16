@@ -1,8 +1,8 @@
 /// @file ignore.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides utilities to ignore an arbitrary number of values
-/// @version 0.1
-/// @date 2024-01-27
+/// @version 0.4.0
+/// @date 2024-06-15
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -30,18 +30,29 @@
 /// @ingroup platform
 /// @{
 ///	@defgroup utility Utilities
-/// This module contains basic core library utilities.
+/// This module contains basic core library utilities, such as an ergonomic way to
+/// silence unused argument warnings and comparison functions that eliminate the pitfalls
+/// associated with comparing signed and unsigned types and/or floating point numbers.
 /// @}
 
 namespace hyperion {
     /// @brief Utility function to ignore the given values
     ///
+    /// # Example
+    /// @code{.cpp}
+    /// auto my_func(i32 arg1, i32 arg2, i32 arg3) -> void {
+    ///     // TODO: Implement this!
+    ///     // eliminate unused argument warnings/errors during compilation
+    ///     ignore(arg1, arg2, arg3);
+    /// }
+    /// @endcode
+    ///
     /// @tparam Args - The types of the things to ignore
     /// @param args - The things to ignore
     /// @ingroup utility
-    /// @headerfile "hyperion/platform/ignore.h"
+    /// @headerfile hyperion/platform/ignore.h
     template<typename... Args>
-    inline constexpr auto
+    constexpr auto
     ignore([[maybe_unused]] Args&&... args) // NOLINT(cppcoreguidelines-missing-std-forward)
         noexcept -> void {
         // std::ignore = std::make_tuple<Args...>(std::forward<Args>(args)...);

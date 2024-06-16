@@ -1,8 +1,8 @@
 /// @file types.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief various type aliases for builtin types and user defined literals for them
-/// @version 0.1
-/// @date 2024-01-26
+/// @version 0.4.0
+/// @date 2024-04-20
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -28,10 +28,11 @@
 #ifndef HYPERION_PLATFORM_TYPES_H
 #define HYPERION_PLATFORM_TYPES_H
 
+#include <hyperion/platform/def.h>
+
 #include <array>
 #include <cstddef>
 #include <cstdint>
-#include <hyperion/platform/def.h>
 #include <limits>
 #include <type_traits>
 
@@ -49,74 +50,74 @@
 /// using hyperion::operator""_f32;
 /// const auto my_f32 = 12'345.6789_f32;
 /// @endcode
-/// @headerfile "hyperion/platform/types.h"
+/// @headerfile hyperion/platform/types.h
 /// @}
 
 namespace hyperion {
 
     /// @brief `u8` is an 8-bit unsigned integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using u8 = uint8_t;
     /// @brief `u16` is an 16-bit unsigned integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using u16 = uint16_t;
     /// @brief `u32` is an 32-bit unsigned integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using u32 = uint32_t;
     /// @brief `u64` is an 64-bit unsigned integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using u64 = uint64_t;
     /// @brief `usize` is the unsigned integer type best suited for sizes on the given platform
     /// (`size_t`)
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using usize = size_t;
     /// @brief `umax` is the largest unsigned integer on the platform (`uintmax_t`)
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using umax = uintmax_t;
 
     /// @brief `i8` is an 8-bit signed integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using i8 = int8_t;
     /// @brief `i16` is a 16-bit signed integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using i16 = int16_t;
     /// @brief `i32` is a 32-bit signed integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using i32 = int32_t;
     /// @brief `i64` is a 64-bit signed integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using i64 = int64_t;
     /// @brief `imax` is the largest signed integer on the platform (`intmax_t`)
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using imax = intmax_t;
 
     /// @brief `byte` is a single-byte unsigned integer
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using byte = unsigned char;
 
     /// @brief `f32` is a single-precision (32-bit) floating point number
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using f32 = float;
     /// @brief `f64` is a double-precision (64-bit) floating point number
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using f64 = double;
     /// @brief `fmax` is the largest-precision floating point number on the platform (`long double`)
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     using fmax = long double;
 
     namespace detail {
@@ -166,7 +167,8 @@ namespace hyperion {
 
                 const auto is_binary
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
-                const auto is_octal = str.size() > 1 && str[0] == '0' && !is_hex && !is_binary;
+                const auto is_octal = str.size() > 1 && str[0] == '0' && !is_hex && !is_binary
+                                      && !std::is_floating_point_v<Type>;
                 const auto offset = is_hex || is_binary ? 2U : (is_octal ? 1U : 0U);
 
                 constexpr auto to_number = [](char digit) {
@@ -238,9 +240,11 @@ namespace hyperion {
                             }
                         }
                         else if(digit != '\'') {
-                            Type value = to_number(digit) * current_multiplier;
+                            Type value = to_number(digit) * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
-                            if(sum / divisor > std::numeric_limits<Type>::max() - value) {
+                            if(sum / static_cast<Type>(divisor)
+                               > std::numeric_limits<Type>::max() - value)
+                            {
                                 return {.status = literal_status::OutOfRange};
                             }
 
@@ -282,9 +286,9 @@ namespace hyperion {
     /// const auto my_byte = 12'345_byte;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_byte() noexcept -> byte { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_byte() noexcept -> byte { // NOLINT
         constexpr auto parsed = detail::parse_literal<byte>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -298,9 +302,9 @@ namespace hyperion {
     /// const auto my_u8 = 12'345_u8;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_u8() noexcept -> u8 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_u8() noexcept -> u8 { // NOLINT
         constexpr auto parsed = detail::parse_literal<u8>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -314,9 +318,9 @@ namespace hyperion {
     /// const auto my_u16 = 12'345_16;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_u16() noexcept -> u16 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_u16() noexcept -> u16 { // NOLINT
         constexpr auto parsed = detail::parse_literal<u16>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -330,9 +334,9 @@ namespace hyperion {
     /// const auto my_u32 = 12'345_u32;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_u32() noexcept -> u32 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_u32() noexcept -> u32 { // NOLINT
         constexpr auto parsed = detail::parse_literal<u32>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -346,9 +350,9 @@ namespace hyperion {
     /// const auto my_u64 = 12'345_u64;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_u64() noexcept -> u64 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_u64() noexcept -> u64 { // NOLINT
         constexpr auto parsed = detail::parse_literal<u64>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -362,9 +366,9 @@ namespace hyperion {
     /// const auto my_usize = 12'345_usize;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_usize() noexcept -> usize { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_usize() noexcept -> usize { // NOLINT
         constexpr auto parsed = detail::parse_literal<usize>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -378,9 +382,9 @@ namespace hyperion {
     /// const auto my_umax = 12'345_umax;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_umax() noexcept -> umax { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_umax() noexcept -> umax { // NOLINT
         constexpr auto parsed = detail::parse_literal<umax>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -394,9 +398,9 @@ namespace hyperion {
     /// const auto my_i8 = 12'345_i8;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_i8() noexcept -> i8 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_i8() noexcept -> i8 { // NOLINT
         constexpr auto parsed = detail::parse_literal<i8>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -410,9 +414,9 @@ namespace hyperion {
     /// const auto my_i16 = 12'345_i16;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_i16() noexcept -> i16 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_i16() noexcept -> i16 { // NOLINT
         constexpr auto parsed = detail::parse_literal<i16>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -426,9 +430,9 @@ namespace hyperion {
     /// const auto my_i32 = 12'345_i32;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_i32() noexcept -> i32 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_i32() noexcept -> i32 { // NOLINT
         constexpr auto parsed = detail::parse_literal<i32>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -442,9 +446,9 @@ namespace hyperion {
     /// const auto my_i64 = 12'345_i64;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_i64() noexcept -> i64 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_i64() noexcept -> i64 { // NOLINT
         constexpr auto parsed = detail::parse_literal<i64>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -458,9 +462,9 @@ namespace hyperion {
     /// const auto my_imax = 12'345_imax;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_imax() noexcept -> imax { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_imax() noexcept -> imax { // NOLINT
         constexpr auto parsed = detail::parse_literal<imax>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -474,9 +478,9 @@ namespace hyperion {
     /// const auto my_f32 = 12'345.6789_f32;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_f32() noexcept -> f32 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_f32() noexcept -> f32 { // NOLINT
         constexpr auto parsed = detail::parse_literal<f32>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -490,9 +494,9 @@ namespace hyperion {
     /// const auto my_f64 = 12'345.6789_f64;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_f64() noexcept -> f64 { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_f64() noexcept -> f64 { // NOLINT
         constexpr auto parsed = detail::parse_literal<f64>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -506,9 +510,9 @@ namespace hyperion {
     /// const auto my_fmax = 12'345.6789_fmax;
     /// @endcode
     /// @ingroup core_numeric_types
-    /// @headerfile "hyperion/platform/types.h"
+    /// @headerfile hyperion/platform/types.h
     template<char... Chars>
-    [[nodiscard]] static inline constexpr auto operator""_fmax() noexcept -> fmax { // NOLINT
+    [[nodiscard]] static constexpr auto operator""_fmax() noexcept -> fmax { // NOLINT
         constexpr auto parsed = detail::parse_literal<fmax>(detail::string_literal<Chars...>());
         detail::check_literal_status<parsed.status>();
         return parsed.value;
@@ -561,6 +565,9 @@ namespace hyperion {
         static_assert(static_cast<fmax>(64'000) - 64'000_fmax < acceptable_deviation,
                       "fmax literal operator broken!");
         // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(1) - 1_fmax < acceptable_deviation,
+                      "fmax literal operator broken!");
+        // NOLINTNEXTLINE
         static_assert(static_cast<fmax>(64'000.123456789) - 64'000.123456789_fmax
                           < acceptable_deviation,
                       "fmax literal operator broken!");
@@ -568,11 +575,22 @@ namespace hyperion {
         static_assert(static_cast<fmax>(-64'000.123456789) - -64'000.123456789_fmax
                           < acceptable_deviation,
                       "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(0.5) - 0.5_fmax < acceptable_deviation,
+                      "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(0.5) == 0.5_fmax, "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(1.0e10) == 10'000'000'000.0_fmax,
+                      "fmax literal operator broken!");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<fmax>(1.0e18) == 1'000'000'000'000'000'000.0_fmax,
+                      "fmax literal operator broken!");
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
         _Pragma("GCC diagnostic pop")
 #endif // HYPERION_PLATFORM_COMPILER_CLANG || HYPERION_PLATFORM_COMPILER_GCC
-    }  // namespace literal_tests
+    } // namespace literal_tests
 
 } // namespace hyperion
 

@@ -2,8 +2,8 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief This module includes macro definitions for identifying the platform being compiled for
 /// (operating system, compiler, etc)
-/// @version 0.1
-/// @date 2024-01-26
+/// @version 0.4.0
+/// @date 2024-04-20
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -31,7 +31,7 @@
 /// compiler, little vs big endianness, and architecture.
 /// @note while Hyperion provides many different platform detection macros, it has currently only
 /// been tested on x86_64 Windows, x86_64 linux, and ARM64 (M1) MacOs
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 #ifndef HYPERION_PLATFORM_PLATFORM_H
 #define HYPERION_PLATFORM_PLATFORM_H
@@ -43,7 +43,7 @@
 /// Make sure to pair with `HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP` to properly scope the area
 /// where the warning is ignored
 /// @ingroup defines
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if !((defined(__MSC_VER) || defined(_MSC_VER)) && !defined(__clang__))
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_START \
@@ -58,7 +58,7 @@
 /// @brief Use to re-enable warnings for unused macros after having previously used
 /// `HYPERION_IGNORE_UNUSED_MACROS_WARNING_START`
 /// @ingroup defines
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if !((defined(__MSC_VER) || defined(_MSC_VER)) && !defined(__clang__))
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP _Pragma("GCC diagnostic pop")
@@ -73,7 +73,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_WINDOWS
 /// @brief Whether the compiled-for platform is WINDOWS
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(_MSC_VER) || defined(_WIN32) || defined(_WIN64)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_WINDOWS true
@@ -85,7 +85,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_APPLE
 /// @brief Whether the compiled-for platform is APPLE (MacOS, IOS)
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(__APPLE__)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_APPLE true
@@ -97,7 +97,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_UNIX
 /// @brief Whether the compiled-for platform is a variant of UNIX
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(__unix__) || defined(__unix) || defined(unix) \
     || (HYPERION_PLATFORM_IS_APPLE && defined(__MACH__))
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
@@ -111,7 +111,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_LINUX
 /// @brief Whether the compiled-for platform is LINUX
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(linux) || defined(__linux__) || defined(__linux) \
     || (defined(__unix__) && !HYPERION_PLATFORM_IS_APPLE && !defined(BSD))
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
@@ -125,7 +125,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_BSD
 /// @brief Whether the compiled-for platform is a BSD
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(BSD)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_BSD true
@@ -137,7 +137,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_IS_ANDROID
 /// @brief Whether the compiled-for platform is Android
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(__ANDROID__)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_IS_ANDROID true
@@ -149,7 +149,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_COMPILER_IS_CLANG
 /// @brief Whether the current compiler is CLANG
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(__clang__)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_COMPILER_IS_CLANG true
@@ -161,7 +161,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_COMPILER_IS_GCC
 /// @brief Whether the current compiler is GCC
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if defined(__GNUC__) && !defined(__clang__)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_COMPILER_IS_GCC true
@@ -173,7 +173,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_COMPILER_IS_MSVC
 /// @brief Whether the current compiler is GCC
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #if(defined(__MSC_VER) || defined(_MSC_VER)) && !HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_COMPILER_IS_MSVC true
@@ -185,17 +185,17 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_STD_LIB_IS_LIBCPP
 /// @brief Whether the used standard library is libc++ (llvm)
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 /// @def HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP
 /// @brief Whether the used standard library is libstdc++ (gcc)
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 /// @def HYPERION_PLATFORM_STD_LIB_IS_MSVC
 /// @brief Whether the used standard library is MSVC
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 #if defined(_LIBCPP_VERSION)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
@@ -230,12 +230,12 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @def HYPERION_PLATFORM_MODE_IS_DEBUG
 /// @brief Whether the current build mode is DEBUG
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 /// @def HYPERION_PLATFORM_MODE_IS_RELEASE
 /// @brief Whether the current build mode is RELEASE
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 #if defined(DEBUG) || !defined(NDEBUG)
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
@@ -251,52 +251,52 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 
 /// @brief x86_64 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_X86_64 (1U << 1U) // NOLINT
 /// @brief x86 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_X86 (1U << 2U) // NOLINT
 /// @brief ARM v6 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V6 (1U << 7U) // NOLINT
 /// @brief ARM v7 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V7 (1U << 8U) // NOLINT
 /// @brief ARM v7a architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V7A (HYPERION_PLATFORM_ARM_V7 | 1U << 9U) // NOLINT
 /// @brief ARM v7r architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V7R /** NOLINT(cppcoreguidelines-macro-usage) **/ \
     (HYPERION_PLATFORM_ARM_V7 | HYPERION_PLATFORM_ARM_V7A | 1U << 10U) // NOLINT
 /// @brief ARM v7m architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V7M /** NOLINT(cppcoreguidelines-macro-usage) **/       \
     (HYPERION_PLATFORM_ARM_V7 | HYPERION_PLATFORM_ARM_V7A | HYPERION_PLATFORM_ARM_V7R \
      | 1U << 11U) // NOLINT
 /// @brief ARM v7s architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V7S /** NOLINT(cppcoreguidelines-macro-usage) **/       \
     (HYPERION_PLATFORM_ARM_V7 | HYPERION_PLATFORM_ARM_V7A | HYPERION_PLATFORM_ARM_V7R \
      | 1U << 12U) // NOLINT
 /// @brief ARM v8 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_V8 (1U << 13U) // NOLINT
 /// @brief ARM 64 architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_ARM_64 (1U << 13U) // NOLINT
 /// @brief Unknown architecture tag
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_UNKNOWN (1U << 14U) // NOLINT
 
 /// @def HYPERION_PLATFORM_ARCHITECTURE
@@ -304,7 +304,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 ///
 /// Can be any `HYPERION_PLATFORM_ARCHITECTURE_<ARCH>` tag macro
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 #if defined(__x86_64__) || defined(_M_X64) || defined(__X86_64__)
     #define HYPERION_PLATFORM_ARCHITECTURE HYPERION_PLATFORM_X86_64 // NOLINT
@@ -353,7 +353,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 ///
 /// @return whether the compiled-for architecture is the given one
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_IS_ARCHITECTURE(arch) /** NOLINT **/ \
     ((HYPERION_PLATFORM_ARCHITECTURE & (arch)) > 0)
 
@@ -361,19 +361,19 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 
 /// @brief Whether the compiled-for architecture is a little endian architecture
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_IS_LITTLE_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
     (!HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_UNKNOWN))
 /// @brief Whether the compiled-for architecture is a big endian architecture
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 #define HYPERION_PLATFORM_IS_BIG_ENDIAN /** NOLINT(cppcoreguidelines-macro-usage) **/ \
     HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_UNKNOWN)
 
 /// @def HYPERION_PLATFORM_CACHE_LINE_SIZE
 /// @brief The architecture cache-line size
 /// @ingroup platform
-/// @headerfile "hyperion/platform.h"
+/// @headerfile hyperion/platform.h
 
 #if HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_X86_64) \
     || HYPERION_PLATFORM_IS_ARCHITECTURE(HYPERION_PLATFORM_ARM_V8)

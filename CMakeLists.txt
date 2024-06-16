@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(hyperion_platform LANGUAGES CXX)
+project(hyperion_platform LANGUAGES CXX VERSION 0.4.0)
 
 include(CTest)
 
@@ -14,7 +14,7 @@ if(${HYPERION_ENABLE_TRACY})
     if(HYPERION_USE_FETCH_CONTENT)
         FetchContent_Declare(Tracy
             GIT_REPOSITORY "https://github.com/wolfpld/tracy"
-            GIT_TAG "v0.8.2"
+            GIT_TAG "v0.10"
             )
 
         FetchContent_MakeAvailable(Tracy)
@@ -22,6 +22,17 @@ if(${HYPERION_ENABLE_TRACY})
         find_package(Tracy REQUIRED)
     endif()
     SET(TRACY_LINK_TARGET Tracy::TracyClient)
+endif()
+
+if(HYPERION_USE_FETCH_CONTENT)
+    FetchContent_Declare(boost_ut
+        GIT_REPOSITORY "https://github.com/boost-ext/ut"
+        GIT_TAG "v2.0.1"
+        SYSTEM
+        )
+    FetchContent_MakeAvailable(boost_ut)
+else()
+    find_package(ut REQUIRED)
 endif()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/hyperion_compiler_settings.cmake)
@@ -38,6 +49,7 @@ set(HYPERION_PLATFORM_HEADERS
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/def.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/ignore.h"
     "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/types.h"
+    "${HYPERION_PLATFORM_INCLUDE_PATH}/platform/compare.h"
 )
 
 add_library(hyperion_platform INTERFACE)
@@ -80,6 +92,25 @@ hyperion_enable_warnings(hyperion_platform_main)
 
 add_test(NAME hyperion_platform_main
          COMMAND hyperion_platform_main)
+
+add_executable(hyperion_platform_tests ${CMAKE_CURRENT_SOURCE_DIR}/src/test_main.cpp)
+target_link_libraries(hyperion_platform_tests
+    PRIVATE
+    hyperion::platform
+    Boost::ut
+)
+target_compile_definitions(
+    hyperion_platform_tests
+    PUBLIC
+    BOOST_UT_DISABLE_MODULE=1
+    HYPERION_ENABLE_TESTING=1
+)
+
+hyperion_compile_settings(hyperion_platform_tests)
+hyperion_enable_warnings(hyperion_platform_tests)
+
+add_test(NAME hyperion_platform_tests
+         COMMAND hyperion_platform_tests)
 
 set(HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/docs/_build/html")
 set(HYPERION_PLATFORM_DOXYGEN_HTML "${HYPERION_PLATFORM_DOXYGEN_OUTPUT_DIR}/index.html")
