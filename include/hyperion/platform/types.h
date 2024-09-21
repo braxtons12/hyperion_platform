@@ -132,9 +132,9 @@ namespace hyperion {
         constexpr auto trim_separators([[maybe_unused]] string_literal<Chars...> literal) noexcept {
             constexpr auto new_size = []() {
                 constexpr auto array = std::array{Chars...};
-                auto size = array.size(); 
+                auto size = array.size();
                 for(const auto& c : array) {
-                    if (c == '\'') {
+                    if(c == '\'') {
                         size--;
                     }
                 }
@@ -197,16 +197,21 @@ namespace hyperion {
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
 
                 if constexpr(std::is_floating_point_v<Type>
-                        && (std::is_same_v<fmax, f64>
-                        || !std::is_same_v<Type, fmax>)) {
+                             && (std::is_same_v<fmax, f64> || !std::is_same_v<Type, fmax>))
+                {
                     if(!is_hex && !is_binary) {
                         constexpr auto trimmed = trim_separators(string_literal<Chars...>{});
                         Type res = 0;
-                        auto result = fast_float::from_chars(
-                                &(trimmed[0]),
-                                &(trimmed[0]) + trimmed.size(),
-                                res
-                        );
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+                        auto result = fast_float::from_chars(&(trimmed[0]),
+                                                             &(trimmed[0]) + trimmed.size(),
+                                                             res);
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic pop
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
                         if(result.ptr != trimmed.end()) {
                             if(result.ec == std::errc::invalid_argument) {
                                 return {.status = literal_status::InvalidCharacterSequence};
