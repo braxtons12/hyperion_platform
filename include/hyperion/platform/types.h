@@ -202,7 +202,11 @@ namespace hyperion {
                     if(!is_hex && !is_binary) {
                         constexpr auto trimmed = trim_separators(string_literal<Chars...>{});
                         Type res = 0;
-                        auto result = fast_float::from_chars(trimmed.begin(), trimmed.end(), res);
+                        auto result = fast_float::from_chars(
+                                &(trimmed[0]),
+                                &(trimmed[0]) + trimmed.size(),
+                                res
+                        );
                         if(result.ptr != trimmed.end()) {
                             if(result.ec == std::errc::invalid_argument) {
                                 return {.status = literal_status::InvalidCharacterSequence};
