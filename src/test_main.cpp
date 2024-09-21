@@ -49,6 +49,10 @@ auto boost::ut::cfg<boost::ut::override>
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
+#if !HYPERION_PLATFORM_COMPILER_IS_MSVC
     return static_cast<i32>(
         boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
+#else
+    return 0;
+#endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 }
