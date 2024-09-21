@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global,undefined-field
 set_project("hyperion_platform")
-set_version("0.4.2")
+set_version("0.5.0")
 
 set_xmakever("2.8.7")
 
@@ -23,6 +23,14 @@ if has_config("hyperion_enable_tracy") then
         }
     })
 end
+
+add_requires("fast_float", {
+    system = false,
+    external = true,
+    configs = {
+        languages = "cxx20",
+    },
+})
 
 add_requires("boost_ut", {
     system = false,
@@ -57,6 +65,8 @@ target("hyperion_platform", function()
         import("hyperion_compiler_settings", {alias = "settings"})
         settings.set_compiler_settings(target)
     end)
+
+    add_packages("fast_float", {public = true})
 
     add_options("hyperion_enable_tracy", {public = true})
     if has_package("tracy") then
