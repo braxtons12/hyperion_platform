@@ -36,10 +36,14 @@
     #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
+#if !HYPERION_PLATFORM_COMPILER_IS_MSVC
+
 template<>
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
 auto boost::ut::cfg<boost::ut::override>
     = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
+
+#endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #pragma GCC diagnostic pop
