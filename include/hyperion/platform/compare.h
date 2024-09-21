@@ -36,6 +36,7 @@
 #include <cmath>
 #include <concepts>
 #include <cstdlib>
+#include <iostream>
 #include <limits>
 #include <type_traits>
 
@@ -216,6 +217,7 @@ namespace hyperion::platform::compare {
         constexpr auto safe_float_inequality(std::floating_point auto lhs,
                                              std::floating_point auto rhs,
                                              std::floating_point auto error) noexcept -> bool {
+            std::cerr << "safe float inequality";
             using common_t
                 = common_type_t<common_type_t<decltype(lhs), decltype(rhs)>, decltype(error)>;
 
