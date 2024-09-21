@@ -1073,6 +1073,7 @@ namespace hyperion::_test::platform::compare {
         };
 
         "equality_compare"_test = [] {
+            std::cerr << "running equality tests";
             "equal_integers_are_equal"_test = [] {
                 expect(that % equality_compare(1, 1));
             };
@@ -1259,9 +1260,11 @@ namespace hyperion::_test::platform::compare {
                 expect(that
                        % not equality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
             };
+            std::cerr << "finished running equality tests";
         };
 
         "inequality_compare"_test = [] {
+            std::cerr << "running inequality tests";
             "equal_integers_are_equal"_test = [] {
                 expect(that % not inequality_compare(1, 1));
             };
@@ -1451,9 +1454,11 @@ namespace hyperion::_test::platform::compare {
                 expect(that
                        % inequality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
             };
+            std::cerr << "finished running inequality tests";
         };
 
         "less_than"_test = [] {
+            std::cerr << "running less than tests";
             "equal_integers_are_not_less_than"_test = [] {
                 expect(that % not less_than_compare(1_i32, 1_i32));
             };
@@ -1578,9 +1583,11 @@ namespace hyperion::_test::platform::compare {
                 expect(that
                        % less_than_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
             };
+            std::cerr << "finished running less than tests";
         };
 
         "less_than_or_equal"_test = [] {
+            std::cerr << "running less than or equal tests";
             "equal_integers_are_less_than_or_equal"_test = [] {
                 expect(that % less_than_or_equal_compare(1_i32, 1_i32));
             };
@@ -1726,9 +1733,11 @@ namespace hyperion::_test::platform::compare {
                 expect(that
                        % not less_than_or_equal_compare(2.3_f64, 2.0_f64, custom_relative_epsilon));
             };
+            std::cerr << "finished running less than or equal tests";
         };
 
         "greater_than"_test = [] {
+            std::cerr << "running greater than tests";
             "equal_integers_are_not_greater_than"_test = [] {
                 expect(that % not greater_than_compare(1_i32, 1_i32));
             };
@@ -1875,9 +1884,11 @@ namespace hyperion::_test::platform::compare {
                 expect(that
                        % greater_than_compare(2.0_f64 + 0.3_f64, 2.0_f64, custom_relative_epsilon));
             };
+            std::cerr << "finished running greater than tests";
         };
 
         "greater_than_or_equal"_test = [] {
+            std::cerr << "running greater than or equal tests";
             "equal_integers_are_greater_than_or_equal"_test = [] {
                 expect(that % greater_than_or_equal_compare(1_i32, 1_i32));
             };
@@ -2042,6 +2053,7 @@ namespace hyperion::_test::platform::compare {
                                                        2.0_f64,
                                                        custom_relative_epsilon));
             };
+            std::cerr << "finished running greater than or equal tests";
         };
         std::cerr << "finished running compare tests";
     };
