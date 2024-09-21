@@ -1075,7 +1075,9 @@ namespace hyperion::_test::platform::compare {
         "equality_compare"_test = [] {
             std::cerr << "running equality tests";
             "equal_integers_are_equal"_test = [] {
+                std::cerr << "running equal integers tests";
                 expect(that % equality_compare(1, 1));
+                std::cerr << "finished running equal integers tests";
             };
 
             "inequal_integers_are_not_equal"_test = [] {
