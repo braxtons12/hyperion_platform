@@ -36,27 +36,23 @@
     #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
-#if !HYPERION_PLATFORM_COMPILER_IS_MSVC
-
 template<>
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
 auto boost::ut::cfg<boost::ut::override>
     = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
-
-#endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #pragma GCC diagnostic pop
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 #include <hyperion/platform/compare.h>
+
+#include <iostream>
+
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
-#if !HYPERION_PLATFORM_COMPILER_IS_MSVC
+    std::cerr << "running tests";
     return static_cast<i32>(
         boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
-#else
-    return 0;
-#endif // !HYPERION_PLATFORM_COMPILER_IS_MSVC
 }

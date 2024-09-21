@@ -1018,6 +1018,7 @@ namespace hyperion::_test::platform::compare {
 
     // NOLINTNEXTLINE(cert-err58-cpp)
     static const suite<"hyperion::platform::compare"> compare_tests = [] {
+        std::cerr << "running compare tests";
         static constexpr auto f32_epsilon = std::numeric_limits<f32>::epsilon();
         static constexpr auto f64_epsilon = std::numeric_limits<f64>::epsilon();
         static constexpr auto fmax_epsilon = std::numeric_limits<fmax>::epsilon();
@@ -2042,6 +2043,7 @@ namespace hyperion::_test::platform::compare {
                                                        custom_relative_epsilon));
             };
         };
+        std::cerr << "finished running compare tests";
     };
 
     struct not_comparable { };
