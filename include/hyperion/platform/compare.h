@@ -1087,7 +1087,9 @@ namespace hyperion::_test::platform::compare {
 
             "integer_equivalent_floats_are_equal"_test = [] {
                 std::cerr << "running equal integers floats tests";
-                expect(that % equality_compare(1, 1.0_f32));
+                auto result = equality_compare(1, 1.0_f32);
+                std::cerr << "finished running equal integers floats 1.0 tests";
+                expect(that % result);
                 std::cerr << "finished running equal integers floats 1.0 tests";
                 expect(that % equality_compare(1, 1.0_f64));
                 std::cerr << "finished running equal integers doubles 1.0 tests";
