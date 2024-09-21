@@ -1082,6 +1082,7 @@ namespace hyperion::_test::platform::compare {
 
             "inequal_integers_are_not_equal"_test = [] {
                 expect(that % not equality_compare(1, 2));
+                std::cerr << "finished running inequal integers tests";
             };
 
             "integer_equivalent_floats_are_equal"_test = [] {
@@ -1091,6 +1092,7 @@ namespace hyperion::_test::platform::compare {
                 expect(that % equality_compare(1'000, 1'000.0_f32));
                 expect(that % equality_compare(1'000, 1'000.0_f64));
                 expect(that % equality_compare(1'000, 1'000.0_fmax));
+                std::cerr << "finished running equal integers floats tests";
             };
 
             "noninteger_equivalent_floats_are_not_equal"_test = [] {
@@ -1100,36 +1102,42 @@ namespace hyperion::_test::platform::compare {
                 expect(that % not equality_compare(1'000, 1'001.0_f32));
                 expect(that % not equality_compare(1'000, 1'001.0_f64));
                 expect(that % not equality_compare(1'000, 1'001.0_fmax));
+                std::cerr << "finished running inequal intergers floats tests";
             };
 
             "equivalent_floats_are_equal"_test = [] {
                 expect(that % equality_compare(1.0_f32, 1.0_f32));
                 expect(that % equality_compare(1.0_f64, 1.0_f64));
                 expect(that % equality_compare(1.0_fmax, 1.0_fmax));
+                std::cerr << "finished running equal floats tests";
             };
 
             "nonequivalent_floats_are_not_equal"_test = [] {
                 expect(that % not equality_compare(1.0_f32, 2.0_f32));
                 expect(that % not equality_compare(1.0_f64, 2.0_f64));
                 expect(that % not equality_compare(1.0_fmax, 2.0_fmax));
+                std::cerr << "finished running inequal floats tests";
             };
 
             "floats_differing_by_only_1_epsilon_are_equal"_test = [] {
                 expect(that % equality_compare(1.0_f32, 1.0_f32 + f32_epsilon));
                 expect(that % equality_compare(1.0_f64, 1.0_f64 + f64_epsilon));
                 expect(that % equality_compare(1.0_fmax, 1.0_fmax + fmax_epsilon));
+                std::cerr << "finished running 1 epsilon floats tests";
             };
 
             "large_floats_with_equal_resolution_are_approximately_equal"_test = [] {
                 expect(that % equality_compare(1.0e10F, 10'000'000'001.0_f32));
                 expect(that % equality_compare(1.0e16, 10'000'000'000'000'001.0));
                 expect(that % equality_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
+                std::cerr << "finished running large near floats tests";
             };
 
             "significantly_different_large_floats_are_not_approximately_equal"_test = [] {
                 expect(that % not equality_compare(1.0e10F, 10'000'001'000.0_f32));
                 expect(that % not equality_compare(1.0e10, 10'000'001'000.0_f64));
                 expect(that % not equality_compare(1.0e10L, 10'000'001'000.0_fmax));
+                std::cerr << "finished running large far floats tests";
             };
 
             "comparisons_are_mathematically_consistent"_test = [] {
@@ -1141,11 +1149,13 @@ namespace hyperion::_test::platform::compare {
 
                     expect(that % equality_compare(three_tenths, calculated));
                     expect(that % equality_compare(three_tenths - calculated, 0.0_f64));
+                    std::cerr << "finished running add sub tests";
                 };
 
                 "negated_values_compare_correctly"_test = [] {
                     expect(that % equality_compare(-0.0_f64, 0.0_f64));
                     expect(that % not equality_compare(-1.0_f64, 1.0_f64));
+                    std::cerr << "finished running neg tests";
                 };
 
                 "identity_operations_compare_correctly"_test = [] {
@@ -1154,6 +1164,7 @@ namespace hyperion::_test::platform::compare {
                            % equality_compare(std::abs(test_value - 0.0_f64)
                                                   / (std::abs(test_value) + 0.0_f64),
                                               1.0_f64));
+                    std::cerr << "finished running identity tests";
                 };
 
                 "limits_compare_correctly"_test = [] {
@@ -1214,6 +1225,7 @@ namespace hyperion::_test::platform::compare {
                     expect(that % not equality_compare(std::numeric_limits<f32>::min(), 1.0));
                     expect(that % not equality_compare(std::numeric_limits<f64>::min(), 1.0));
                     expect(that % not equality_compare(std::numeric_limits<fmax>::min(), 1.0));
+                    std::cerr << "finished running limits tests";
                 };
 
                 "math_results_compare_correctly"_test = [] {
@@ -1222,6 +1234,7 @@ namespace hyperion::_test::platform::compare {
                     expect(that % equality_compare(sine1, 0.0));
                     expect(that % equality_compare(sine2, 0.0));
                     expect(that % equality_compare(sine1, sine2));
+                    std::cerr << "finished running math tests";
                 };
             };
 
@@ -1233,6 +1246,7 @@ namespace hyperion::_test::platform::compare {
                 expect(that % equality_compare(val1, val1));
                 expect(that % equality_compare(val1, val3));
                 expect(that % not equality_compare(val1, val2));
+                std::cerr << "finished running non-arithmetic tests";
             };
 
             "custom_absolute_epsilon"_test = [] {
@@ -1246,6 +1260,7 @@ namespace hyperion::_test::platform::compare {
                                               1.0_f64 + custom_absolute_epsilon.value()
                                                   + custom_absolute_epsilon.value(),
                                               custom_absolute_epsilon));
+                std::cerr << "finished running absolute epsilon tests";
             };
 
             "custom_relative_epsilon"_test = [] {
@@ -1261,6 +1276,7 @@ namespace hyperion::_test::platform::compare {
                        % equality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
                 expect(that
                        % not equality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
+                std::cerr << "finished running relative epsilon tests";
             };
             std::cerr << "finished running equality tests";
         };
