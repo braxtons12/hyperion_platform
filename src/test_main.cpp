@@ -2,7 +2,7 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
 /// @version 0.1
-/// @date 2024-09-20
+/// @date 2024-09-21
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -47,12 +47,9 @@ auto boost::ut::cfg<boost::ut::override>
 
 #include <hyperion/platform/compare.h>
 
-#include <iostream>
-
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
-    std::cerr << "running tests";
     return static_cast<i32>(
         boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
 }
