@@ -31,6 +31,7 @@ function(hyperion_compile_settings TARGET)
             /Zc:preprocessor
             /Zc:rvalueCast
             /Zc:__cplusplus
+            /EHsc
         )
     endif()
 

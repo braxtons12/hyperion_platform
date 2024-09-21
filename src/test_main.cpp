@@ -2,7 +2,7 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
 /// @version 0.1
-/// @date 2024-06-15
+/// @date 2024-09-21
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -29,31 +29,27 @@
 #include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
 
-#if HYPERION_PLATFORM_COMPILER_IS_CLANG
-
 #include <boost/ut.hpp>
 
-_Pragma("GCC diagnostic push");
-_Pragma("GCC diagnostic ignored \"-Wmissing-variable-declarations\"");
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 template<>
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
-auto boost::ut::cfg<boost::ut::override> = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
+auto boost::ut::cfg<boost::ut::override>
+    = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
 
-_Pragma("GCC diagnostic pop");
-
-#include <hyperion/platform/compare.h>
-
-#else
-
-#include <hyperion/platform/compare.h>
-#include <boost/ut.hpp>
-
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic pop
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+
+#include <hyperion/platform/compare.h>
 
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
-[[nodiscard]] auto
-main([[maybe_unused]] i32 argc, [[maybe_unused]] const char* const* argv) -> i32 {
-    return 0;
+[[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
+    return static_cast<i32>(
+        boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
 }

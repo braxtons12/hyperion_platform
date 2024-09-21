@@ -2,8 +2,8 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Comparison functions that are safe regardless of the being-compared types,
 /// including the floating point types
-/// @version 0.4.0
-/// @date 2024-06-15
+/// @version 0.4.2
+/// @date 2024-09-21
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -259,7 +259,8 @@ namespace hyperion::platform::compare {
         /// @brief Constructs an `Epsilon` with the given numeric value
         ///
         /// @param val The numeric value of this `Epsilon`
-        explicit(false) constexpr Epsilon(TNumeric val) : m_epsilon(val) {
+        explicit(false) constexpr Epsilon(TNumeric val) // NOLINT(*-explicit-*)
+            : m_epsilon(val) {
         }
 
         /// @brief Returns the `Absolute` epsilon this `Epsilon` would represent when used
@@ -296,12 +297,11 @@ namespace hyperion::platform::compare {
 
     namespace detail {
         template<typename TLhs, typename TRhs, EpsilonType TType = EpsilonType::Absolute>
-        constexpr auto make_epsilon() noexcept
-            -> Epsilon<
-                TType,
-                std::conditional_t<std::same_as<detail::common_type_t<TLhs, TRhs>, std::nullptr_t>,
-                                   fmax,
-                                   detail::common_type_t<TLhs, TRhs>>> {
+        constexpr auto make_epsilon() noexcept -> Epsilon<
+            TType,
+            std::conditional_t<std::same_as<detail::common_type_t<TLhs, TRhs>, std::nullptr_t>,
+                               fmax,
+                               detail::common_type_t<TLhs, TRhs>>> {
             return {detail::default_epsilon<TType, TLhs, TRhs>};
         }
     } // namespace detail
@@ -321,7 +321,7 @@ namespace hyperion::platform::compare {
     /// @headerfile hyperion/platform/compare.h
     template<EpsilonType TType, Arithmetic TEpsilon>
     constexpr auto make_epsilon(TEpsilon&& epsilon) -> Epsilon<TType, TEpsilon> {
-        return {std::forward<TEpsilon>(epsilon)};
+        return {std::forward<TEpsilon&&>(epsilon)};
     }
 
     /// @brief Type trait to check whether `TType` is a specialization of `Epsilon`
@@ -385,13 +385,12 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires EqualityComparable<TLhs, TRhs>
-    constexpr auto
-    equality_compare(TLhs&& lhs,
-                     TRhs&& rhs,
-                     TEpsilon&& epsilon
-                     = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                                    && noexcept(rhs
-                                                                                == lhs)) -> bool {
+    constexpr auto equality_compare(
+        TLhs&& lhs,
+        TRhs&& rhs,
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+        -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -429,12 +428,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return equality_compare(static_cast<fmax>(lhs),
                                         std::forward<TRhs>(rhs),
-                                        std::forward<TEpsilon>(epsilon));
+                                        std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return equality_compare(std::forward<TLhs>(lhs),
                                         static_cast<fmax>(rhs),
-                                        std::forward<TEpsilon>(epsilon));
+                                        std::move(epsilon));
             }
             else {
                 if(std::isnan(lhs) || std::isinf(lhs) || std::isnan(rhs) || std::isinf(rhs)) {
@@ -484,13 +483,12 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires InequalityComparable<TLhs, TRhs>
-    constexpr auto
-    inequality_compare(TLhs&& lhs,
-                       TRhs&& rhs,
-                       TEpsilon&& epsilon
-                       = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                                      && noexcept(rhs
-                                                                                  == lhs)) -> bool {
+    constexpr auto inequality_compare(
+        TLhs&& lhs,
+        TRhs&& rhs,
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+        -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -528,12 +526,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return inequality_compare(static_cast<fmax>(lhs),
                                           std::forward<TRhs>(rhs),
-                                          std::forward<TEpsilon>(epsilon));
+                                          std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return inequality_compare(std::forward<TLhs>(lhs),
                                           static_cast<fmax>(rhs),
-                                          std::forward<TEpsilon>(epsilon));
+                                          std::move(epsilon));
             }
             else {
                 if(std::isnan(lhs) || std::isinf(lhs) || std::isnan(rhs) || std::isinf(rhs)) {
@@ -583,13 +581,13 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
-    constexpr auto
-    less_than_compare(TLhs&& lhs,
-                      TRhs&& rhs,
-                      TEpsilon&& epsilon
-                      = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                                     && noexcept(rhs
-                                                                                 == lhs)) -> bool {
+    // NOLINTNEXTLINE(*-cognitive-complexity)
+    constexpr auto less_than_compare(
+        TLhs&& lhs,
+        TRhs&& rhs,
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+        -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -627,12 +625,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return less_than_compare(static_cast<fmax>(lhs),
                                          std::forward<TRhs>(rhs),
-                                         std::forward<TEpsilon>(epsilon));
+                                         std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return less_than_compare(std::forward<TLhs>(lhs),
                                          static_cast<fmax>(rhs),
-                                         std::forward<TEpsilon>(epsilon));
+                                         std::move(epsilon));
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -698,12 +696,13 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanOrEqualComparable<TLhs, TRhs>
+    // NOLINTNEXTLINE(*-cognitive-complexity)
     constexpr auto less_than_or_equal_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon&& epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                       && noexcept(rhs == lhs)) -> bool {
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+        -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -741,12 +740,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return less_than_or_equal_compare(static_cast<fmax>(lhs),
                                                   std::forward<TRhs>(rhs),
-                                                  std::forward<TEpsilon>(epsilon));
+                                                  std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return less_than_or_equal_compare(std::forward<TLhs>(lhs),
                                                   static_cast<fmax>(rhs),
-                                                  std::forward<TEpsilon>(epsilon));
+                                                  std::move(epsilon));
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -810,12 +809,12 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
-    constexpr auto
-    greater_than_compare(TLhs&& lhs,
-                         TRhs&& rhs,
-                         TEpsilon&& epsilon
-                         = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                                        && noexcept(rhs == lhs))
+    // NOLINTNEXTLINE(*-cognitive-complexity)
+    constexpr auto greater_than_compare(
+        TLhs&& lhs,
+        TRhs&& rhs,
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
         -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
@@ -854,12 +853,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return greater_than_compare(static_cast<fmax>(lhs),
                                             std::forward<TRhs>(rhs),
-                                            std::forward<TEpsilon>(epsilon));
+                                            std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return greater_than_compare(std::forward<TLhs>(lhs),
                                             static_cast<fmax>(rhs),
-                                            std::forward<TEpsilon>(epsilon));
+                                            std::move(epsilon));
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -924,12 +923,13 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanOrEqualComparable<TLhs, TRhs>
+    // NOLINTNEXTLINE(*-cognitive-complexity)
     constexpr auto greater_than_or_equal_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon&& epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
-                                                       && noexcept(rhs == lhs)) -> bool {
+        TEpsilon epsilon
+        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+        -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -967,12 +967,12 @@ namespace hyperion::platform::compare {
             if constexpr(std::integral<lhs_t>) {
                 return greater_than_or_equal_compare(static_cast<fmax>(lhs),
                                                      std::forward<TRhs>(rhs),
-                                                     std::forward<TEpsilon>(epsilon));
+                                                     std::move(epsilon));
             }
             else if constexpr(std::integral<rhs_t>) {
                 return greater_than_or_equal_compare(std::forward<TLhs>(lhs),
                                                      static_cast<fmax>(rhs),
-                                                     std::forward<TEpsilon>(epsilon));
+                                                     std::move(epsilon));
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -1041,8 +1041,8 @@ namespace hyperion::_test::platform::compare {
 
         #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
-            auto
-            operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering = default;
+            auto operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering
+                = default;
 
         #if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major == 15
 
@@ -1081,7 +1081,8 @@ namespace hyperion::_test::platform::compare {
             };
 
             "integer_equivalent_floats_are_equal"_test = [] {
-                expect(that % equality_compare(1, 1.0_f32));
+                auto result = equality_compare(1, 1.0_f32);
+                expect(that % result);
                 expect(that % equality_compare(1, 1.0_f64));
                 expect(that % equality_compare(1, 1.0_fmax));
                 expect(that % equality_compare(1'000, 1'000.0_f32));
