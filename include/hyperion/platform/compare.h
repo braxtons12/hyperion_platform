@@ -1090,6 +1090,7 @@ namespace hyperion::_test::platform::compare {
                 expect(that % equality_compare(1, 1.0_f32));
                 expect(that % equality_compare(1, 1.0_f64));
                 expect(that % equality_compare(1, 1.0_fmax));
+                std::cerr << "finished running equal integers floats 1.0 tests";
                 expect(that % equality_compare(1'000, 1'000.0_f32));
                 expect(that % equality_compare(1'000, 1'000.0_f64));
                 expect(that % equality_compare(1'000, 1'000.0_fmax));
