@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(hyperion_platform LANGUAGES CXX VERSION 0.4.0)
+project(hyperion_platform LANGUAGES CXX VERSION 0.4.1)
 
 include(CTest)
 
@@ -27,7 +27,7 @@ endif()
 if(HYPERION_USE_FETCH_CONTENT)
     FetchContent_Declare(boost_ut
         GIT_REPOSITORY "https://github.com/boost-ext/ut"
-        GIT_TAG "v2.0.1"
+        GIT_TAG "v2.1.0"
         SYSTEM
         )
     FetchContent_MakeAvailable(boost_ut)
