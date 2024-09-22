@@ -206,13 +206,13 @@ namespace hyperion {
     #pragma GCC diagnostic push
     #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
-                        auto result = fast_float::from_chars(&(trimmed[0]),
-                                                             &(trimmed[0]) + trimmed.size(),
-                                                             res);
+                        const auto begin = &(trimmed[0]);
+                        const auto end = &(trimmed[0]) + trimmed.size();
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #pragma GCC diagnostic pop
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
-                        if(result.ptr != trimmed.end()) {
+                        auto result = fast_float::from_chars(begin, end, res);
+                        if(result.ptr != end) {
                             if(result.ec == std::errc::invalid_argument) {
                                 return {.status = literal_status::InvalidCharacterSequence};
                             }
