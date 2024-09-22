@@ -2,7 +2,7 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
 /// @version 0.1
-/// @date 2024-09-21
+/// @date 2024-09-22
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -25,8 +25,6 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 
-#include <hyperion/platform.h>
-#include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
 
 #include <boost/ut.hpp>
@@ -39,16 +37,17 @@
 template<>
 // NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
 auto boost::ut::cfg<boost::ut::override>
-    = boost::ut::runner<boost::ut::reporter<boost::ut::printer>>{};
+    = boost::ut::runner<boost::ut::reporter_junit<boost::ut::printer>>{};
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
     #pragma GCC diagnostic pop
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
-#include <hyperion/platform/compare.h>
+#include "test/compare.h"
 
 using namespace hyperion; // NOLINT(google-build-using-namespace)
 
+// NOLINTNEXTLINE(bugprone-exception-escape)
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
     return static_cast<i32>(
         boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
