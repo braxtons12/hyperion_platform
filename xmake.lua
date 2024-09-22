@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global,undefined-field
 set_project("hyperion_platform")
-set_version("0.5.0")
+set_version("0.5.1")
 
 set_xmakever("2.8.7")
 
@@ -120,3 +120,4 @@ target("hyperion_platform_docs", function()
         os.cd(old_dir)
     end)
 end)
+

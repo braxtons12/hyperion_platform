@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(hyperion_platform LANGUAGES CXX VERSION 0.5.0)
+project(hyperion_platform LANGUAGES CXX VERSION 0.5.1)
 
 include(CTest)
 
@@ -15,7 +15,8 @@ if(${HYPERION_ENABLE_TRACY})
         FetchContent_Declare(Tracy
             GIT_REPOSITORY "https://github.com/wolfpld/tracy"
             GIT_TAG "v0.11.1"
-            )
+            SYSTEM
+        )
 
         FetchContent_MakeAvailable(Tracy)
     else()
@@ -37,7 +38,7 @@ if(HYPERION_USE_FETCH_CONTENT)
         GIT_REPOSITORY "https://github.com/boost-ext/ut"
         GIT_TAG "v2.1.0"
         SYSTEM
-        )
+    )
     FetchContent_MakeAvailable(boost_ut)
 else()
     find_package(ut REQUIRED)
