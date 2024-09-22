@@ -25,26 +25,9 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 
-#include <hyperion/platform.h>
-#include <hyperion/platform/compare.h>
-#include <hyperion/platform/def.h>
 #include <hyperion/platform/types.h>
 
 #include <boost/ut.hpp>
-
-#if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
-#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
-
-template<>
-// NOLINTNEXTLINE(cert-err58-cpp, cppcoreguidelines-avoid-non-const-global-variables)
-auto boost::ut::cfg<boost::ut::override>
-    = boost::ut::runner<boost::ut::reporter_junit<boost::ut::printer>>{};
-
-#if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
-#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 #include "test/compare.h"
 
