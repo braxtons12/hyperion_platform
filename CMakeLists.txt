@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(hyperion_platform LANGUAGES CXX VERSION 0.5.1)
+project(hyperion_platform LANGUAGES CXX VERSION 0.5.2)
 
 include(CTest)
 
@@ -104,7 +104,11 @@ hyperion_enable_warnings(hyperion_platform_main)
 add_test(NAME hyperion_platform_main
          COMMAND hyperion_platform_main)
 
-add_executable(hyperion_platform_tests ${CMAKE_CURRENT_SOURCE_DIR}/src/test_main.cpp)
+ set(HYPERION_PLATFORM_TEST_SOURCES
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/test_main.cpp
+     ${CMAKE_CURRENT_SOURCE_DIR}/src/test/compare.cpp
+ )
+ add_executable(hyperion_platform_tests ${HYPERION_PLATFORM_TEST_SOURCES})
 target_link_libraries(hyperion_platform_tests
     PRIVATE
     hyperion::platform
@@ -114,7 +118,6 @@ target_compile_definitions(
     hyperion_platform_tests
     PUBLIC
     BOOST_UT_DISABLE_MODULE=1
-    HYPERION_ENABLE_TESTING=1
 )
 
 hyperion_compile_settings(hyperion_platform_tests)

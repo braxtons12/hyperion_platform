@@ -28,7 +28,7 @@ jobs:
           CC: gcc-${{matrix.version}}
           CXX: g++-${{matrix.version}}
         working-directory: ${{github.workspace}}
-        run: cmake --preset env-cc-release
+        run: cmake --preset env-cc-release -DHYPERION_ENABLE_TRACY=ON
 
       - name: Build
         env:
@@ -73,7 +73,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           rm -rf build
-          cmake --preset env-cc-release
+          cmake --preset env-cc-release -DHYPERION_ENABLE_TRACY=ON
 
       - name: Build
         env:
@@ -114,7 +114,7 @@ jobs:
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: cmake --preset msvc-release
+        run: cmake --preset msvc-release -DHYPERION_ENABLE_TRACY=ON
           
       - name: Build
         env:
@@ -148,7 +148,7 @@ jobs:
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: cmake --preset env-cc-release
+        run: cmake --preset env-cc-release -DHYPERION_ENABLE_TRACY=ON
 
       - name: Build
         env:

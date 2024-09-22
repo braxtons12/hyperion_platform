@@ -1,6 +1,6 @@
 ---@diagnostic disable: undefined-global,undefined-field
 set_project("hyperion_platform")
-set_version("0.5.1")
+set_version("0.5.2")
 
 set_xmakever("2.8.7")
 
@@ -90,13 +90,16 @@ target("hyperion_platform_main", function()
     add_tests("hyperion_platform_main")
 end)
 
+local hyperion_platform_test_sources = {
+    "$(projectdir)/src/test_main.cpp",
+    "$(projectdir)/src/test/compare.cpp",
+}
 target("hyperion_platform_tests", function()
     set_kind("binary")
     set_languages("cxx20")
     set_default(true)
 
-    add_files("$(projectdir)/src/test_main.cpp")
-    add_defines("HYPERION_ENABLE_TESTING=1")
+    add_files(hyperion_platform_test_sources)
     add_defines("BOOST_UT_DISABLE_MODULE=1")
 
     add_deps("hyperion_platform")
