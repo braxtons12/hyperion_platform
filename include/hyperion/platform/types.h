@@ -1,8 +1,8 @@
 /// @file types.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief various type aliases for builtin types and user defined literals for them
-/// @version 0.4.0
-/// @date 2024-04-20
+/// @version 0.5.0
+/// @date 2024-09-21
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -29,6 +29,8 @@
 #define HYPERION_PLATFORM_TYPES_H
 
 #include <hyperion/platform/def.h>
+
+#include <fast_float/fast_float.h>
 
 #include <array>
 #include <cstddef>
@@ -126,6 +128,32 @@ namespace hyperion {
             std::array<char, sizeof...(Chars)> array = {Chars...};
         };
 
+        template<char... Chars>
+        constexpr auto trim_separators([[maybe_unused]] string_literal<Chars...> literal) noexcept {
+            constexpr auto new_size = []() {
+                constexpr auto array = std::array{Chars...};
+                auto size = array.size();
+                for(const auto& c : array) {
+                    if(c == '\'') {
+                        size--;
+                    }
+                }
+                return size;
+            }();
+
+            constexpr auto array = std::array{Chars...};
+            std::array<char, new_size> new_array = {};
+            auto i = 0UL;
+            for(const auto& c : array) {
+                if(c != '\'') {
+                    new_array[i] = c;
+                    i++;
+                }
+            }
+
+            return new_array;
+        }
+
         enum class literal_status : u8 {
             Valid = 0,
             OutOfRange,
@@ -167,6 +195,35 @@ namespace hyperion {
 
                 const auto is_binary
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
+
+                if constexpr(std::is_floating_point_v<Type>
+                             && (std::is_same_v<fmax, f64> || !std::is_same_v<Type, fmax>))
+                {
+                    if(!is_hex && !is_binary) {
+                        constexpr auto trimmed = trim_separators(string_literal<Chars...>{});
+                        Type res = 0;
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wunsafe-buffer-usage"
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+                        const auto begin = &(trimmed[0]);
+                        const auto end = &(trimmed[0]) + trimmed.size();
+#if HYPERION_PLATFORM_COMPILER_IS_CLANG
+    #pragma GCC diagnostic pop
+#endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
+                        auto result = fast_float::from_chars(begin, end, res);
+                        if(result.ptr != end) {
+                            if(result.ec == std::errc::invalid_argument) {
+                                return {.status = literal_status::InvalidCharacterSequence};
+                            }
+
+                            return {.status = literal_status::OutOfRange};
+                        }
+
+                        return {.status = literal_status::Valid, .value = res};
+                    }
+                }
+
                 const auto is_octal = str.size() > 1 && str[0] == '0' && !is_hex && !is_binary
                                       && !std::is_floating_point_v<Type>;
                 const auto offset = is_hex || is_binary ? 2U : (is_octal ? 1U : 0U);

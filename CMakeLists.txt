@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(hyperion_platform LANGUAGES CXX VERSION 0.4.2)
+project(hyperion_platform LANGUAGES CXX VERSION 0.5.0)
 
 include(CTest)
 
@@ -14,7 +14,7 @@ if(${HYPERION_ENABLE_TRACY})
     if(HYPERION_USE_FETCH_CONTENT)
         FetchContent_Declare(Tracy
             GIT_REPOSITORY "https://github.com/wolfpld/tracy"
-            GIT_TAG "v0.10"
+            GIT_TAG "v0.11.1"
             )
 
         FetchContent_MakeAvailable(Tracy)
@@ -25,6 +25,14 @@ if(${HYPERION_ENABLE_TRACY})
 endif()
 
 if(HYPERION_USE_FETCH_CONTENT)
+    FetchContent_Declare(fast_float
+        GIT_REPOSITORY "https://github.com/fastfloat/fast_float"
+        GIT_TAG "v6.1.6"
+        GIT_SHALLOW TRUE
+        SYSTEM
+    )
+    FetchContent_MakeAvailable(fast_float)
+
     FetchContent_Declare(boost_ut
         GIT_REPOSITORY "https://github.com/boost-ext/ut"
         GIT_TAG "v2.1.0"
@@ -33,6 +41,7 @@ if(HYPERION_USE_FETCH_CONTENT)
     FetchContent_MakeAvailable(boost_ut)
 else()
     find_package(ut REQUIRED)
+    find_package(fast_float REQUIRED)
 endif()
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/hyperion_compiler_settings.cmake)
@@ -68,6 +77,7 @@ target_link_libraries(
     hyperion_platform
     INTERFACE
     ${TRACY_LINK_TARGET}
+    fast_float
 )
 
 hyperion_compile_settings(hyperion_platform)

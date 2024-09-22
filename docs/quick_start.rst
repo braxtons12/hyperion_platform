@@ -20,13 +20,15 @@ other methods like :cmake:`add_subdirectory`\. Example for :cmake:`FetchContent`
     # Declare the dependency on hyperion-utils and make it available for use
     FetchContent_Declare(hyperion_platform
         GIT_REPOSITORY "https://github.com/braxtons12/hyperion_platform"
-        GIT_TAG "v0.3.1")
+        GIT_TAG "v0.5.0")
     FetchContent_MakeAvailable(hyperion_platform)
 
     # For this example, we create an executable target and link hyperion::platform to it
     add_executable(MyExecutable "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
     target_link_libraries(MyExecutable PRIVATE hyperion::platform)
 
+hyperion::platform depends on :cmake:`fast_float` for parsing of literals of the 
+:cpp:`f32` and :cpp:`f64` floating point type aliases.
 Note that hyperion::platform has an optional feature, for the profiling macros it wraps in
 :cpp:`#include <hyperion/platform/def.h>`\. When this feature is enabled, it requires the
 optional dependency, `Tracy <https://github.com/wolfpld/tracy>`_\.
