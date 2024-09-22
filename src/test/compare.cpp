@@ -69,6 +69,7 @@ namespace hyperion::_test::platform::compare {
     #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
             auto operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering
+                // NOLINTNEXTLINE(*-use-nullptr): false positive from clang-tidy 15 as well
                 = default;
 
     #if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major == 15
@@ -678,7 +679,7 @@ namespace hyperion::_test::platform::compare {
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that
-                // NOLINTNEXTLINE(*-magic-numbers)
+                       // NOLINTNEXTLINE(*-magic-numbers)
                        % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'001'000.0L));
 
                 // NOLINTNEXTLINE(*-magic-numbers)
@@ -686,7 +687,7 @@ namespace hyperion::_test::platform::compare {
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
                 expect(that
-                // NOLINTNEXTLINE(*-magic-numbers)
+                       // NOLINTNEXTLINE(*-magic-numbers)
                        % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
@@ -996,9 +997,9 @@ namespace hyperion::_test::platform::compare {
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that
-                // NOLINTNEXTLINE(*-magic-numbers)
+                       // NOLINTNEXTLINE(*-magic-numbers)
                        % not greater_than_or_equal_compare(1.0e22L,
-                // NOLINTNEXTLINE(*-magic-numbers)
+                                                           // NOLINTNEXTLINE(*-magic-numbers)
                                                            10'000'000'000'000'010'000'000.0L));
 
                 // NOLINTNEXTLINE(*-magic-numbers)
@@ -1006,7 +1007,7 @@ namespace hyperion::_test::platform::compare {
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
                 expect(that
-                // NOLINTNEXTLINE(*-magic-numbers)
+                       // NOLINTNEXTLINE(*-magic-numbers)
                        % greater_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
 
                 // NOLINTNEXTLINE(*-magic-numbers)
@@ -1014,7 +1015,7 @@ namespace hyperion::_test::platform::compare {
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(10'000'000'000'001'000.0, 1.0e16));
                 expect(that
-                // NOLINTNEXTLINE(*-magic-numbers)
+                       // NOLINTNEXTLINE(*-magic-numbers)
                        % greater_than_or_equal_compare(10'000'000'000'000'000'001'000.0L, 1.0e22L));
             };
 
