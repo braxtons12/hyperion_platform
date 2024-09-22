@@ -92,7 +92,6 @@ end)
 
 local hyperion_platform_test_sources = {
     "$(projectdir)/src/test_main.cpp",
-    "$(projectdir)/src/test/compare.cpp",
 }
 target("hyperion_platform_tests", function()
     set_kind("binary")
@@ -123,4 +122,3 @@ target("hyperion_platform_docs", function()
         os.cd(old_dir)
     end)
 end)
-

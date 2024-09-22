@@ -1,4 +1,4 @@
-/// @file compare.cpp
+/// @file compare.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Tests for safe comparison functions
 /// @version 0.5.2
@@ -24,6 +24,9 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
+
+#ifndef HYPERION_PLATFORM_COMPARE_TESTS_H
+#define HYPERION_PLATFORM_COMPARE_TESTS_H
 
 #include <hyperion/platform.h>
 #include <hyperion/platform/compare.h>
@@ -1169,3 +1172,5 @@ namespace hyperion::_test::platform::compare {
 #endif // HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
 
 } // namespace hyperion::_test::platform::compare
+
+#endif // HYPERION_PLATFORM_COMPARE_TESTS_H

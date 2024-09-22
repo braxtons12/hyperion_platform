@@ -106,7 +106,7 @@ add_test(NAME hyperion_platform_main
 
  set(HYPERION_PLATFORM_TEST_SOURCES
      ${CMAKE_CURRENT_SOURCE_DIR}/src/test_main.cpp
-     ${CMAKE_CURRENT_SOURCE_DIR}/src/test/compare.cpp
+     #${CMAKE_CURRENT_SOURCE_DIR}/src/test/compare.cpp
  )
  add_executable(hyperion_platform_tests ${HYPERION_PLATFORM_TEST_SOURCES})
 target_link_libraries(hyperion_platform_tests
