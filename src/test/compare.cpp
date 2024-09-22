@@ -1,6 +1,6 @@
-/// @file test/compare.cpp
+/// @file compare.cpp
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
-/// @brief Tests for safe comparision functions 
+/// @brief Tests for safe comparison functions
 /// @version 0.5.2
 /// @date 2024-09-22
 ///
@@ -25,9 +25,16 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 
+#include <hyperion/platform.h>
 #include <hyperion/platform/compare.h>
+#include <hyperion/platform/def.h>
+#include <hyperion/platform/types.h>
 
 #include <boost/ut.hpp>
+
+#include <cmath>
+#include <cstdlib>
+#include <limits>
 
 namespace hyperion::_test::platform::compare {
 
@@ -56,17 +63,17 @@ namespace hyperion::_test::platform::compare {
     // spaceship operator
     #if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major__ == 15
 
-            _Pragma("GCC diagnostic push");
-            _Pragma("GCC diagnostic ignored \"-Wzero-as-null-pointer-constant\"");
+        #pragma GCC diagnostic push
+        #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 
     #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
-            auto
-            operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering = default;
+            auto operator<=>(const non_arithmetic& rhs) const noexcept -> std::strong_ordering
+                = default;
 
     #if HYPERION_PLATFORM_COMPILER_IS_CLANG && __clang_major == 15
 
-            _Pragma("GCC diagnostic pop");
+        #pragma GCC diagnostic pop
 
     #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
@@ -105,18 +112,18 @@ namespace hyperion::_test::platform::compare {
                 expect(that % result);
                 expect(that % equality_compare(1, 1.0_f64));
                 expect(that % equality_compare(1, 1.0_fmax));
-                expect(that % equality_compare(1'000, 1'000.0_f32));
-                expect(that % equality_compare(1'000, 1'000.0_f64));
-                expect(that % equality_compare(1'000, 1'000.0_fmax));
+                expect(that % equality_compare(1'000_i32, 1'000.0_f32));
+                expect(that % equality_compare(1'000_i32, 1'000.0_f64));
+                expect(that % equality_compare(1'000_i32, 1'000.0_fmax));
             };
 
             "noninteger_equivalent_floats_are_not_equal"_test = [] {
                 expect(that % not equality_compare(1, 2.0_f32));
                 expect(that % not equality_compare(1, 2.0_f64));
                 expect(that % not equality_compare(1, 2.0_fmax));
-                expect(that % not equality_compare(1'000, 1'001.0_f32));
-                expect(that % not equality_compare(1'000, 1'001.0_f64));
-                expect(that % not equality_compare(1'000, 1'001.0_fmax));
+                expect(that % not equality_compare(1'000_i32, 1'001.0_f32));
+                expect(that % not equality_compare(1'000_i32, 1'001.0_f64));
+                expect(that % not equality_compare(1'000_i32, 1'001.0_fmax));
             };
 
             "equivalent_floats_are_equal"_test = [] {
@@ -138,14 +145,20 @@ namespace hyperion::_test::platform::compare {
             };
 
             "large_floats_with_equal_resolution_are_approximately_equal"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % equality_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % equality_compare(1.0e16, 10'000'000'000'000'001.0));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % equality_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
             "significantly_different_large_floats_are_not_approximately_equal"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not equality_compare(1.0e10F, 10'000'001'000.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not equality_compare(1.0e10, 10'000'001'000.0_f64));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not equality_compare(1.0e10L, 10'000'001'000.0_fmax));
             };
 
@@ -294,18 +307,18 @@ namespace hyperion::_test::platform::compare {
                 expect(that % not inequality_compare(1, 1.0_f32));
                 expect(that % not inequality_compare(1, 1.0_f64));
                 expect(that % not inequality_compare(1, 1.0_fmax));
-                expect(that % not inequality_compare(1'000, 1'000.0_f32));
-                expect(that % not inequality_compare(1'000, 1'000.0_f64));
-                expect(that % not inequality_compare(1'000, 1'000.0_fmax));
+                expect(that % not inequality_compare(1'000_i32, 1'000.0_f32));
+                expect(that % not inequality_compare(1'000_i32, 1'000.0_f64));
+                expect(that % not inequality_compare(1'000_i32, 1'000.0_fmax));
             };
 
             "noninteger_equivalent_floats_are_not_equal"_test = [] {
                 expect(that % inequality_compare(1, 2.0_f32));
                 expect(that % inequality_compare(1, 2.0_f64));
                 expect(that % inequality_compare(1, 2.0_fmax));
-                expect(that % inequality_compare(1'000, 1'001.0_f32));
-                expect(that % inequality_compare(1'000, 1'001.0_f64));
-                expect(that % inequality_compare(1'000, 1'001.0_fmax));
+                expect(that % inequality_compare(1'000_i32, 1'001.0_f32));
+                expect(that % inequality_compare(1'000_i32, 1'001.0_f64));
+                expect(that % inequality_compare(1'000_i32, 1'001.0_fmax));
             };
 
             "equivalent_floats_are_equal"_test = [] {
@@ -327,14 +340,20 @@ namespace hyperion::_test::platform::compare {
             };
 
             "large_floats_with_equal_resolution_are_approximately_equal"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not inequality_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not inequality_compare(1.0e16, 10'000'000'000'000'001.0));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not inequality_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
             "significantly_different_large_floats_are_not_approximately_equal"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % inequality_compare(1.0e10F, 10'000'001'000.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % inequality_compare(1.0e10, 10'000'001'000.0_f64));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % inequality_compare(1.0e10L, 10'000'001'000.0_fmax));
             };
 
@@ -517,12 +536,18 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_compare(1.0e10F, 10'000'001'000.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_compare(1.0e16, 10'000'000'000'001'000.0));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_compare(1.0e22L, 10'000'000'000'000'010'000'000.0L));
 
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not less_than_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not less_than_compare(1.0e16, 10'000'000'000'000'001.0));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not less_than_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
@@ -648,14 +673,20 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e10F, 10'000'001'000.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that
+                // NOLINTNEXTLINE(*-magic-numbers)
                        % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'001'000.0L));
 
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
                 expect(that
+                // NOLINTNEXTLINE(*-magic-numbers)
                        % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
@@ -800,12 +831,18 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_compare(10'000'001'000.0_f32, 1.0e10F));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_compare(10'000'000'000'001'000.0, 1.0e16));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_compare(10'000'000'000'000'010'000'000.0L, 1.0e22L));
 
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_compare(1.0e16, 10'000'000'000'000'001.0));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
             };
 
@@ -954,20 +991,30 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = [] {
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_or_equal_compare(1.0e10F, 10'000'001'000.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
                 expect(that
+                // NOLINTNEXTLINE(*-magic-numbers)
                        % not greater_than_or_equal_compare(1.0e22L,
+                // NOLINTNEXTLINE(*-magic-numbers)
                                                            10'000'000'000'000'010'000'000.0L));
 
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(1.0e10F, 10'000'000'001.0_f32));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
                 expect(that
+                // NOLINTNEXTLINE(*-magic-numbers)
                        % greater_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
 
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(10'000'001'000.0_f32, 1.0e10F));
+                // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(10'000'000'000'001'000.0, 1.0e16));
                 expect(that
+                // NOLINTNEXTLINE(*-magic-numbers)
                        % greater_than_or_equal_compare(10'000'000'000'000'000'001'000.0L, 1.0e22L));
             };
 
