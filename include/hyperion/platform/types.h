@@ -1,8 +1,8 @@
 /// @file types.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief various type aliases for builtin types and user defined literals for them
-/// @version 0.5.0
-/// @date 2024-09-21
+/// @version 0.5.3
+/// @date 2024-09-25
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -235,12 +235,14 @@ namespace hyperion {
 
                     if(digit >= 'a' && digit <= 'f') {
                         // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                        return static_cast<Type>(digit - 'a') + static_cast<Type>(10);
+                        return static_cast<Type>(static_cast<Type>(digit - 'a')
+                                                 + static_cast<Type>(10));
                     }
 
                     if(digit >= 'A' && digit <= 'F') {
                         // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                        return static_cast<Type>(digit - 'A') + static_cast<Type>(10);
+                        return static_cast<Type>(static_cast<Type>(digit - 'A')
+                                                 + static_cast<Type>(10));
                     }
 
                     return static_cast<Type>(0);
@@ -583,6 +585,10 @@ namespace hyperion {
 #endif // HYPERION_PLATFORM_COMPILER_CLANG || HYPERION_PLATFORM_COMPILER_GCC
        // clang-format off
 
+        // NOLINTNEXTLINE
+        static_assert(static_cast<u8>(8) == 8_u8, "u8 literal operator broken");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<u16>(8) == 8_u16, "u16 literal operator broken");
 		// NOLINTNEXTLINE
 		static_assert(static_cast<usize>(64) == 64_usize, "usize literal operator broken!");
 		// NOLINTNEXTLINE
@@ -601,6 +607,10 @@ namespace hyperion {
 					  "usize literal operator broken!");
         // clang-format on
 
+        // NOLINTNEXTLINE
+        static_assert(static_cast<i8>(8) == 8_i8, "i8 literal operator broken");
+        // NOLINTNEXTLINE
+        static_assert(static_cast<i16>(8) == 8_i16, "i16 literal operator broken");
         // NOLINTNEXTLINE
         static_assert(static_cast<i64>(-64'123'456) == -64'123'456_i64,
                       "i64 literal operator broken!");
