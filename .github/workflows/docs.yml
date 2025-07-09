@@ -19,7 +19,7 @@ jobs:
         run: sudo apt-get -y install graphviz
 
       - name: Install LibGS
-        run: sudo apt-get -y install libgs9 libgs9-common
+        run: sudo apt-get -y install libgs libgs-common
 
       - name: Install GCC 12
         run: sudo apt-get -y install gcc-12
