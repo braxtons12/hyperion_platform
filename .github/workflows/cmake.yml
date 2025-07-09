@@ -60,8 +60,12 @@ jobs:
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh all
-          sudo apt-get install -y llvm-${{matrix.version}} clang-${{matrix.version}} clang-tidy-${{matrix.version}}
+          if [[ ${{matrix.version}} == 20 \
+          ]]; then
+            sudo ./llvm.sh ${{matrix.version}}
+          else
+            sudo apt-get install -y llvm-${{matrix.version}} clang-${{matrix.version}} clang-tidy-${{matrix.version}}
+          fi
 
       - name: Replace clang-tidy
         run: |
