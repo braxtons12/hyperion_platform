@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [12, 13]
+        version: [12, 13, 14, 15]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [15, 16, 17, 18]
+        version: [15, 16, 17, 18, 19, 20]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -79,11 +79,16 @@ jobs:
         run: |
           wget https://apt.llvm.org/llvm.sh
           chmod +x llvm.sh
-          sudo ./llvm.sh ${{matrix.version}}
-          sudo apt-get -y install clang-tidy-${{matrix.version}}
+          sudo ./llvm.sh all
+          sudo apt-get install -y llvm-${{matrix.version}} clang-${{matrix.version}} clang-tidy-${{matrix.version}}
 
       - name: Replace clang-tidy
-        run: sudo cp /usr/bin/clang-tidy-${{matrix.version}} /usr/bin/clang-tidy -f
+        run: |
+          if [[ "$(realpath --canonicalize-existing /usr/bin/clang-tidy-${{matrix.version}})" \
+              != "$(realpath --canonicalize-existing /usr/bin/clang-tidy)" \
+          ]]; then
+            sudo cp /usr/bin/clang-tidy-${{matrix.version}} /usr/bin/clang-tidy -f
+          fi
 
       - name: Configure
         working-directory: ${{github.workspace}}
