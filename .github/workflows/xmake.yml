@@ -153,9 +153,6 @@ jobs:
       - name: Install XMake
         run: |
           scoop install xmake
-          xmake update -sfy master
-          Start-Sleep -Seconds 2
-          xmake update -fy master
 
       - name: Configure
         working-directory: ${{github.workspace}}
