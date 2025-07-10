@@ -16,6 +16,8 @@ end)
 
 if has_config("hyperion_enable_tracy") then
     add_requires("tracy", {
+        system = false,
+        external = true,
         configs = {
             languages = "cxx20"
         }
@@ -23,12 +25,16 @@ if has_config("hyperion_enable_tracy") then
 end
 
 add_requires("fast_float", {
+    system = false,
+    external = true,
     configs = {
         languages = "cxx20",
     },
 })
 
 add_requires("boost_ut", {
+    system = false,
+    external = true,
     configs = {
         modules = false,
         languages = "cxx20",
