@@ -214,7 +214,7 @@ jobs:
           xmake show -l toolchains
           xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
           xmake project -k compile_commands
-          sed -i 's|"-I"|"-isystem"|g' compile_commands.json
+          sed -i 's|\"-I\"|\"-isystem\"|g' compile_commands.json
           cat compile_commands.json
 
       - name: Build
