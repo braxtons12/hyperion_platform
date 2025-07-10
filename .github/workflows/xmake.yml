@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        version: [16, 17, 18, 19, 20]
+        version: [15, 16, 17, 18, 19, 20]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
@@ -189,7 +189,7 @@ jobs:
     runs-on: macos-13
     strategy:
       matrix:
-        version: [15, 16, 17, 18]
+        version: [15, 16, 17, 18, 19, 20]
       fail-fast: false
     steps:
       - uses: actions/checkout@v4
