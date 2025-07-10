@@ -203,13 +203,13 @@ jobs:
       - name: Install LLVM
         run: |
           brew install llvm@${{matrix.version}}
+          echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
 
       - name: Configure
         working-directory: ${{github.workspace}}
         run: |
-          echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
           xmake show -l toolchains
-          xmake f -c -y --toolchain=llvm-${{matrix.version}} --hyperion_enable_tracy=y
+          xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
 
       - name: Build
         env:
@@ -234,9 +234,8 @@ jobs:
         env:
           ACTIONS_STEP_DEBUG: true
         run: |
-          echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
-          xrepo install -y --toolchain=llvm-${{matrix.version}} "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
-          xrepo install -y --toolchain=llvm-${{matrix.version}} --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=clang-${{matrix.version}} "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
+          xrepo install -y --toolchain=clang-${{matrix.version}} --configs="hyperion_enable_tracy=true" "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
 
