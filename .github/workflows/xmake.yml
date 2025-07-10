@@ -203,6 +203,8 @@ jobs:
       - name: Install LLVM
         run: |
           brew install llvm@${{matrix.version}}
+          echo "$(brew --prefix llvm@${{matrix.version}})/bin"
+          ls "$(brew --prefix llvm@${{matrix.version}})/bin"
           echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
 
       - name: Configure
