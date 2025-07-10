@@ -203,14 +203,13 @@ jobs:
       - name: Install LLVM
         run: |
           brew install llvm@${{matrix.version}}
-          echo "PATH=$(brew --prefix llvm@${{matrix.version}})/bin:$PATH" >> $GITHUB_ENV
-          echo "CC=$(brew --prefix llvm@${{matrix.version}})/bin/clang" >> $GITHUB_ENV
-          echo "CXX=$(brew --prefix llvm@${{matrix.version}})/bin/clang++" >> $GITHUB_ENV
-          echo "LDFLAGS='-L$(brew --prefix llvm@${{matrix.version}})/lib/c++ -Wl,-rpath,$(brew --prefix llvm@${{matrix.version}})/lib/c++'" >> $GITHUB_ENV
 
       - name: Configure
         working-directory: ${{github.workspace}}
-        run: xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
+        run: |
+          echo "PATH=$(brew --prefix llvm@${{matrix.version}})/bin:$PATH" >> $GITHUB_ENV
+          echo "LDFLAGS='-L$(brew --prefix llvm@${{matrix.version}})/lib/c++ -Wl,-rpath,$(brew --prefix llvm@${{matrix.version}})/lib/c++'" >> $GITHUB_ENV
+          xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
 
       - name: Build
         env:
@@ -235,6 +234,8 @@ jobs:
         env:
           ACTIONS_STEP_DEBUG: true
         run: |
+          echo "PATH=$(brew --prefix llvm@${{matrix.version}})/bin:$PATH" >> $GITHUB_ENV
+          echo "LDFLAGS='-L$(brew --prefix llvm@${{matrix.version}})/lib/c++ -Wl,-rpath,$(brew --prefix llvm@${{matrix.version}})/lib/c++'" >> $GITHUB_ENV
           xrepo add-repo -y hyperion "https://github.com/braxtons12/hyperion_packages.git"
           xrepo update-repo -y
           xrepo install -y --toolchain=clang-${{matrix.version}} "hyperion_platform ${{ steps.extract_branch.outputs.branch }}"
