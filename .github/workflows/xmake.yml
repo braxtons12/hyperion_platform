@@ -223,7 +223,12 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           xmake b
-          xmake check clang.tidy
+          # disable clang-tidy on clang 19 and 20 because it is scanning errors
+          # within standard library headers
+          if [[ ${{matrix.version}} != 19 && ${{matrix.version}} != 20 \
+          ]]; then
+            xmake check clang.tidy
+          fi
 
       - name: Test
         env:
