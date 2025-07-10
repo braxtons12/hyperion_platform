@@ -1,8 +1,8 @@
 /// @file test_main.cpp
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
-/// @version 0.1
-/// @date 2024-09-22
+/// @version 0.1.1
+/// @date 2025-07-09
 ///
 /// MIT License
 /// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -25,6 +25,7 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 /// SOFTWARE.
 
+#include <hyperion/platform.h>
 #include <hyperion/platform/types.h>
 
 #include <boost/ut.hpp>
