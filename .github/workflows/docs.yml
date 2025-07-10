@@ -12,6 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Update apt
+        run: sudo apt-get -y update
+
       - name: Install Doxygen
         run: sudo apt-get -y install doxygen
 
