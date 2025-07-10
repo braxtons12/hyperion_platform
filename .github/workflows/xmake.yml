@@ -204,6 +204,7 @@ jobs:
         run: |
           brew install llvm@${{matrix.version}}
           echo "$(brew --prefix llvm@${{matrix.version}})/bin"
+          ln -s "$(brew --prefix llvm@${{matrix.version}})/bin/clang++" "$(brew --prefix llvm@${{matrix.version}})/bin/clang++-${{matrix.version}}"
           ls "$(brew --prefix llvm@${{matrix.version}})/bin"
           echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
 
