@@ -214,6 +214,7 @@ jobs:
           xmake show -l toolchains
           xmake f -c -y --toolchain=clang-${{matrix.version}} --hyperion_enable_tracy=y
           xmake project -k compile_commands
+          cat compile_commands.json
 
       - name: Build
         env:
