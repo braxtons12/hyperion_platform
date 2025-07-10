@@ -208,6 +208,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
+          xmake show -l toolchains
           xmake f -c -y --toolchain=llvm-${{matrix.version}} --hyperion_enable_tracy=y
 
       - name: Build
