@@ -207,6 +207,8 @@ jobs:
           ln -s "$(brew --prefix llvm@${{matrix.version}})/bin/clang++" "$(brew --prefix llvm@${{matrix.version}})/bin/clang++-${{matrix.version}}"
           ls "$(brew --prefix llvm@${{matrix.version}})/bin"
           echo "$(brew --prefix llvm@${{matrix.version}})/bin" >> $GITHUB_PATH
+          echo "LDFLAGS='-L$(brew --prefix llvm@${{matrix.version}})/lib -Wl,-rpath,$(brew --prefix llvm@${{matrix.version}})/lib/c++'" >> $GITHUB_ENV
+          echo "CPPFLAGS=-I$(brew --prefix llvm@{{matrix.version}})/include"
 
       - name: Configure
         working-directory: ${{github.workspace}}
