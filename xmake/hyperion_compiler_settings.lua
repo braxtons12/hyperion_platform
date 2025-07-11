@@ -15,7 +15,12 @@ end
 
 local function _set_compile_options(target)
     if is_mode("release") then
-        target:set("optimize", "aggressive")
+        if target:has_tool("cxx", "clang", "clang++") then
+            -- clang 19 deprecates -Ofast, so just use -O3 on clang
+            target:set("optimize", "fastest")
+        else
+            target:set("optimize", "aggressive")
+        end
         if target:has_tool("cxx", "cl") then
             -- do not enable avx512 on MSVC is it has an optimizer error
             -- that will cause a crash due to misalignment
@@ -50,6 +55,7 @@ local function _set_compile_options(target)
         target:add("cxflags", "/sdl", { public = false })
     elseif target:has_tool("cxx", "clang", "clang++") then
         target:add("cxflags", "-fsized-deallocation", { public = true })
+        target:add("cxflags", "-ferror-limit=0", { public = true })
     end
 end
 
