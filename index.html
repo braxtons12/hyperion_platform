@@ -16,28 +16,31 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "dark";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=fd3f3429" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
   
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="canonical" href="braxtons12.github.io/hyperion_platform/index.html" />
@@ -46,6 +49,7 @@
     <link rel="next" title="Quick Start Guide" href="quick_start.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -61,19 +65,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -81,7 +74,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -89,8 +81,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -125,15 +117,11 @@
     
       <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
     
   </div>
   
@@ -197,15 +185,11 @@ document.write(`
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
@@ -232,15 +216,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -257,7 +237,8 @@ document.write(`
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -352,7 +333,6 @@ document.write(`
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -408,13 +388,25 @@ document.write(`
 
   </ul>
 </nav></div>
+        <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
     </div>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -484,13 +476,117 @@ and related projects, namely frame profiling support backed by
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Platform and Feature Detection Macros</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="platform.html">Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="platform.html">Platform</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_WINDOWS"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_WINDOWS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_APPLE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_APPLE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_UNIX"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_UNIX</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_LINUX"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_LINUX</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_BSD"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_BSD</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_ANDROID"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_ANDROID</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_COMPILER_IS_CLANG"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_CLANG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_COMPILER_IS_GCC"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_GCC</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_COMPILER_IS_MSVC"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_COMPILER_IS_MSVC</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_STD_LIB_IS_LIBCPP"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_LIBCPP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_LIBSTDCPP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_STD_LIB_IS_MSVC"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_STD_LIB_IS_MSVC</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_MODE_IS_DEBUG"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_MODE_IS_DEBUG</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_MODE_IS_RELEASE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_MODE_IS_RELEASE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_X86_64"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_X86_64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_X86"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_X86</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V6"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V6</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V7"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V7</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V7A"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V7A</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V7R"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V7R</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V7M"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V7M</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V7S"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V7S</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_V8"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_V8</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARM_64"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARM_64</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_UNKNOWN"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_UNKNOWN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_ARCHITECTURE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_ARCHITECTURE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_ARCHITECTURE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_ARCHITECTURE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_LITTLE_ENDIAN"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_LITTLE_ENDIAN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_IS_BIG_ENDIAN"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_IS_BIG_ENDIAN</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="platform.html#c.HYPERION_PLATFORM_CACHE_LINE_SIZE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_CACHE_LINE_SIZE</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Utility Macros</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="def.html">Defines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="def.html">Defines</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_MACROS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_MACROS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_MACROS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION"><code class="docutils literal notranslate"><span class="pre">HYPERION_STD_LIB_HAS_EXPERIMENTAL_SOURCE_LOCATION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_STD_LIB_HAS_SOURCE_LOCATION"><code class="docutils literal notranslate"><span class="pre">HYPERION_STD_LIB_HAS_SOURCE_LOCATION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_STD_LIB_HAS_JTHREAD"><code class="docutils literal notranslate"><span class="pre">HYPERION_STD_LIB_HAS_JTHREAD</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PLATFORM_STD_LIB_HAS_COMPARE"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_STD_LIB_HAS_COMPARE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT"><code class="docutils literal notranslate"><span class="pre">HYPERION_COMPILER_HAS_TYPE_PACK_ELEMENT</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_COMPILER_SUPPORTS_CONDITIONALLY_TRIVIAL_SMFS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_NO_UNIQUE_ADDRESS"><code class="docutils literal notranslate"><span class="pre">HYPERION_NO_UNIQUE_ADDRESS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_TRIVIAL_ABI"><code class="docutils literal notranslate"><span class="pre">HYPERION_TRIVIAL_ABI</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_NO_DESTROY"><code class="docutils literal notranslate"><span class="pre">HYPERION_NO_DESTROY</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_CONSTEXPR_STRINGS"><code class="docutils literal notranslate"><span class="pre">HYPERION_CONSTEXPR_STRINGS</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_UNREACHABLE"><code class="docutils literal notranslate"><span class="pre">HYPERION_UNREACHABLE</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SUGGEST_DESTRUCTOR_OVERRIDE_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SWITCH_MISSING_ENUM_VALUES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_OLD_STYLE_CASTS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_INVALID_NORETURN_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_INVALID_NORETURN_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_INVALID_NORETURN_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_INVALID_NORETURN_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DEPRECATED_DECLARATIONS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNINITIALIZED_VARIABLES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNNEEDED_INTERNAL_DECL_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_CONSTANT_CONDITIONAL_EXPRESSIONS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_MARKED_NOEXCEPT_BUT_THROWS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_VALUES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_VALUES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_VALUES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_VALUES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_VARIABLES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_MISSING_NORETURN_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_MISSING_NORETURN_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_MISSING_NORETURN_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_MISSING_NORETURN_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_RESERVED_IDENTIFIERS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_RESERVED_MACRO_IDENTIFIERS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_PADDING_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_PADDING_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_PADDING_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_PADDING_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_WEAK_VTABLES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_WEAK_VTABLES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_WEAK_VTABLES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_WEAK_VTABLES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_TEMPLATES_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_FUNCTIONS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNUSED_MEMBER_FUNCTIONS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_SIGNED_BITFIELD_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNKNOWN_DOC_COMMAND_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_DOCUMENTATION_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_DOCUMENTATION_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_CONSTRUCTOR_SHADOW_FIELDS_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_FLOAT_EQUALITY_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_COMMA_MISUSE_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_COMMA_MISUSE_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_COMMA_MISUSE_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_COMMA_MISUSE_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_START"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_START</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_STOP"><code class="docutils literal notranslate"><span class="pre">HYPERION_IGNORE_UNSAFE_BUFFER_WARNING_STOP</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PLATFORM_PROFILING_ENABLED"><code class="docutils literal notranslate"><span class="pre">HYPERION_PLATFORM_PROFILING_ENABLED</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PROFILE_FUNCTION"><code class="docutils literal notranslate"><span class="pre">HYPERION_PROFILE_FUNCTION</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PROFILE_START_FRAME"><code class="docutils literal notranslate"><span class="pre">HYPERION_PROFILE_START_FRAME</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PROFILE_END_FRAME"><code class="docutils literal notranslate"><span class="pre">HYPERION_PROFILE_END_FRAME</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="def.html#c.HYPERION_PROFILE_MARK_FRAME"><code class="docutils literal notranslate"><span class="pre">HYPERION_PROFILE_MARK_FRAME</span></code></a></li>
+</ul>
+</li>
 </ul>
 </div>
 <div class="toctree-wrapper compound">
@@ -499,19 +595,33 @@ and related projects, namely frame profiling support backed by
 <li class="toctree-l1"><a class="reference internal" href="utility.html">Core Library Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4IDpE6ignorevDpRR4Args"><code class="docutils literal notranslate"><span class="pre">ignore()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv411EpsilonType"><code class="docutils literal notranslate"><span class="pre">EpsilonType</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N11EpsilonType8AbsoluteE"><code class="docutils literal notranslate"><span class="pre">EpsilonType::Absolute</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N11EpsilonType8RelativeE"><code class="docutils literal notranslate"><span class="pre">EpsilonType::Relative</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N11EpsilonType8AbsoluteE"><code class="docutils literal notranslate"><span class="pre">Absolute</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N11EpsilonType8RelativeE"><code class="docutils literal notranslate"><span class="pre">Relative</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I_11EpsilonType_10ArithmeticE12make_epsilon7EpsilonI5TType8TEpsilonERR8TEpsilon"><code class="docutils literal notranslate"><span class="pre">make_epsilon()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE16equality_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">equality_compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE18inequality_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">inequality_compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE17less_than_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">less_than_compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE26less_than_or_equal_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">less_than_or_equal_compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE20greater_than_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">greater_than_compare()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00_11EpsilonKindE29greater_than_or_equal_comparebRR4TLhsRR4TRhs8TEpsilon"><code class="docutils literal notranslate"><span class="pre">greater_than_or_equal_compare()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I0E27is_epsilon_specialization_v"><code class="docutils literal notranslate"><span class="pre">is_epsilon_specialization_v</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I_11EpsilonType_10ArithmeticEN8hyperion8platform7compare7EpsilonE"><code class="docutils literal notranslate"><span class="pre">Epsilon</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N8hyperion8platform7compare7Epsilon7EpsilonE8TNumeric"><code class="docutils literal notranslate"><span class="pre">Epsilon::Epsilon()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4NK8hyperion8platform7compare7Epsilon7epsilonERK10ArithmeticRK10Arithmetic"><code class="docutils literal notranslate"><span class="pre">Epsilon::epsilon()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4NK8hyperion8platform7compare7Epsilon5valueEv"><code class="docutils literal notranslate"><span class="pre">Epsilon::value()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I_11EpsilonType_10ArithmeticEN8hyperion8platform7compare7EpsilonE"><code class="docutils literal notranslate"><span class="pre">hyperion::platform::compare::Epsilon</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4N8hyperion8platform7compare7Epsilon7EpsilonE8TNumeric"><code class="docutils literal notranslate"><span class="pre">explicit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4NK8hyperion8platform7compare7Epsilon7epsilonERK10ArithmeticRK10Arithmetic"><code class="docutils literal notranslate"><span class="pre">epsilon()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="utility.html#_CPPv4NK8hyperion8platform7compare7Epsilon5valueEv"><code class="docutils literal notranslate"><span class="pre">value()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I0EN8hyperion8platform7compare25is_epsilon_specializationE"><code class="docutils literal notranslate"><span class="pre">is_epsilon_specialization</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I0EN8hyperion8platform7compare25is_epsilon_specializationE"><code class="docutils literal notranslate"><span class="pre">hyperion::platform::compare::is_epsilon_specialization</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare18EqualityComparableE"><code class="docutils literal notranslate"><span class="pre">EqualityComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare20InequalityComparableE"><code class="docutils literal notranslate"><span class="pre">InequalityComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare18LessThanComparableE"><code class="docutils literal notranslate"><span class="pre">LessThanComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare25LessThanOrEqualComparableE"><code class="docutils literal notranslate"><span class="pre">LessThanOrEqualComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare21GreaterThanComparableE"><code class="docutils literal notranslate"><span class="pre">GreaterThanComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I00EN8hyperion8platform7compare28GreaterThanOrEqualComparableE"><code class="docutils literal notranslate"><span class="pre">GreaterThanOrEqualComparable</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I0EN8hyperion8platform7compare10ArithmeticE"><code class="docutils literal notranslate"><span class="pre">Arithmetic</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="utility.html#_CPPv4I0EN8hyperion8platform7compare11EpsilonKindE"><code class="docutils literal notranslate"><span class="pre">EpsilonKind</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -593,8 +703,8 @@ and related projects, namely frame profiling support backed by
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -614,7 +724,7 @@ and related projects, namely frame profiling support backed by
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.0.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
@@ -627,7 +737,8 @@ and related projects, namely frame profiling support backed by
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>
