@@ -2,11 +2,11 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Comparison functions that are safe regardless of the being-compared types,
 /// including the floating point types
-/// @version 0.5.2
-/// @date 2024-09-22
+/// @version 0.5.3
+/// @date 2025-11-24
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -177,7 +177,10 @@ namespace hyperion::platform::compare {
         using common_type_t = typename common_type<TLhs, TRhs>::type;
 
         template<EpsilonType TType, typename TLhs, typename TRhs>
-        static inline constexpr auto default_epsilon = []() {
+        static inline constexpr auto default_epsilon
+            = []() -> std::conditional_t<std::same_as<common_type_t<TLhs, TRhs>, std::nullptr_t>,
+                                         fmax,
+                                         common_type_t<TLhs, TRhs>> {
             using common_t = common_type_t<TLhs, TRhs>;
             if constexpr(TType == EpsilonType::Absolute
                          && not std::same_as<common_t, std::nullptr_t>)
@@ -384,11 +387,12 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires EqualityComparable<TLhs, TRhs>
-    constexpr auto equality_compare(
-        TLhs&& lhs,
-        TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+    constexpr auto
+    equality_compare(TLhs&& lhs,
+                     TRhs&& rhs,
+                     TEpsilon epsilon
+                     = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
+                                                                    && noexcept(rhs == lhs))
         -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
@@ -482,11 +486,12 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires InequalityComparable<TLhs, TRhs>
-    constexpr auto inequality_compare(
-        TLhs&& lhs,
-        TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+    constexpr auto
+    inequality_compare(TLhs&& lhs,
+                       TRhs&& rhs,
+                       TEpsilon epsilon
+                       = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
+                                                                      && noexcept(rhs == lhs))
         -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
@@ -580,12 +585,13 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
+    constexpr auto
     // NOLINTNEXTLINE(*-cognitive-complexity)
-    constexpr auto less_than_compare(
-        TLhs&& lhs,
-        TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+    less_than_compare(TLhs&& lhs,
+                      TRhs&& rhs,
+                      TEpsilon epsilon
+                      = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
+                                                                     && noexcept(rhs == lhs))
         -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
@@ -808,12 +814,13 @@ namespace hyperion::platform::compare {
              typename TRhs,
              EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
+    constexpr auto
     // NOLINTNEXTLINE(*-cognitive-complexity)
-    constexpr auto greater_than_compare(
-        TLhs&& lhs,
-        TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
+    greater_than_compare(TLhs&& lhs,
+                         TRhs&& rhs,
+                         TEpsilon epsilon
+                         = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs)
+                                                                        && noexcept(rhs == lhs))
         -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
