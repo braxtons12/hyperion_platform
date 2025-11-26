@@ -185,66 +185,137 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % equality_compare(std::abs(test_value - 0.0_f64)
-                                                  / (std::abs(test_value) + 0.0_f64),
-                                              1.0_f64));
+                    expect(
+                        that
+                        % equality_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
 
                 "limits_compare_correctly"_test = []() -> void {
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::max(),
-                                              std::numeric_limits<f32>::max()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f64>::max(),
-                                              std::numeric_limits<f64>::max()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<fmax>::max(),
-                                              std::numeric_limits<fmax>::max()));
-                    expect(that
-                           % not equality_compare(std::numeric_limits<f32>::max(),
-                                                  std::numeric_limits<f64>::max()));
-                    expect(that
-                           % not equality_compare(std::numeric_limits<f32>::max(),
-                                                  std::numeric_limits<fmax>::max()));
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<f32>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f64>::max(),
+                            std::numeric_limits<f64>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<fmax>::max(),
+                            std::numeric_limits<fmax>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % not equality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<f64>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % not equality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<fmax>::max()
+                        )
+                    );
 
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f32>::min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f64>::min(),
-                                              std::numeric_limits<f64>::min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<fmax>::min(),
-                                              std::numeric_limits<fmax>::min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f32>::min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<f64>::min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::min(),
-                                              std::numeric_limits<fmax>::min()));
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f32>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f64>::min(),
+                            std::numeric_limits<f64>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<fmax>::min(),
+                            std::numeric_limits<fmax>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f32>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f64>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<fmax>::min()
+                        )
+                    );
 
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f32>::denorm_min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f64>::denorm_min(),
-                                              std::numeric_limits<f64>::denorm_min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<fmax>::denorm_min(),
-                                              std::numeric_limits<fmax>::denorm_min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f32>::denorm_min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<f64>::denorm_min()));
-                    expect(that
-                           % equality_compare(std::numeric_limits<f32>::denorm_min(),
-                                              std::numeric_limits<fmax>::denorm_min()));
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f32>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f64>::denorm_min(),
+                            std::numeric_limits<f64>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<fmax>::denorm_min(),
+                            std::numeric_limits<fmax>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f32>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f64>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % equality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<fmax>::denorm_min()
+                        )
+                    );
 
                     expect(that % not equality_compare(std::numeric_limits<f32>::min(), 1.0));
                     expect(that % not equality_compare(std::numeric_limits<f64>::min(), 1.0));
@@ -272,30 +343,42 @@ namespace hyperion::_test::platform::compare {
 
             "custom_absolute_epsilon"_test = []() -> void {
                 expect(that % equality_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % equality_compare(1.0_f64,
-                                          1.0_f64 + custom_absolute_epsilon.value(),
-                                          custom_absolute_epsilon));
-                expect(that
-                       % not equality_compare(1.0_f64,
-                                              1.0_f64 + custom_absolute_epsilon.value()
-                                                  + custom_absolute_epsilon.value(),
-                                              custom_absolute_epsilon));
+                expect(
+                    that
+                    % equality_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % not equality_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
                 expect(that % equality_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
-                expect(that
-                       % equality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
-                expect(that
-                       % not equality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+                expect(
+                    that % equality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % not equality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
 
-                expect(that
-                       % equality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
-                expect(that
-                       % equality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
-                expect(that
-                       % not equality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
+                expect(
+                    that % equality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % equality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % not equality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon)
+                );
             };
         };
 
@@ -381,66 +464,137 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % not inequality_compare(std::abs(test_value - 0.0_f64)
-                                                        / (std::abs(test_value) + 0.0_f64),
-                                                    1.0_f64));
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
 
                 "limits_compare_correctly"_test = []() -> void {
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::max(),
-                                                    std::numeric_limits<f32>::max()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f64>::max(),
-                                                    std::numeric_limits<f64>::max()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<fmax>::max(),
-                                                    std::numeric_limits<fmax>::max()));
-                    expect(that
-                           % inequality_compare(std::numeric_limits<f32>::max(),
-                                                std::numeric_limits<f64>::max()));
-                    expect(that
-                           % inequality_compare(std::numeric_limits<f32>::max(),
-                                                std::numeric_limits<fmax>::max()));
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<f32>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f64>::max(),
+                            std::numeric_limits<f64>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<fmax>::max(),
+                            std::numeric_limits<fmax>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % inequality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<f64>::max()
+                        )
+                    );
+                    expect(
+                        that
+                        % inequality_compare(
+                            std::numeric_limits<f32>::max(),
+                            std::numeric_limits<fmax>::max()
+                        )
+                    );
 
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::min(),
-                                                    std::numeric_limits<f32>::min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f64>::min(),
-                                                    std::numeric_limits<f64>::min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<fmax>::min(),
-                                                    std::numeric_limits<fmax>::min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::min(),
-                                                    std::numeric_limits<f32>::min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::min(),
-                                                    std::numeric_limits<f64>::min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::min(),
-                                                    std::numeric_limits<fmax>::min()));
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f32>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f64>::min(),
+                            std::numeric_limits<f64>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<fmax>::min(),
+                            std::numeric_limits<fmax>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f32>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<f64>::min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::min(),
+                            std::numeric_limits<fmax>::min()
+                        )
+                    );
 
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                                    std::numeric_limits<f32>::denorm_min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f64>::denorm_min(),
-                                                    std::numeric_limits<f64>::denorm_min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<fmax>::denorm_min(),
-                                                    std::numeric_limits<fmax>::denorm_min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                                    std::numeric_limits<f32>::denorm_min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                                    std::numeric_limits<f64>::denorm_min()));
-                    expect(that
-                           % not inequality_compare(std::numeric_limits<f32>::denorm_min(),
-                                                    std::numeric_limits<fmax>::denorm_min()));
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f32>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f64>::denorm_min(),
+                            std::numeric_limits<f64>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<fmax>::denorm_min(),
+                            std::numeric_limits<fmax>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f32>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<f64>::denorm_min()
+                        )
+                    );
+                    expect(
+                        that
+                        % not inequality_compare(
+                            std::numeric_limits<f32>::denorm_min(),
+                            std::numeric_limits<fmax>::denorm_min()
+                        )
+                    );
 
                     expect(that % inequality_compare(std::numeric_limits<f32>::min(), 1.0));
                     expect(that % inequality_compare(std::numeric_limits<f64>::min(), 1.0));
@@ -468,33 +622,45 @@ namespace hyperion::_test::platform::compare {
 
             "custom_absolute_epsilon"_test = []() -> void {
                 expect(that % not inequality_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % not inequality_compare(1.0_f64,
-                                                1.0_f64 + custom_absolute_epsilon.value(),
-                                                custom_absolute_epsilon));
-                expect(that
-                       % inequality_compare(1.0_f64,
-                                            1.0_f64 + custom_absolute_epsilon.value()
-                                                + custom_absolute_epsilon.value(),
-                                            custom_absolute_epsilon));
+                expect(
+                    that
+                    % not inequality_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % inequality_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
                 expect(that % not inequality_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
                 expect(
                     that
-                    % not inequality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
-                expect(that
-                       % inequality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+                    % not inequality_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % inequality_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
 
                 expect(
                     that
-                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
+                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
                 expect(
                     that
-                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
-                expect(that
-                       % inequality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
+                    % not inequality_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % inequality_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon)
+                );
             };
         };
 
@@ -583,10 +749,13 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % not less_than_compare(std::abs(test_value - 0.0_f64)
-                                                       / (std::abs(test_value) + 0.0_f64),
-                                                   1.0_f64));
+                    expect(
+                        that
+                        % not less_than_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
             };
 
@@ -602,33 +771,45 @@ namespace hyperion::_test::platform::compare {
 
             "custom_absolute_epsilon"_test = []() -> void {
                 expect(that % not less_than_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % not less_than_compare(1.0_f64,
-                                               1.0_f64 + custom_absolute_epsilon.value(),
-                                               custom_absolute_epsilon));
-                expect(that
-                       % less_than_compare(1.0_f64,
-                                           1.0_f64 + custom_absolute_epsilon.value()
-                                               + custom_absolute_epsilon.value(),
-                                           custom_absolute_epsilon));
+                expect(
+                    that
+                    % not less_than_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % less_than_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
                 expect(that % not less_than_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
                 expect(
                     that
-                    % not less_than_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon));
-                expect(that
-                       % less_than_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon));
+                    % not less_than_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % less_than_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
 
                 expect(
                     that
-                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon));
+                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
                 expect(
                     that
-                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon));
-                expect(that
-                       % less_than_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon));
+                    % not less_than_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % less_than_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon)
+                );
             };
         };
 
@@ -670,13 +851,16 @@ namespace hyperion::_test::platform::compare {
             };
 
             "floats_differing_by_more_than_1_epsilon_are_less_than_or_equal"_test = []() -> void {
-                expect(that
-                       % less_than_or_equal_compare(1.0_f32, 1.0_f32 + f32_epsilon + f32_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64, 1.0_f64 + f64_epsilon + f64_epsilon));
+                expect(
+                    that % less_than_or_equal_compare(1.0_f32, 1.0_f32 + f32_epsilon + f32_epsilon)
+                );
+                expect(
+                    that % less_than_or_equal_compare(1.0_f64, 1.0_f64 + f64_epsilon + f64_epsilon)
+                );
                 expect(
                     that
-                    % less_than_or_equal_compare(1.0_fmax, 1.0_fmax + fmax_epsilon + fmax_epsilon));
+                    % less_than_or_equal_compare(1.0_fmax, 1.0_fmax + fmax_epsilon + fmax_epsilon)
+                );
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = []() -> void {
@@ -684,17 +868,21 @@ namespace hyperion::_test::platform::compare {
                 expect(that % less_than_or_equal_compare(1.0e10F, 10'000'001'000.0_f32));
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
-                expect(that
-                       // NOLINTNEXTLINE(*-magic-numbers)
-                       % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'001'000.0L));
+                expect(
+                    that
+                    // NOLINTNEXTLINE(*-magic-numbers)
+                    % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'001'000.0L)
+                );
 
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e10F, 10'000'000'001.0_f32));
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % less_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
-                expect(that
-                       // NOLINTNEXTLINE(*-magic-numbers)
-                       % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
+                expect(
+                    that
+                    // NOLINTNEXTLINE(*-magic-numbers)
+                    % less_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L)
+                );
             };
 
             "comparisons_are_mathematically_consistent"_test = []() -> void {
@@ -723,10 +911,13 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % less_than_or_equal_compare(std::abs(test_value - 0.0_f64)
-                                                            / (std::abs(test_value) + 0.0_f64),
-                                                        1.0_f64));
+                    expect(
+                        that
+                        % less_than_or_equal_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
             };
 
@@ -741,49 +932,81 @@ namespace hyperion::_test::platform::compare {
             };
 
             "custom_absolute_epsilon"_test = []() -> void {
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64,
-                                                    1.0_f64 + custom_absolute_epsilon.value(),
-                                                    custom_absolute_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64,
-                                                    1.0_f64 + custom_absolute_epsilon.value()
-                                                        + custom_absolute_epsilon.value(),
-                                                    custom_absolute_epsilon));
-                expect(that
-                       % not less_than_or_equal_compare(1.1_f64, 1.0_f64, custom_absolute_epsilon));
+                expect(
+                    that % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon)
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that % not less_than_or_equal_compare(1.1_f64, 1.0_f64, custom_absolute_epsilon)
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64,
-                                                    1.0_f64 + 0.1_f64,
-                                                    custom_relative_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(1.0_f64,
-                                                    1.0_f64 + 0.2_f64,
-                                                    custom_relative_epsilon));
-                expect(that
-                       % not less_than_or_equal_compare(1.2_f64, 1.0_f64, custom_relative_epsilon));
+                expect(
+                    that % less_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + 0.1_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + 0.2_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that % not less_than_or_equal_compare(1.2_f64, 1.0_f64, custom_relative_epsilon)
+                );
 
-                expect(that
-                       % less_than_or_equal_compare(2.0_f64,
-                                                    2.0_f64 + 0.1_f64,
-                                                    custom_relative_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(2.0_f64,
-                                                    2.0_f64 + 0.2_f64,
-                                                    custom_relative_epsilon));
-                expect(that
-                       % less_than_or_equal_compare(2.0_f64,
-                                                    2.0_f64 + 0.3_f64,
-                                                    custom_relative_epsilon));
-                expect(that
-                       % not less_than_or_equal_compare(2.3_f64, 2.0_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.1_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.2_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % less_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.3_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that % not less_than_or_equal_compare(2.3_f64, 2.0_f64, custom_relative_epsilon)
+                );
             };
         };
 
@@ -834,8 +1057,9 @@ namespace hyperion::_test::platform::compare {
             "floats_differing_by_more_than_1_epsilon_are_greater_than"_test = []() -> void {
                 expect(that % greater_than_compare(1.0_f32 + f32_epsilon + f32_epsilon, 1.0_f32));
                 expect(that % greater_than_compare(1.0_f64 + f64_epsilon + f64_epsilon, 1.0_f64));
-                expect(that
-                       % greater_than_compare(1.0_fmax + fmax_epsilon + fmax_epsilon, 1.0_fmax));
+                expect(
+                    that % greater_than_compare(1.0_fmax + fmax_epsilon + fmax_epsilon, 1.0_fmax)
+                );
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = []() -> void {
@@ -880,10 +1104,13 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % not greater_than_compare(std::abs(test_value - 0.0_f64)
-                                                          / (std::abs(test_value) + 0.0_f64),
-                                                      1.0_f64));
+                    expect(
+                        that
+                        % not greater_than_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
             };
 
@@ -899,47 +1126,58 @@ namespace hyperion::_test::platform::compare {
 
             "custom_absolute_epsilon"_test = []() -> void {
                 expect(that % not greater_than_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % not greater_than_compare(1.0_f64,
-                                                  1.0_f64 + custom_absolute_epsilon.value(),
-                                                  custom_absolute_epsilon));
-                expect(that
-                       % not greater_than_compare(1.0_f64,
-                                                  1.0_f64 + custom_absolute_epsilon.value()
-                                                      + custom_absolute_epsilon.value(),
-                                                  custom_absolute_epsilon));
-                expect(that
-                       % greater_than_compare(1.0_f64 + custom_absolute_epsilon.value()
-                                                  + custom_absolute_epsilon.value(),
-                                              1.0_f64,
-                                              custom_absolute_epsilon));
+                expect(
+                    that
+                    % not greater_than_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % not greater_than_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % greater_than_compare(
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        1.0_f64,
+                        custom_absolute_epsilon
+                    )
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
                 expect(that % not greater_than_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
-                expect(that
-                       % not greater_than_compare(1.0_f64,
-                                                  1.0_f64 + 0.1_f64,
-                                                  custom_relative_epsilon));
-                expect(that
-                       % not greater_than_compare(1.0_f64,
-                                                  1.0_f64 + 0.2_f64,
-                                                  custom_relative_epsilon));
+                expect(
+                    that
+                    % not greater_than_compare(1.0_f64, 1.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that
+                    % not greater_than_compare(1.0_f64, 1.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
 
-                expect(that
-                       % not greater_than_compare(2.0_f64,
-                                                  2.0_f64 + 0.1_f64,
-                                                  custom_relative_epsilon));
-                expect(that
-                       % not greater_than_compare(2.0_f64,
-                                                  2.0_f64 + 0.2_f64,
-                                                  custom_relative_epsilon));
-                expect(that
-                       % not greater_than_compare(2.0_f64,
-                                                  2.0_f64 + 0.3_f64,
-                                                  custom_relative_epsilon));
-                expect(that
-                       % greater_than_compare(2.0_f64 + 0.3_f64, 2.0_f64, custom_relative_epsilon));
+                expect(
+                    that
+                    % not greater_than_compare(2.0_f64, 2.0_f64 + 0.1_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that
+                    % not greater_than_compare(2.0_f64, 2.0_f64 + 0.2_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that
+                    % not greater_than_compare(2.0_f64, 2.0_f64 + 0.3_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that % greater_than_compare(2.0_f64 + 0.3_f64, 2.0_f64, custom_relative_epsilon)
+                );
             };
         };
 
@@ -992,13 +1230,19 @@ namespace hyperion::_test::platform::compare {
                 = []() -> void {
                 expect(
                     that
-                    % greater_than_or_equal_compare(1.0_f32 + f32_epsilon + f32_epsilon, 1.0_f32));
+                    % greater_than_or_equal_compare(1.0_f32 + f32_epsilon + f32_epsilon, 1.0_f32)
+                );
                 expect(
                     that
-                    % greater_than_or_equal_compare(1.0_f64 + f64_epsilon + f64_epsilon, 1.0_f64));
-                expect(that
-                       % greater_than_or_equal_compare(1.0_fmax + fmax_epsilon + fmax_epsilon,
-                                                       1.0_fmax));
+                    % greater_than_or_equal_compare(1.0_f64 + f64_epsilon + f64_epsilon, 1.0_f64)
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        1.0_fmax + fmax_epsilon + fmax_epsilon,
+                        1.0_fmax
+                    )
+                );
             };
 
             "floats_near_resolution_limits_compare_correctly"_test = []() -> void {
@@ -1006,27 +1250,35 @@ namespace hyperion::_test::platform::compare {
                 expect(that % not greater_than_or_equal_compare(1.0e10F, 10'000'001'000.0_f32));
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % not greater_than_or_equal_compare(1.0e16, 10'000'000'000'001'000.0));
-                expect(that
-                       // NOLINTNEXTLINE(*-magic-numbers)
-                       % not greater_than_or_equal_compare(1.0e22L,
-                                                           // NOLINTNEXTLINE(*-magic-numbers)
-                                                           10'000'000'000'000'010'000'000.0L));
+                expect(
+                    that
+                    % not greater_than_or_equal_compare(
+                        // NOLINTNEXTLINE(*-magic-numbers)
+                        1.0e22L,
+                        // NOLINTNEXTLINE(*-magic-numbers)
+                        10'000'000'000'000'010'000'000.0L
+                    )
+                );
 
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(1.0e10F, 10'000'000'001.0_f32));
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(1.0e16, 10'000'000'000'000'001.0));
-                expect(that
-                       // NOLINTNEXTLINE(*-magic-numbers)
-                       % greater_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L));
+                expect(
+                    that
+                    // NOLINTNEXTLINE(*-magic-numbers)
+                    % greater_than_or_equal_compare(1.0e22L, 10'000'000'000'000'000'000'001.0L)
+                );
 
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(10'000'001'000.0_f32, 1.0e10F));
                 // NOLINTNEXTLINE(*-magic-numbers)
                 expect(that % greater_than_or_equal_compare(10'000'000'000'001'000.0, 1.0e16));
-                expect(that
-                       // NOLINTNEXTLINE(*-magic-numbers)
-                       % greater_than_or_equal_compare(10'000'000'000'000'000'001'000.0L, 1.0e22L));
+                expect(
+                    that
+                    // NOLINTNEXTLINE(*-magic-numbers)
+                    % greater_than_or_equal_compare(10'000'000'000'000'000'001'000.0L, 1.0e22L)
+                );
             };
 
             "comparisons_are_mathematically_consistent"_test = []() -> void {
@@ -1043,8 +1295,9 @@ namespace hyperion::_test::platform::compare {
                     expect(that % greater_than_or_equal_compare(three_tenths, one_tenth));
                     expect(that % greater_than_or_equal_compare(calculated, one_tenth));
                     expect(that % greater_than_or_equal_compare(calculated, three_tenths));
-                    expect(that
-                           % greater_than_or_equal_compare(0.0_f64, three_tenths - calculated));
+                    expect(
+                        that % greater_than_or_equal_compare(0.0_f64, three_tenths - calculated)
+                    );
                 };
 
                 "negated_values_compare_correctly"_test = []() -> void {
@@ -1056,10 +1309,13 @@ namespace hyperion::_test::platform::compare {
 
                 "identity_operations_compare_correctly"_test = []() -> void {
                     const auto test_value = 1.23456_f64;
-                    expect(that
-                           % greater_than_or_equal_compare(std::abs(test_value - 0.0_f64)
-                                                               / (std::abs(test_value) + 0.0_f64),
-                                                           1.0_f64));
+                    expect(
+                        that
+                        % greater_than_or_equal_compare(
+                            std::abs(test_value - 0.0_f64) / (std::abs(test_value) + 0.0_f64),
+                            1.0_f64
+                        )
+                    );
                 };
             };
 
@@ -1074,108 +1330,186 @@ namespace hyperion::_test::platform::compare {
             };
 
             "custom_absolute_epsilon"_test = []() -> void {
-                expect(that
-                       % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon));
-                expect(that
-                       % greater_than_or_equal_compare(1.0_f64,
-                                                       1.0_f64 + custom_absolute_epsilon.value(),
-                                                       custom_absolute_epsilon));
-                expect(that
-                       % not greater_than_or_equal_compare(1.0_f64,
-                                                           1.0_f64 + custom_absolute_epsilon.value()
-                                                               + custom_absolute_epsilon.value(),
-                                                           custom_absolute_epsilon));
-                expect(that
-                       % greater_than_or_equal_compare(1.0_f64 + custom_absolute_epsilon.value()
-                                                           + custom_absolute_epsilon.value(),
-                                                       1.0_f64,
-                                                       custom_absolute_epsilon));
+                expect(
+                    that % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_absolute_epsilon)
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % not greater_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        custom_absolute_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        1.0_f64 + custom_absolute_epsilon.value() + custom_absolute_epsilon.value(),
+                        1.0_f64,
+                        custom_absolute_epsilon
+                    )
+                );
             };
 
             "custom_relative_epsilon"_test = []() -> void {
-                expect(that
-                       % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon));
-                expect(that
-                       % greater_than_or_equal_compare(1.0_f64,
-                                                       1.0_f64 + 0.1_f64,
-                                                       custom_relative_epsilon));
-                expect(that
-                       % not greater_than_or_equal_compare(1.0_f64,
-                                                           1.0_f64 + 0.2_f64,
-                                                           custom_relative_epsilon));
+                expect(
+                    that % greater_than_or_equal_compare(1.0_f64, 1.0_f64, custom_relative_epsilon)
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + 0.1_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % not greater_than_or_equal_compare(
+                        1.0_f64,
+                        1.0_f64 + 0.2_f64,
+                        custom_relative_epsilon
+                    )
+                );
 
-                expect(that
-                       % greater_than_or_equal_compare(2.0_f64,
-                                                       2.0_f64 + 0.1_f64,
-                                                       custom_relative_epsilon));
-                expect(that
-                       % greater_than_or_equal_compare(2.0_f64,
-                                                       2.0_f64 + 0.2_f64,
-                                                       custom_relative_epsilon));
-                expect(that
-                       % not greater_than_or_equal_compare(2.0_f64,
-                                                           2.0_f64 + 0.3_f64,
-                                                           custom_relative_epsilon));
-                expect(that
-                       % greater_than_or_equal_compare(2.0_f64 + 0.3_f64,
-                                                       2.0_f64,
-                                                       custom_relative_epsilon));
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.1_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.2_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % not greater_than_or_equal_compare(
+                        2.0_f64,
+                        2.0_f64 + 0.3_f64,
+                        custom_relative_epsilon
+                    )
+                );
+                expect(
+                    that
+                    % greater_than_or_equal_compare(
+                        2.0_f64 + 0.3_f64,
+                        2.0_f64,
+                        custom_relative_epsilon
+                    )
+                );
             };
         };
     };
 
     struct not_comparable { };
 
-    static_assert(EqualityComparable<int, int>,
-                  "hyperion::platform::compare::EqualityComparable test case 1 failing");
-    static_assert(EqualityComparable<int, double>,
-                  "hyperion::platform::compare::EqualityComparable test case 2 failing");
-    static_assert(!EqualityComparable<int, not_comparable>,
-                  "hyperion::platform::compare::EqualityComparable test case 3 failing");
+    static_assert(
+        EqualityComparable<int, int>,
+        "hyperion::platform::compare::EqualityComparable test case 1 failing"
+    );
+    static_assert(
+        EqualityComparable<int, double>,
+        "hyperion::platform::compare::EqualityComparable test case 2 failing"
+    );
+    static_assert(
+        !EqualityComparable<int, not_comparable>,
+        "hyperion::platform::compare::EqualityComparable test case 3 failing"
+    );
 
-    static_assert(InequalityComparable<int, int>,
-                  "hyperion::platform::compare::InequalityComparable test case 1 failing");
-    static_assert(InequalityComparable<int, double>,
-                  "hyperion::platform::compare::InequalityComparable test case 2 failing");
-    static_assert(!InequalityComparable<int, not_comparable>,
-                  "hyperion::platform::compare::InequalityComparable test case 3 failing");
+    static_assert(
+        InequalityComparable<int, int>,
+        "hyperion::platform::compare::InequalityComparable test case 1 failing"
+    );
+    static_assert(
+        InequalityComparable<int, double>,
+        "hyperion::platform::compare::InequalityComparable test case 2 failing"
+    );
+    static_assert(
+        !InequalityComparable<int, not_comparable>,
+        "hyperion::platform::compare::InequalityComparable test case 3 failing"
+    );
 
-    static_assert(LessThanComparable<int, int>,
-                  "hyperion::platform::compare::LessThanComparable test case 1 failing");
-    static_assert(LessThanComparable<int, double>,
-                  "hyperion::platform::compare::LessThanComparable test case 2 failing");
-    static_assert(!LessThanComparable<int, not_comparable>,
-                  "hyperion::platform::compare::LessThanComparable test case 3 failing");
+    static_assert(
+        LessThanComparable<int, int>,
+        "hyperion::platform::compare::LessThanComparable test case 1 failing"
+    );
+    static_assert(
+        LessThanComparable<int, double>,
+        "hyperion::platform::compare::LessThanComparable test case 2 failing"
+    );
+    static_assert(
+        !LessThanComparable<int, not_comparable>,
+        "hyperion::platform::compare::LessThanComparable test case 3 failing"
+    );
 
-    static_assert(LessThanOrEqualComparable<int, int>,
-                  "hyperion::platform::compare::LessThanOrEqualComparable test case 1 failing");
-    static_assert(LessThanOrEqualComparable<int, double>,
-                  "hyperion::platform::compare::LessThanOrEqualComparable test case 2 failing");
-    static_assert(!LessThanOrEqualComparable<int, not_comparable>,
-                  "hyperion::platform::compare::LessThanOrEqualComparable test case 3 failing");
+    static_assert(
+        LessThanOrEqualComparable<int, int>,
+        "hyperion::platform::compare::LessThanOrEqualComparable test case 1 failing"
+    );
+    static_assert(
+        LessThanOrEqualComparable<int, double>,
+        "hyperion::platform::compare::LessThanOrEqualComparable test case 2 failing"
+    );
+    static_assert(
+        !LessThanOrEqualComparable<int, not_comparable>,
+        "hyperion::platform::compare::LessThanOrEqualComparable test case 3 failing"
+    );
 
-    static_assert(GreaterThanComparable<int, int>,
-                  "hyperion::platform::compare::GreaterThanComparable test case 1 failing");
-    static_assert(GreaterThanComparable<int, double>,
-                  "hyperion::platform::compare::GreaterThanComparable test case 2 failing");
-    static_assert(!GreaterThanComparable<int, not_comparable>,
-                  "hyperion::platform::compare::GreaterThanComparable test case 3 failing");
+    static_assert(
+        GreaterThanComparable<int, int>,
+        "hyperion::platform::compare::GreaterThanComparable test case 1 failing"
+    );
+    static_assert(
+        GreaterThanComparable<int, double>,
+        "hyperion::platform::compare::GreaterThanComparable test case 2 failing"
+    );
+    static_assert(
+        !GreaterThanComparable<int, not_comparable>,
+        "hyperion::platform::compare::GreaterThanComparable test case 3 failing"
+    );
 
-    static_assert(GreaterThanOrEqualComparable<int, int>,
-                  "hyperion::platform::compare::GreaterThanOrEqualComparable test case 1 failing");
-    static_assert(GreaterThanOrEqualComparable<int, double>,
-                  "hyperion::platform::compare::GreaterThanOrEqualComparable test case 2 failing");
-    static_assert(!GreaterThanOrEqualComparable<int, not_comparable>,
-                  "hyperion::platform::compare::GreaterThanOrEqualComparable test case 3 failing");
+    static_assert(
+        GreaterThanOrEqualComparable<int, int>,
+        "hyperion::platform::compare::GreaterThanOrEqualComparable test case 1 failing"
+    );
+    static_assert(
+        GreaterThanOrEqualComparable<int, double>,
+        "hyperion::platform::compare::GreaterThanOrEqualComparable test case 2 failing"
+    );
+    static_assert(
+        !GreaterThanOrEqualComparable<int, not_comparable>,
+        "hyperion::platform::compare::GreaterThanOrEqualComparable test case 3 failing"
+    );
 
 #if HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
 
-    static_assert(ThreeWayComparable<int, int>,
-                  "hyperion::platform::compare::ThreeWayComparable test case 1 failing");
-    static_assert(ThreeWayComparable<int, double>,
-                  "hyperion::platform::compare::ThreeWayComparable test case 2 failing");
-    static_assert(!ThreeWayComparable<int, not_comparable>,
-                  "hyperion::platform::compare::ThreeWayComparable test case 3 failing");
+    static_assert(
+        ThreeWayComparable<int, int>,
+        "hyperion::platform::compare::ThreeWayComparable test case 1 failing"
+    );
+    static_assert(
+        ThreeWayComparable<int, double>,
+        "hyperion::platform::compare::ThreeWayComparable test case 2 failing"
+    );
+    static_assert(
+        !ThreeWayComparable<int, not_comparable>,
+        "hyperion::platform::compare::ThreeWayComparable test case 3 failing"
+    );
 
 #endif // HYPERION_PLATFORM_STD_LIB_HAS_COMPARE
 

@@ -2,11 +2,11 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Provides various macro definitions for things like compiler-specific attributes,
 /// feature enablement, and warning suppression
-/// @version 0.4.0
-/// @date 2024-04-20
+/// @version 0.4.1
+/// @date 2025-11-25
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@
 #define HYPERION_PLATFORM_DEF_H
 
 #include <hyperion/platform.h>
+
 #include <version>
 
 HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
@@ -93,7 +94,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief if `std::jthread` is available, this will be defined as true, otherwise it will be false.
 /// @ingroup defines
 /// @headerfile hyperion/platform/def.h
-#if(defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
+#if (defined(__cpp_lib_jthread) && __cpp_lib_jthread >= 201911L)
     #define HYPERION_STD_LIB_HAS_JTHREAD true
 #else
     #define HYPERION_STD_LIB_HAS_JTHREAD false
@@ -180,7 +181,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @ingroup defines
 /// @headerfile hyperion/platform/def.h
 #if defined(__cpp_lib_constexpr_string)
-    #if(__cpp_lib_constexpr_string >= 201907L)
+    #if (__cpp_lib_constexpr_string >= 201907L)
         #define HYPERION_CONSTEXPR_STRINGS constexpr
     #else
         #define HYPERION_CONSTEXPR_STRINGS

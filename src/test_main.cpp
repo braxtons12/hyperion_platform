@@ -2,7 +2,7 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
 /// @version 0.1.2
-/// @date 2025-11-24
+/// @date 2025-11-25
 ///
 /// MIT License
 /// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
@@ -51,5 +51,6 @@ using namespace hyperion; // NOLINT(google-build-using-namespace)
 // NOLINTNEXTLINE(bugprone-exception-escape)
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
     return static_cast<i32>(
-        boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
+        boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv})
+    );
 }
