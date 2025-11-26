@@ -1,11 +1,11 @@
 /// @file test_main.cpp
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Unit tests main for hyperion::platform.
-/// @version 0.1.1
-/// @date 2025-07-09
+/// @version 0.1.2
+/// @date 2025-11-25
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -31,8 +31,8 @@
 #include <boost/ut.hpp>
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wmissing-variable-declarations"
+_Pragma("GCC diagnostic push");
+_Pragma("GCC diagnostic ignored \"-Wmissing-variable-declarations\"");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 template<>
@@ -41,7 +41,7 @@ auto boost::ut::cfg<boost::ut::override>
     = boost::ut::runner<boost::ut::reporter_junit<boost::ut::printer>>{};
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
-    #pragma GCC diagnostic pop
+_Pragma("GCC diagnostic pop");
 #endif // HYPERION_PLATFORM_COMPILER_IS_CLANG
 
 #include "test/compare.h"
@@ -51,5 +51,6 @@ using namespace hyperion; // NOLINT(google-build-using-namespace)
 // NOLINTNEXTLINE(bugprone-exception-escape)
 [[nodiscard]] auto main([[maybe_unused]] i32 argc, [[maybe_unused]] const char** argv) -> i32 {
     return static_cast<i32>(
-        boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv}));
+        boost::ut::cfg<boost::ut::override>.run(boost::ut::run_cfg{.argc = argc, .argv = argv})
+    );
 }

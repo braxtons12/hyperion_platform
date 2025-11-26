@@ -2,11 +2,11 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief Comparison functions that are safe regardless of the being-compared types,
 /// including the floating point types
-/// @version 0.5.2
-/// @date 2024-09-22
+/// @version 0.5.3
+/// @date 2025-11-25
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -127,11 +127,13 @@ namespace hyperion::platform::compare {
     /// @headerfile hyperion/platform/compare.h
     template<typename TType>
     concept Arithmetic = std::is_arithmetic_v<std::remove_cvref_t<TType>>
-                         && !(std::same_as<std::remove_cvref_t<TType>, bool>
-                              || std::same_as<std::remove_cvref_t<TType>, char>
-                              || std::same_as<std::remove_cvref_t<TType>, char8_t>
-                              || std::same_as<std::remove_cvref_t<TType>, char16_t>
-                              || std::same_as<std::remove_cvref_t<TType>, char32_t>);
+                         && !(
+                             std::same_as<std::remove_cvref_t<TType>, bool>
+                             || std::same_as<std::remove_cvref_t<TType>, char>
+                             || std::same_as<std::remove_cvref_t<TType>, char8_t>
+                             || std::same_as<std::remove_cvref_t<TType>, char16_t>
+                             || std::same_as<std::remove_cvref_t<TType>, char32_t>
+                         );
 
     /// @brief Types of epsilons usable in floating point comparisons,
     /// either `Absolute`, i.e. a fixed magnitude difference, or `Relative`,
@@ -169,15 +171,19 @@ namespace hyperion::platform::compare {
             requires(Arithmetic<TLhs>
                      && std::convertible_to<std::remove_cvref_t<TRhs>, std::remove_cvref_t<TLhs>>)
                     || (Arithmetic<TRhs>
-                        && std::convertible_to<std::remove_cvref_t<TLhs>,
-                                               std::remove_cvref_t<TRhs>>)
+                        && std::
+                            convertible_to<std::remove_cvref_t<TLhs>, std::remove_cvref_t<TRhs>>)
         struct common_type<TLhs, TRhs> : public std::common_type<TLhs, TRhs> { };
 
         template<typename TLhs, typename TRhs>
         using common_type_t = typename common_type<TLhs, TRhs>::type;
 
         template<EpsilonType TType, typename TLhs, typename TRhs>
-        static inline constexpr auto default_epsilon = []() {
+        static inline constexpr auto default_epsilon
+            = []() -> std::conditional_t<
+                       std::same_as<common_type_t<TLhs, TRhs>, std::nullptr_t>,
+                       fmax,
+                       common_type_t<TLhs, TRhs>> {
             using common_t = common_type_t<TLhs, TRhs>;
             if constexpr(TType == EpsilonType::Absolute
                          && not std::same_as<common_t, std::nullptr_t>)
@@ -187,13 +193,16 @@ namespace hyperion::platform::compare {
             else {
                 return static_cast<
                     std::conditional_t<std::same_as<common_t, std::nullptr_t>, fmax, common_t>>(
-                    0.001_fmax);
+                    0.001_fmax
+                );
             }
         }();
 
-        constexpr auto safe_float_equality(std::floating_point auto lhs,
-                                           std::floating_point auto rhs,
-                                           std::floating_point auto error) noexcept -> bool {
+        constexpr auto safe_float_equality(
+            std::floating_point auto lhs,
+            std::floating_point auto rhs,
+            std::floating_point auto error
+        ) noexcept -> bool {
             using common_t
                 = common_type_t<common_type_t<decltype(lhs), decltype(rhs)>, decltype(error)>;
 
@@ -212,9 +221,11 @@ namespace hyperion::platform::compare {
             return detail::abs(diff) <= err;
         }
 
-        constexpr auto safe_float_inequality(std::floating_point auto lhs,
-                                             std::floating_point auto rhs,
-                                             std::floating_point auto error) noexcept -> bool {
+        constexpr auto safe_float_inequality(
+            std::floating_point auto lhs,
+            std::floating_point auto rhs,
+            std::floating_point auto error
+        ) noexcept -> bool {
             using common_t
                 = common_type_t<common_type_t<decltype(lhs), decltype(rhs)>, decltype(error)>;
 
@@ -280,7 +291,8 @@ namespace hyperion::platform::compare {
                 using common_type = std::common_type_t<TNumeric, result_t>;
                 return static_cast<TNumeric>(
                     static_cast<common_type>(m_epsilon)
-                    * static_cast<common_type>(detail::max(detail::abs(lhs), detail::abs(rhs))));
+                    * static_cast<common_type>(detail::max(detail::abs(lhs), detail::abs(rhs)))
+                );
             }
         }
 
@@ -298,9 +310,10 @@ namespace hyperion::platform::compare {
         template<typename TLhs, typename TRhs, EpsilonType TType = EpsilonType::Absolute>
         constexpr auto make_epsilon() noexcept -> Epsilon<
             TType,
-            std::conditional_t<std::same_as<detail::common_type_t<TLhs, TRhs>, std::nullptr_t>,
-                               fmax,
-                               detail::common_type_t<TLhs, TRhs>>> {
+            std::conditional_t<
+                std::same_as<detail::common_type_t<TLhs, TRhs>, std::nullptr_t>,
+                fmax,
+                detail::common_type_t<TLhs, TRhs>>> {
             return {detail::default_epsilon<TType, TLhs, TRhs>};
         }
     } // namespace detail
@@ -380,16 +393,16 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` and `rhs` are equal
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires EqualityComparable<TLhs, TRhs>
     constexpr auto equality_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -402,7 +415,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -425,14 +439,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return equality_compare(static_cast<fmax>(lhs),
-                                        std::forward<TRhs>(rhs),
-                                        std::move(epsilon));
+                return equality_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return equality_compare(std::forward<TLhs>(lhs),
-                                        static_cast<fmax>(rhs),
-                                        std::move(epsilon));
+                return equality_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isnan(lhs) || std::isinf(lhs) || std::isnan(rhs) || std::isinf(rhs)) {
@@ -478,16 +496,16 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` and `rhs` are _not_ equal
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires InequalityComparable<TLhs, TRhs>
     constexpr auto inequality_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -500,7 +518,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -523,14 +542,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return inequality_compare(static_cast<fmax>(lhs),
-                                          std::forward<TRhs>(rhs),
-                                          std::move(epsilon));
+                return inequality_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return inequality_compare(std::forward<TLhs>(lhs),
-                                          static_cast<fmax>(rhs),
-                                          std::move(epsilon));
+                return inequality_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isnan(lhs) || std::isinf(lhs) || std::isnan(rhs) || std::isinf(rhs)) {
@@ -576,17 +599,18 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` is less than `rhs`
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
+    constexpr auto
     // NOLINTNEXTLINE(*-cognitive-complexity)
-    constexpr auto less_than_compare(
+    less_than_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -599,7 +623,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -622,14 +647,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return less_than_compare(static_cast<fmax>(lhs),
-                                         std::forward<TRhs>(rhs),
-                                         std::move(epsilon));
+                return less_than_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return less_than_compare(std::forward<TLhs>(lhs),
-                                         static_cast<fmax>(rhs),
-                                         std::move(epsilon));
+                return less_than_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -691,17 +720,17 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` is less than or equal to `rhs`
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanOrEqualComparable<TLhs, TRhs>
     // NOLINTNEXTLINE(*-cognitive-complexity)
     constexpr auto less_than_or_equal_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -714,7 +743,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -737,14 +767,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return less_than_or_equal_compare(static_cast<fmax>(lhs),
-                                                  std::forward<TRhs>(rhs),
-                                                  std::move(epsilon));
+                return less_than_or_equal_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return less_than_or_equal_compare(std::forward<TLhs>(lhs),
-                                                  static_cast<fmax>(rhs),
-                                                  std::move(epsilon));
+                return less_than_or_equal_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -804,17 +838,18 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` is greater than `rhs`
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanComparable<TLhs, TRhs>
+    constexpr auto
     // NOLINTNEXTLINE(*-cognitive-complexity)
-    constexpr auto greater_than_compare(
+    greater_than_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -827,7 +862,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -850,14 +886,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return greater_than_compare(static_cast<fmax>(lhs),
-                                            std::forward<TRhs>(rhs),
-                                            std::move(epsilon));
+                return greater_than_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return greater_than_compare(std::forward<TLhs>(lhs),
-                                            static_cast<fmax>(rhs),
-                                            std::move(epsilon));
+                return greater_than_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {
@@ -918,17 +958,17 @@ namespace hyperion::platform::compare {
     /// @return Whether `lhs` is greater than or equal to `rhs`
     /// @ingroup comparison
     /// @headerfile hyperion/platform/compare.h
-    template<typename TLhs,
-             typename TRhs,
-             EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
+    template<
+        typename TLhs,
+        typename TRhs,
+        EpsilonKind TEpsilon = decltype(detail::make_epsilon<TLhs, TRhs>())>
         requires LessThanOrEqualComparable<TLhs, TRhs>
     // NOLINTNEXTLINE(*-cognitive-complexity)
     constexpr auto greater_than_or_equal_compare(
         TLhs&& lhs,
         TRhs&& rhs,
-        TEpsilon epsilon
-        = detail::make_epsilon<TLhs, TRhs>()) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs))
-        -> bool {
+        TEpsilon epsilon = detail::make_epsilon<TLhs, TRhs>()
+    ) noexcept(noexcept(lhs == rhs) && noexcept(rhs == lhs)) -> bool {
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG
         _Pragma("GCC diagnostic pop");
@@ -941,7 +981,8 @@ namespace hyperion::platform::compare {
             std::numeric_limits<f32>::is_iec559
                 || (!std::floating_point<lhs_t> && !std::floating_point<TRhs>),
             "Hyperion's safe comparisons require the platform to be one that uses IEEE754 "
-            "floating point numbers");
+            "floating point numbers"
+        );
 
         if constexpr(std::integral<lhs_t> && std::integral<rhs_t>) {
             if constexpr(std::is_signed_v<lhs_t> && !std::is_signed_v<rhs_t>) {
@@ -964,14 +1005,18 @@ namespace hyperion::platform::compare {
         }
         else if constexpr(std::floating_point<lhs_t> || std::floating_point<rhs_t>) {
             if constexpr(std::integral<lhs_t>) {
-                return greater_than_or_equal_compare(static_cast<fmax>(lhs),
-                                                     std::forward<TRhs>(rhs),
-                                                     std::move(epsilon));
+                return greater_than_or_equal_compare(
+                    static_cast<fmax>(lhs),
+                    std::forward<TRhs>(rhs),
+                    std::move(epsilon)
+                );
             }
             else if constexpr(std::integral<rhs_t>) {
-                return greater_than_or_equal_compare(std::forward<TLhs>(lhs),
-                                                     static_cast<fmax>(rhs),
-                                                     std::move(epsilon));
+                return greater_than_or_equal_compare(
+                    std::forward<TLhs>(lhs),
+                    static_cast<fmax>(rhs),
+                    std::move(epsilon)
+                );
             }
             else {
                 if(std::isinf(lhs) && std::signbit(lhs)) {

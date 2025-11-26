@@ -1,11 +1,11 @@
 /// @file types.h
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief various type aliases for builtin types and user defined literals for them
-/// @version 0.5.3
-/// @date 2024-09-25
+/// @version 0.5.4
+/// @date 2025-11-25
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -129,21 +129,27 @@ namespace hyperion {
         };
 
         template<char... Chars>
-        constexpr auto trim_separators([[maybe_unused]] string_literal<Chars...> literal) noexcept {
-            constexpr auto new_size = []() {
-                constexpr auto array = std::array{Chars...};
-                auto size = array.size();
-                for(const auto& c : array) {
-                    if(c == '\'') {
-                        size--;
-                    }
+        constexpr auto
+        get_size([[maybe_unused]] string_literal<Chars...> literal) noexcept -> usize {
+            auto size = literal.array.size();
+            // NOLINTNEXTLINE(readability-identifier-length)
+            for(const auto& c : literal.array) {
+                if(c == '\'') {
+                    size--;
                 }
-                return size;
-            }();
+            }
+            return size;
+        }
 
+        template<char... Chars>
+        constexpr auto trim_separators([[maybe_unused]] string_literal<Chars...> literal) noexcept
+            -> std::array<char, get_size(string_literal<Chars...>{})> {
+            constexpr auto new_size = get_size(string_literal<Chars...>{});
             constexpr auto array = std::array{Chars...};
             std::array<char, new_size> new_array = {};
+            // NOLINTNEXTLINE(readability-identifier-length)
             auto i = 0UL;
+            // NOLINTNEXTLINE(readability-identifier-length)
             for(const auto& c : array) {
                 if(c != '\'') {
                     new_array[i] = c;
@@ -163,12 +169,18 @@ namespace hyperion {
 
         template<literal_status status>
         static constexpr auto check_literal_status() noexcept -> void {
-            static_assert(status != detail::literal_status::OutOfRange,
-                          "Invalid Literal: Literal out of numeric range for type");
-            static_assert(status != detail::literal_status::InvalidCharacterSequence,
-                          "Invalid Literal: Literal contains invalid character sequence for type");
-            static_assert(status != detail::literal_status::InvalidLiteralType,
-                          "Invalid Literal: Requested type is not a valid numeric literal type");
+            static_assert(
+                status != detail::literal_status::OutOfRange,
+                "Invalid Literal: Literal out of numeric range for type"
+            );
+            static_assert(
+                status != detail::literal_status::InvalidCharacterSequence,
+                "Invalid Literal: Literal contains invalid character sequence for type"
+            );
+            static_assert(
+                status != detail::literal_status::InvalidLiteralType,
+                "Invalid Literal: Requested type is not a valid numeric literal type"
+            );
         }
 
         HYPERION_IGNORE_PADDING_WARNING_START
@@ -191,9 +203,11 @@ namespace hyperion {
                 Type sum = 0;
                 const auto& str = literal.array;
                 const auto is_hex
+                    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X');
 
                 const auto is_binary
+                    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
                     = str.size() > 2 && str[0] == '0' && (str[1] == 'b' || str[1] == 'B');
 
                 if constexpr(std::is_floating_point_v<Type>
@@ -226,30 +240,36 @@ namespace hyperion {
 
                 const auto is_octal = str.size() > 1 && str[0] == '0' && !is_hex && !is_binary
                                       && !std::is_floating_point_v<Type>;
+                // NOLINTNEXTLINE(readability-avoid-nested-conditional-operator)
                 const auto offset = is_hex || is_binary ? 2U : (is_octal ? 1U : 0U);
 
-                constexpr auto to_number = [](char digit) {
+                constexpr auto to_number = [](char digit) -> Type {
                     if(digit >= '0' && digit <= '9') {
                         return static_cast<Type>(digit - '0');
                     }
 
                     if(digit >= 'a' && digit <= 'f') {
-                        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                        return static_cast<Type>(static_cast<Type>(digit - 'a')
-                                                 + static_cast<Type>(10));
+                        return static_cast<Type>(
+                            static_cast<Type>(digit - 'a')
+                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                            + static_cast<Type>(10)
+                        );
                     }
 
                     if(digit >= 'A' && digit <= 'F') {
-                        // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
-                        return static_cast<Type>(static_cast<Type>(digit - 'A')
-                                                 + static_cast<Type>(10));
+                        return static_cast<Type>(
+                            static_cast<Type>(digit - 'A')
+                            // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                            + static_cast<Type>(10)
+                        );
                     }
 
                     return static_cast<Type>(0);
                 };
 
-                // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers)
+                // NOLINTNEXTLINE(cppcoreguidelines-avoid-magic-numbers,readability-magic-numbers,readability-avoid-nested-conditional-operator)
                 [[maybe_unused]] const usize base
+                    // NOLINTNEXTLINE(readability-avoid-nested-conditional-operator)
                     = is_hex ? 16U : (is_binary ? 2U : (is_octal ? 8U : 10U));
                 [[maybe_unused]] bool found_decimal = false;
                 [[maybe_unused]] usize current_multiplier = 1U;
@@ -312,16 +332,19 @@ namespace hyperion {
                     }
                     else {
                         if(digit != '\'') {
+                            // NOLINTNEXTLINE(cppcoreguidelines-narrowing-conversions)
                             Type value = to_number(digit) * static_cast<Type>(current_multiplier);
                             current_multiplier *= base;
                             if(sum > std::numeric_limits<Type>::max() - value) {
                                 return {.status = literal_status::OutOfRange};
                             }
+                            // NOLINTNEXTLINE(cppcoreguidelines-narrowing-conversions)
                             sum += value;
                         }
                     }
                 }
 
+                // NOLINTNEXTLINE(readability-redundant-casting)
                 auto result = static_cast<Type>(sum);
                 if constexpr(std::is_floating_point_v<Type>) {
                     if(found_decimal && num_before_decimal != 0U) {
@@ -611,48 +634,68 @@ namespace hyperion {
         static_assert(static_cast<i8>(8) == 8_i8, "i8 literal operator broken");
         // NOLINTNEXTLINE
         static_assert(static_cast<i16>(8) == 8_i16, "i16 literal operator broken");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<i64>(-64'123'456) == -64'123'456_i64,
-                      "i64 literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(-static_cast<i64>(0xDEAD'BEEF) == -0xDEAD'BEEF_i64,
-                      "i64 literal operator broken!");
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<i64>(-64'123'456) == -64'123'456_i64,
+            "i64 literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            -static_cast<i64>(0xDEAD'BEEF) == -0xDEAD'BEEF_i64,
+            "i64 literal operator broken!"
+        );
         // NOLINTNEXTLINE
         static_assert(-static_cast<i64>(012345) == -012345_i64, "i64 literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<i64>(0b0011001100) == 0b0011001100_i64,
-                      "i64 literal operator broken!");
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<i64>(0b0011001100) == 0b0011001100_i64,
+            "i64 literal operator broken!"
+        );
 
         static inline constexpr auto acceptable_deviation
             = static_cast<fmax>(0.000000000001261213356);
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(64.123456789) - 64.123456789_fmax < acceptable_deviation,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(64'000) - 64'000_fmax < acceptable_deviation,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(1) - 1_fmax < acceptable_deviation,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(64'000.123456789) - 64'000.123456789_fmax
-                          < acceptable_deviation,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(-64'000.123456789) - -64'000.123456789_fmax
-                          < acceptable_deviation,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(0.5) - 0.5_fmax < acceptable_deviation,
-                      "fmax literal operator broken!");
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(64.123456789) - 64.123456789_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(64'000) - 64'000_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(1) - 1_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(64'000.123456789) - 64'000.123456789_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(-64'000.123456789) - -64'000.123456789_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(0.5) - 0.5_fmax < acceptable_deviation,
+            "fmax literal operator broken!"
+        );
         // NOLINTNEXTLINE
         static_assert(static_cast<fmax>(0.5) == 0.5_fmax, "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(1.0e10) == 10'000'000'000.0_fmax,
-                      "fmax literal operator broken!");
-        // NOLINTNEXTLINE
-        static_assert(static_cast<fmax>(1.0e18) == 1'000'000'000'000'000'000.0_fmax,
-                      "fmax literal operator broken!");
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(1.0e10) == 10'000'000'000.0_fmax,
+            "fmax literal operator broken!"
+        );
+        static_assert(
+            // NOLINTNEXTLINE
+            static_cast<fmax>(1.0e18) == 1'000'000'000'000'000'000.0_fmax,
+            "fmax literal operator broken!"
+        );
 
 #if HYPERION_PLATFORM_COMPILER_IS_CLANG || HYPERION_PLATFORM_COMPILER_IS_GCC
         _Pragma("GCC diagnostic pop")

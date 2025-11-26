@@ -2,11 +2,11 @@
 /// @author Braxton Salyer <braxtonsalyer@gmail.com>
 /// @brief This module includes macro definitions for identifying the platform being compiled for
 /// (operating system, compiler, etc)
-/// @version 0.4.0
-/// @date 2024-04-20
+/// @version 0.4.1
+/// @date 2025-11-25
 ///
 /// MIT License
-/// @copyright Copyright (c) 2024 Braxton Salyer <braxtonsalyer@gmail.com>
+/// @copyright Copyright (c) 2025 Braxton Salyer <braxtonsalyer@gmail.com>
 ///
 /// Permission is hereby granted, free of charge, to any person obtaining a copy
 /// of this software and associated documentation files (the "Software"), to deal
@@ -47,8 +47,7 @@
 #if !((defined(__MSC_VER) || defined(_MSC_VER)) && !defined(__clang__))
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_START \
-            _Pragma("GCC diagnostic push")              \
-            _Pragma("GCC diagnostic ignored \"-Wunused-macros\"")
+        _Pragma("GCC diagnostic push") _Pragma("GCC diagnostic ignored \"-Wunused-macros\"")
 #else
     // NOLINTNEXTLINE
     #define HYPERION_IGNORE_UNUSED_MACROS_WARNING_START
@@ -174,7 +173,7 @@ HYPERION_IGNORE_UNUSED_MACROS_WARNING_START;
 /// @brief Whether the current compiler is GCC
 /// @ingroup platform
 /// @headerfile hyperion/platform.h
-#if(defined(__MSC_VER) || defined(_MSC_VER)) && !HYPERION_PLATFORM_COMPILER_IS_CLANG
+#if (defined(__MSC_VER) || defined(_MSC_VER)) && !HYPERION_PLATFORM_COMPILER_IS_CLANG
     // NOLINTNEXTLINE(cppcoreguidelines-macro-usage)
     #define HYPERION_PLATFORM_COMPILER_IS_MSVC true
 #else
